@@ -1,0 +1,18 @@
+# This field allows specifying a custom name for the deployment or resource. 
+# If `fullOverrideName` is not empty, this value will be ignored.
+nameOverride: ""
+
+# This key can be used to fully override the resource name, ensuring that the specified name is used exactly as provided.
+# If left empty (""), the auto-generated name is used.
+fullnameOverride: ""
+
+# Specifies the number of PostgreSQL instances in the cluster. 
+instancesCount: 3
+
+# Defines the storage capacity allocated to each PostgreSQL instance.
+storage:
+  size: 5Gi
+
+# Specifies the size of the storage dedicated to Write-Ahead Logging (WAL) files, which ensure data durability and recovery. 
+walStorage:
+  size: 1Gi
