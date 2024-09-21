@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: {{ include "go.fullname" . | quote }}
+spec:
+  replicas: {{ .Values.replicasCount }}
+  selector:
+    matchLabels:
+      {{- include "go.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "go.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ required "Golang server image should be provided" .Values.goContainerImage.name }}:{{ .Values.goContainerImage.tag | default "latest" }}"
+        imagePullPolicy: Never
+        ports:
+        - name: "http"
+          containerPort: 8080
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        env:
+        {{- $clusterName := .Values.databaseEnv.postgresClusterName }}
+        - name: "DB_VENDOR"
+          value: "postgres"
+        - name: "DB_HOST"
+          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: host } }
+        - name: "DB_PORT"
+          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: port } }
+        - name: "DB_DATABASE"
+          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: dbname } }
+        - name: "DB_USER"
+          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: user } }
+        - name: "DB_PASSWORD"
+          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: password } }
