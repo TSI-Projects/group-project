@@ -7,7 +7,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # This section specifies the container image to be used for the deployment.
-goContainerImage:
+containerImage:
   # Defines the name of the container image.
   name: "simple_go_server"
   # Specifies the version or tag of the container image.

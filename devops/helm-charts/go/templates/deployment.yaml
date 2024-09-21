@@ -15,7 +15,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ required "Golang server image should be provided" .Values.goContainerImage.name }}:{{ .Values.goContainerImage.tag | default "latest" }}"
+        image: "{{ required "Golang server image should be provided" .Values.containerImage.name }}:{{ .Values.containerImage.tag | default "latest" }}"
         imagePullPolicy: Never
         ports:
         - name: "http"
