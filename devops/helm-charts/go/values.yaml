@@ -1,0 +1,68 @@
+# This field allows specifying a custom name for the deployment or resource. 
+# If `fullOverrideName` is not empty, this value will be ignored.
+nameOverride: ""
+
+# This key can be used to fully override the resource name, ensuring that the specified name is used exactly as provided.
+# If left empty (""), the auto-generated name is used.
+fullnameOverride: ""
+
+# This section specifies the container image to be used for the deployment.
+containerImage:
+  # Defines the name of the container image.
+  name: "simple_go_server"
+  # Specifies the version or tag of the container image.
+  tag: "latest"
+
+# Specifies the port number on which the service will be exposed.
+servicePort: 80
+
+# Specifies the number of replicas (instances) to be created for a deployment. 
+replicasCount: 1
+
+# Database env configuration.
+databaseEnv:
+  # The name of the PostgreSQL cluster to be used, which is necessary for setting environment variables in the deployment.
+  postgresClusterName: "postgres-cluster"
+
+# This section defines the ingress resource that manages external access to services in the Kubernetes cluster.
+# It specifies how requests from outside the cluster should be routed to internal services.
+ingress:
+  # A list of hosts (domains) for which this ingress resource will accept traffic.
+  hosts:
+  # Defines the specific domain name that the ingress will respond to.
+  - host: "demo.localdev.me"
+    # A list of paths under the host that define routing rules for incoming traffic.
+    paths:
+    # Specifies the path that will match the incoming requests.
+    - path: "/"
+      # Specifies how the path should be interpreted by the ingress controller.
+      pathType: Prefix
+      # Specifies the backend service that should receive the incoming traffic.
+      serviceNameRef: "go.fullname"
+      # Specifies the port on the service that should receive the incoming traffic.
+      servicePortName: "http"
+  # TLS (Transport Layer Security) is an optional section to enable HTTPS support.
+  tls: []
+  # Below is an example of how TLS can be configured (currently commented out).
+  # Uncomment and adjust if you want to secure the ingress using HTTPS with a specific secret for the certificate.
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# This section defines the resource requests and limits for the container.
+# It ensures that the application is allocated a specified amount of CPU and memory.
+resources:
+  # Specifies the minimum amount of resources that the container requires to run.
+  # The scheduler uses these values to decide on which node to place the pod.
+  requests:
+    # The minimum amount of memory (RAM) that the container will be allocated.
+    memory: 64Mi
+    # The minimum amount of CPU that the container will be allocated.
+    cpu: 250m
+  # Specifies the maximum amount of resources that the container can use.
+  # If the container exceeds these values, it may be throttled or killed.
+  limits:
+    # The maximum amount of memory (RAM) that the container can use.
+    memory: 128Mi
+    # The maximum amount of CPU that the container can use.
+    cpu: 500m
