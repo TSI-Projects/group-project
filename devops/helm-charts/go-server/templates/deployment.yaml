@@ -23,7 +23,15 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         env:
-        {{- $secreName := .Values.databaseEnv.postgresSecretName }}
+        {{- $secreName := "" }}
+        {{- if .Values.databaseEnv.secretName }}
+        {{- $secreName = .Values.databaseEnv.secretName }}
+        {{- else if .Values.databaseEnv.secretNameTemplateRef }}
+        {{- $secreName = include .Values.databaseEnv.secretNameTemplateRef.templateName (index .Subcharts .Values.databaseEnv.secretNameTemplateRef.chartName) }}
+        {{- $secreName = printf "%s-app" $secreName }}
+        {{- else }}
+        {{- fail "No database secret name provided" }}
+        {{- end }}
         - name: "APP_DEBUG"
           value: {{ .Values.debug | quote }}
         - name: "APP_ENV"
