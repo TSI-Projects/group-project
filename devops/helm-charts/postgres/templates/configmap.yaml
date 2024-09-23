@@ -1,0 +1,10 @@
+{{- if and .Values.bootstrap.initdb .Values.bootstrap.initdb.filePath }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-init-application-sql
+data:
+  init.sql: |
+    {{- .Files.Get .Values.bootstrap.initdb.filePath | nindent 4 }}
+{{- end }}
