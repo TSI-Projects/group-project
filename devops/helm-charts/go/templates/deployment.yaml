@@ -23,16 +23,16 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         env:
-        {{- $clusterName := .Values.databaseEnv.postgresClusterName }}
+        {{- $secreName := .Values.databaseEnv.postgresSecretName }}
         - name: "DB_VENDOR"
           value: "postgres"
         - name: "DB_HOST"
-          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: host } }
+          valueFrom: { secretKeyRef: { name: {{ $secreName }}, key: host } }
         - name: "DB_PORT"
-          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: port } }
+          valueFrom: { secretKeyRef: { name: {{ $secreName }}, key: port } }
         - name: "DB_DATABASE"
-          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: dbname } }
+          valueFrom: { secretKeyRef: { name: {{ $secreName }}, key: dbname } }
         - name: "DB_USER"
-          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: user } }
+          valueFrom: { secretKeyRef: { name: {{ $secreName }}, key: user } }
         - name: "DB_PASSWORD"
-          valueFrom: { secretKeyRef: { name: {{ $clusterName }}-app, key: password } }
+          valueFrom: { secretKeyRef: { name: {{ $secreName }}, key: password } }

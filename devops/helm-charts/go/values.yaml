@@ -21,8 +21,8 @@ replicasCount: 1
 
 # Database env configuration.
 databaseEnv:
-  # The name of the PostgreSQL cluster to be used, which is necessary for setting environment variables in the deployment.
-  postgresClusterName: "postgres-cluster"
+  # The name of the PostgreSQL secrets to be used, which is necessary for setting environment variables in the deployment.
+  postgresSecretName: "postgres-cluster-app"
 
 # This section defines the ingress resource that manages external access to services in the Kubernetes cluster.
 # It specifies how requests from outside the cluster should be routed to internal services.
