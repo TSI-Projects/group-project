@@ -24,6 +24,8 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         env:
         {{- $secreName := .Values.databaseEnv.postgresSecretName }}
+        - name: "APP_DEBUG"
+          value: {{ .Values.debug | quote }}
         - name: "DB_VENDOR"
           value: "postgres"
         - name: "DB_HOST"
