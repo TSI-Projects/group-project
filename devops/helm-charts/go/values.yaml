@@ -9,6 +9,8 @@ fullnameOverride: ""
 # devMode is a flag that can be used to enable or disable the development mode.
 debug: false
 
+# This key specifies the environment in which the application is running.
+environment: "dev"
 
 # This section specifies the container image to be used for the deployment.
 containerImage:

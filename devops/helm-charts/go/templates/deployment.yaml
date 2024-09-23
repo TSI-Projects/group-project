@@ -26,6 +26,8 @@ spec:
         {{- $secreName := .Values.databaseEnv.postgresSecretName }}
         - name: "APP_DEBUG"
           value: {{ .Values.debug | quote }}
+        - name: "APP_ENV"
+          value: {{ .Values.environment | quote }}
         - name: "DB_VENDOR"
           value: "postgres"
         - name: "DB_HOST"
