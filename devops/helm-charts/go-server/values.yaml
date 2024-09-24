@@ -6,6 +6,12 @@ nameOverride: ""
 # If left empty (""), the auto-generated name is used.
 fullnameOverride: ""
 
+# devMode is a flag that can be used to enable or disable the development mode.
+debug: false
+
+# This key specifies the environment in which the application is running.
+environment: "dev"
+
 # This section specifies the container image to be used for the deployment.
 containerImage:
   # Defines the name of the container image.
@@ -21,8 +27,10 @@ replicasCount: 1
 
 # Database env configuration.
 databaseEnv:
-  # The name of the PostgreSQL cluster to be used, which is necessary for setting environment variables in the deployment.
-  postgresClusterName: "postgres-cluster"
+  # secretName: "postgres-cluster-app"
+  secretNameTemplateRef:
+    chartName: "postgres-cluster"
+    templateName: "postgres.fullname"
 
 # This section defines the ingress resource that manages external access to services in the Kubernetes cluster.
 # It specifies how requests from outside the cluster should be routed to internal services.

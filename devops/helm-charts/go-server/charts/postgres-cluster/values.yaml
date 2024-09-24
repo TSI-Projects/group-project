@@ -16,3 +16,16 @@ storage:
 # Specifies the size of the storage dedicated to Write-Ahead Logging (WAL) files, which ensure data durability and recovery. 
 walStorage:
   size: 1Gi
+
+bootstrap:
+  initdb:
+    database: "postgres"
+    owner: "postgres"
+    # filePath: "init.sql"
+    # extensions:
+    # - hstore
+    # - pgcrypto
+    # - postgis
+    # secret:
+    #   name: "my-secret"
+    #   password: "my-password"
