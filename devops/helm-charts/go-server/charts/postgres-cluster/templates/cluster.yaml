@@ -6,8 +6,10 @@ metadata:
     {{- include "postgres.labels" . | nindent 4 }}
 spec:
   instances: {{ .Values.instancesCount }}
+  {{- if .Values.walStorage }}
   walStorage:
     {{- toYaml .Values.walStorage | nindent 4 }}
+  {{- end }}
   storage:
     {{- toYaml .Values.storage | nindent 4 }}
   bootstrap:

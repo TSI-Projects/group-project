@@ -14,8 +14,8 @@ storage:
   size: 5Gi
 
 # Specifies the size of the storage dedicated to Write-Ahead Logging (WAL) files, which ensure data durability and recovery. 
-walStorage:
-  size: 1Gi
+# walStorage:
+#   size: 1Gi
 
 bootstrap:
   initdb:
