@@ -17,20 +17,20 @@ spec:
     initdb:
       database: {{ .Values.bootstrap.initdb.database | quote }}
       owner: {{ .Values.bootstrap.initdb.owner | quote }}
-      {{- if and .Values.bootstrap.initdb.secret }}
+      {{- if .Values.bootstrap.initdb.secret }}
       secret:
         name: {{ .Values.bootstrap.initdb.secret.name | quote }}
       {{- end }}
-      {{- if and .Values.bootstrap.initdb.extensions }}
-      postInitTemplateSQL:
-        {{- range .Values.bootstrap.initdb.extensions }}
-        - "CREATE EXTENSION IF NOT EXISTS {{ . }};"
-        {{- end }}
-      {{- end }}
-      {{- if .Values.bootstrap.initdb.filePath }}
-      postInitApplicationSQLRefs:
-        configMap:
-          name: post-init-application-sql
-          key: init.sql
+      {{- if or .Values.bootstrap.initdb.filePath .Values.bootstrap.initdb.extensions }}
+      postInitSQLRefs:
+        configMapRefs:
+          {{- if .Values.bootstrap.initdb.extensions }}
+          - name: post-init-sql-extensionssql
+            key: extensions.sql
+          {{- end }}
+          {{- if .Values.bootstrap.initdb.filePath }}
+          - name: post-init-sql-initsql
+            key: init.sql
+          {{- end }}
       {{- end }}
     {{- end }}
