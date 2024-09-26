@@ -83,7 +83,7 @@ CREATE TABLE public.orders (
     customer_id bigint NOT NULL,
     reason text,
     defect text,
-    total_price character varying(64),
+    total_price_eur character varying(64),
     prepayment character varying(64)
 );
 
