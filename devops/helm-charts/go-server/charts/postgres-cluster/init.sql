@@ -83,8 +83,8 @@ CREATE TABLE public.orders (
     customer_id bigint NOT NULL,
     reason text,
     defect text,
-    total_price_eur character varying(64),
-    prepayment_eur character varying(64)
+    total_price_eur numeric(10, 2),
+    prepayment_eur numeric(10, 2)
 );
 
 ALTER TABLE public.orders ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
