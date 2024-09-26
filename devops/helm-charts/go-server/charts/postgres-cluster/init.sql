@@ -84,7 +84,7 @@ CREATE TABLE public.orders (
     reason text,
     defect text,
     total_price_eur character varying(64),
-    prepayment character varying(64)
+    prepayment_eur character varying(64)
 );
 
 ALTER TABLE public.orders ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
