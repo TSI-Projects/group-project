@@ -63,7 +63,6 @@ ALTER TABLE public.order_statuses ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTI
 
 CREATE TABLE public.order_types (
     id bigint NOT NULL,
-    short_name character varying(16) NOT NULL,
     full_name character varying(32) NOT NULL
 );
 
@@ -129,9 +128,6 @@ ALTER TABLE ONLY public.order_statuses
 
 ALTER TABLE ONLY public.order_types
     ADD CONSTRAINT order_types_pkey PRIMARY KEY (id);
-
-ALTER TABLE ONLY public.order_types
-    ADD CONSTRAINT order_types_short_name_unique UNIQUE (short_name);
 
 ALTER TABLE ONLY public.orders
     ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
