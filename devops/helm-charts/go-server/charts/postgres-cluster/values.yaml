@@ -19,8 +19,8 @@ storage:
 
 bootstrap:
   initdb:
-    database: "postgres"
-    owner: "postgres"
+    database: "app"
+    owner: "app"
     filePath: "init.sql"
     # extensions:
     # - hstore
