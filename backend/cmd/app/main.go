@@ -5,19 +5,20 @@ import (
 	"net/http"
 
 	"github.com/TSI-Projects/group-project/internal/config"
+	"github.com/TSI-Projects/group-project/internal/db"
 	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	config := config.NewAppConfig()
-
-	if config.Port == "" {
-		log.Errorln("Server port is not defined")
-		return
+	if err := db.InitDB(); err != nil {
+		log.Fatalf("Failed to init database: %v", err)
 	}
+	defer db.Database.Close()
 
-	log.Printf("Server is running on port %s", config.Port)
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", config.Port), config.Router); err != nil {
+	serverConfig := config.NewServerConfig()
+
+	log.Printf("Server is running on port %s", serverConfig.Port)
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", serverConfig.Port), serverConfig.Router); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
