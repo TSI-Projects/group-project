@@ -3,8 +3,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: post-init-application-sql
+  name: post-init-sql-initsql
 data:
   init.sql: |
     {{- .Files.Get .Values.bootstrap.initdb.filePath | nindent 4 }}
+{{- end }}
+{{- if and .Values.bootstrap.initdb .Values.bootstrap.initdb.extensions }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-init-sql-extensionssql
+data:
+  extensions.sql: |
+    {{- range .Values.bootstrap.initdb.extensions }}
+    CREATE EXTENSION IF NOT EXISTS {{ . }};
+    {{- end }}
 {{- end }}
