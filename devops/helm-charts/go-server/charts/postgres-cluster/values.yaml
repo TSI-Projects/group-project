@@ -21,7 +21,7 @@ bootstrap:
   initdb:
     database: "postgres"
     owner: "postgres"
-    # filePath: "init.sql"
+    filePath: "init.sql"
     # extensions:
     # - hstore
     # - pgcrypto
