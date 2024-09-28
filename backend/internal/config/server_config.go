@@ -1,9 +1,8 @@
 package config
 
 import (
-	"os"
-
 	"github.com/TSI-Projects/group-project/internal/api"
+	"github.com/TSI-Projects/group-project/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -16,9 +15,9 @@ type ServerConfig struct {
 	Router *mux.Router
 }
 
-func NewAppConfig() ServerConfig {
+func NewServerConfig() ServerConfig {
 	return ServerConfig{
-		Port:   os.Getenv(ENV_PORT_NAME),
+		Port:   utils.LookupEnv(ENV_PORT_NAME),
 		Router: api.NewRouter(),
 	}
 }
