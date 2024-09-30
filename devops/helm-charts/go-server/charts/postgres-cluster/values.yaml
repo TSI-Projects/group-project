@@ -19,9 +19,9 @@ storage:
 
 bootstrap:
   initdb:
-    database: "postgres"
-    owner: "postgres"
-    # filePath: "init.sql"
+    database: "app"
+    owner: "app"
+    filePath: "init.sql"
     # extensions:
     # - hstore
     # - pgcrypto
