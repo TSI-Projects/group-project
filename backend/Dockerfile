@@ -1,7 +1,7 @@
 FROM golang:1.23-alpine as builder
 
 ARG GO_SERVER_DIR=.
-ARG GO_SERVER_MAIN_PATH=main.go
+ARG GO_SERVER_MAIN_PATH=cmd/app/main.go
 
 WORKDIR /app
 
