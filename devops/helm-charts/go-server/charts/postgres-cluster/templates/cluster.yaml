@@ -22,14 +22,14 @@ spec:
         name: {{ .Values.bootstrap.initdb.secret.name | quote }}
       {{- end }}
       {{- if or .Values.bootstrap.initdb.filePath .Values.bootstrap.initdb.extensions }}
-      postInitSQLRefs:
+      postInitApplicationSQLRefs:
         configMapRefs:
           {{- if .Values.bootstrap.initdb.extensions }}
-          - name: post-init-sql-extensionssql
+          - name: post-init-app-sql-extensionssql
             key: extensions.sql
           {{- end }}
           {{- if .Values.bootstrap.initdb.filePath }}
-          - name: post-init-sql-initsql
+          - name: post-init-app-sql-initsql
             key: init.sql
           {{- end }}
       {{- end }}
