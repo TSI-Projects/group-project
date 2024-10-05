@@ -27,7 +27,7 @@ namespace GW_UI
             string password = PasswordBox.Password;
 
             // Проверка логина и пароля
-            if (login == "11111111" && password == "1")
+            if (login == "1" && password == "11111111")
             {
                 // Открываем главное меню при успешной проверке
                 MainMenu mainMenu = new MainMenu();
