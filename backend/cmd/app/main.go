@@ -1,24 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-
-	"github.com/TSI-Projects/group-project/internal/config"
 	"github.com/TSI-Projects/group-project/internal/db"
+	"github.com/TSI-Projects/group-project/internal/server"
 	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	if err := db.InitDB(); err != nil {
+	dbClient, err := db.NewDBClient()
+	if err != nil {
 		log.Fatalf("Failed to init database: %v", err)
 	}
-	defer db.Database.Close()
+	defer dbClient.Close()
 
-	serverConfig := config.NewServerConfig()
-
-	log.Printf("Server is running on port %s", serverConfig.Port)
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", serverConfig.Port), serverConfig.Router); err != nil {
+	server := server.NewServer(dbClient)
+	if err := server.Start(); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }

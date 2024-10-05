@@ -4,23 +4,32 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/TSI-Projects/group-project/internal/config"
 	_ "github.com/lib/pq"
 )
 
-var Database *sql.DB
+type DBClient struct {
+	config     *PostgresConfig
+	connection *sql.DB
+}
 
-func InitDB() error {
-	var err error
-	conf := config.NewPostgresConfig()
+func NewDBClient() (IDatabase, error) {
+	conf := NewPostgresConfig()
 
-	if Database, err = sql.Open("postgres", conf.ConnectionStr); err != nil {
-		return fmt.Errorf("failed to open connection: %v", err)
+	db, err := sql.Open("postgres", conf.ConnectionStr)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open connection: %v", err)
 	}
 
-	if err = Database.Ping(); err != nil {
-		return fmt.Errorf("failed to ping database: %v", err)
+	if err := db.Ping(); err != nil {
+		return nil, fmt.Errorf("failed to ping database: %v", err)
 	}
 
-	return nil
+	return &DBClient{
+		config:     conf,
+		connection: db,
+	}, nil
+}
+
+func (c *DBClient) Close() {
+	c.connection.Close()
 }
