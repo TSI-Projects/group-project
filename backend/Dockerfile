@@ -2,6 +2,7 @@ FROM golang:1.23-alpine as builder
 
 ARG GO_SERVER_DIR=.
 ARG GO_SERVER_MAIN_PATH=cmd/app/main.go
+ARG GO_SERVER_PORT=8000
 
 WORKDIR /app
 
@@ -12,6 +13,6 @@ RUN go build $GO_SERVER_MAIN_PATH
 FROM golang:1.23-alpine
 
 COPY --from=builder /app/main /app
-EXPOSE 8080
+EXPOSE $GO_SERVER_PORT
 
 ENTRYPOINT ["/app"]
