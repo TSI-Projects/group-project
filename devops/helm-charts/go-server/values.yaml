@@ -22,6 +22,9 @@ containerImage:
 # Specifies the port number on which the service will be exposed.
 servicePort: 80
 
+# Specifies the port number on which the container listens for incoming traffic.
+containerPort: 8000
+
 # Specifies the number of replicas (instances) to be created for a deployment. 
 replicasCount: 1
 

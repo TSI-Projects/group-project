@@ -19,7 +19,7 @@ spec:
         imagePullPolicy: Never
         ports:
         - name: "http"
-          containerPort: 8080
+          containerPort: {{ .Values.containerPort }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         env:
@@ -32,6 +32,8 @@ spec:
         {{- else }}
         {{- fail "No database secret name provided" }}
         {{- end }}
+        - name: "PORT"
+          value: {{ .Values.containerPort | quote }}
         - name: "APP_DEBUG"
           value: {{ .Values.debug | quote }}
         - name: "APP_ENV"
