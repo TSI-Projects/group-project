@@ -1,4 +1,4 @@
-package api
+package handlers
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func GetOrder(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetOrder(w http.ResponseWriter, r *http.Request) {
 	log.Println("Order request received!")
 	w.Write([]byte("Hello World!"))
 }
