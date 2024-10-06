@@ -150,3 +150,17 @@ ALTER TABLE ONLY public.orders
 
 ALTER TABLE ONLY public.orders
     ADD CONSTRAINT orders_worker_id_fk FOREIGN KEY (worker_id) REFERENCES public.workers(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE public.admins OWNER TO app;
+
+ALTER TABLE public.customers OWNER TO app;
+
+ALTER TABLE public.languages OWNER TO app;
+
+ALTER TABLE public.order_statuses OWNER TO app;
+
+ALTER TABLE public.order_types OWNER TO app;
+
+ALTER TABLE public.orders OWNER TO app;
+
+ALTER TABLE public.workers OWNER TO app;
