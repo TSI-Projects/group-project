@@ -85,7 +85,7 @@ CREATE TABLE public.orders (
     defect text,
     total_price_eur numeric(10, 2),
     prepayment_eur numeric(10, 2),
-    created_at timestamp without time zone,
+    created_at timestamp without time zone
 );
 
 ALTER TABLE public.orders ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
