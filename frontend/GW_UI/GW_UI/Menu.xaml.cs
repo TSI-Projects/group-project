@@ -35,5 +35,12 @@ namespace GW_UI
         {
             Application.Current.Shutdown();
         }
+
+        private void EmployeesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Employees employees = new Employees();
+            employees.Show();
+            this.Close();
+        }
     }
 }

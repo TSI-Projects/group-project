@@ -96,9 +96,8 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Margin" Value="20 0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="{Binding Path=Foregrouind,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"/>
+            <Setter Property="Foreground" Value="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"/>
         </Style>
-
 
     </Application.Resources>
 </Application>

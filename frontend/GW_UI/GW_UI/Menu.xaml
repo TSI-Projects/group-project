@@ -14,7 +14,7 @@
         <!-- Главное меню -->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,0">
             <!-- Кнопка Работники -->
-            <Button Content="Работники" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0,20"/>
+            <Button Content="Работники" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0,20" Click="EmployeesButton_Click"/>
 
             <!-- Кнопка Типы заказов -->
             <Button Content="Типы заказов" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0,20"/>
