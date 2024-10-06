@@ -16,7 +16,7 @@ ALTER TABLE public.admins ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 CREATE TABLE public.customers (
     id bigint NOT NULL,
     language_id bigint NOT NULL,
-    phone_humber character varying(20) NOT NULL
+    phone_number character varying(20) NOT NULL
 );
 
 ALTER TABLE public.customers ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
