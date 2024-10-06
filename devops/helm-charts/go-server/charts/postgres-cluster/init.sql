@@ -96,14 +96,14 @@ ALTER TABLE public.orders ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     CACHE 1
 );
 
-CREATE TABLE public.wokerks (
+CREATE TABLE public.workers (
     id bigint NOT NULL,
     first_name character varying(64) NOT NULL,
     last_name character varying(64) NOT NULL
 );
 
-ALTER TABLE public.wokerks ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.wokerks_id_seq
+ALTER TABLE public.workers ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.worker_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -132,8 +132,8 @@ ALTER TABLE ONLY public.order_types
 ALTER TABLE ONLY public.orders
     ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 
-ALTER TABLE ONLY public.wokerks
-    ADD CONSTRAINT wokerks_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.workers
+    ADD CONSTRAINT workers_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customer_language_fk FOREIGN KEY (language_id) REFERENCES public.languages(id) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -148,4 +148,4 @@ ALTER TABLE ONLY public.orders
     ADD CONSTRAINT orders_order_type_id_fk FOREIGN KEY (order_type_id) REFERENCES public.order_types(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_worker_id_fk FOREIGN KEY (worker_id) REFERENCES public.wokerks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT orders_worker_id_fk FOREIGN KEY (worker_id) REFERENCES public.workers(id) ON UPDATE CASCADE ON DELETE CASCADE;
