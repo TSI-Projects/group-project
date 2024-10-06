@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: post-init-app-sql-initsql
+  name: post-init-app-sql
 data:
   init.sql: |
     {{- .Files.Get .Values.bootstrap.initdb.filePath | nindent 4 }}
@@ -13,7 +13,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: post-init-app-sql-extensionssql
+  name: post-init-template-sql
 data:
   extensions.sql: |
     {{- range .Values.bootstrap.initdb.extensions }}
