@@ -30,10 +30,10 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        
-        <!-- Иконка логаут в верхнем левом углу -->
-            <StackPanel Margin="25,0,1075,40" VerticalAlignment="Bottom">
-                <uc:MenuButton Title="Logout" Icon="Logout" Width="100" Click="LogoutButton_Click"/>
-            </StackPanel>
+
+        <!-- Иконка логаут в верхнем правом углу -->
+        <StackPanel Margin="1075,0,25,720" VerticalAlignment="Bottom">
+            <uc:MenuButton Title="Logout" Icon="Close" Width="100" Click="LogoutButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

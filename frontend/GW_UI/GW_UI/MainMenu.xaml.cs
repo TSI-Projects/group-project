@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace GW_UI
 {
-    /// <summary>
-    /// Interaction logic for MainMenu.xaml
-    /// </summary>
     public partial class MainMenu : Window
     {
         public MainMenu()
@@ -24,14 +21,16 @@ namespace GW_UI
             InitializeComponent();
         }
 
-        private void HomeBtn(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Menu menuPage = new Menu();
+            menuPage.Show();
+            this.Close();
         }
     }
 }

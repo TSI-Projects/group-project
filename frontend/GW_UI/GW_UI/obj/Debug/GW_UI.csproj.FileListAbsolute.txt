@@ -26,3 +26,5 @@ C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Use
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\UserControls\MenuButton.g.cs
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GW_UI.csproj.Up2Date
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Menu.g.cs
+C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Menu.baml

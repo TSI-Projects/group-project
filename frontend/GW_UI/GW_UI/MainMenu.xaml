@@ -25,12 +25,12 @@
 
         <!-- Иконка хоум в верхнем левом углу -->
         <StackPanel Margin="25,0,1075,720" VerticalAlignment="Bottom">
-            <uc:MenuButton Title="Settings" Icon="Home" Width="100" Loaded="HomeBtn"/>
+            <uc:MenuButton Title="Settings" Icon="Cog" Width="100" Click="SettingsButton_Click"/>
         </StackPanel>
-        
-        <!-- Иконка логаут в верхнем левом углу -->
-        <StackPanel Margin="25,0,1075,40" VerticalAlignment="Bottom">
-            <uc:MenuButton Title="Logout" Icon="Logout" Width="100" Click="LogoutButton_Click"/>
+
+        <!-- Иконка логаут в верхнем правом углу -->
+        <StackPanel Margin="1075,0,25,720" VerticalAlignment="Bottom">
+            <uc:MenuButton Title="Logout" Icon="Close" Width="100" Click="LogoutButton_Click"/>
         </StackPanel>
 
     </Grid>
