@@ -6,7 +6,7 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" d:DesignWidth="50" Name="menuButton">
     <Grid>
-        <Button Name="btn" Style="{StaticResource menuButton}">
+        <Button Name="btn" Style="{StaticResource menuButton}" PreviewMouseUp="OnMouseUp">
             <StackPanel Orientation="Horizontal">
                 <Icon:PackIconMaterial Kind="{Binding ElementName=menuButton,Path=Icon}" Style="{StaticResource menuButtonIcon}"/>
             </StackPanel>

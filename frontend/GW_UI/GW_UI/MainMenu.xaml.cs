@@ -23,5 +23,15 @@ namespace GW_UI
         {
             InitializeComponent();
         }
+
+        private void HomeBtn(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

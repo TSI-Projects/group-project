@@ -1,28 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GW_UI.UserControls
 {
-    /// <summary>
-    /// Interaction logic for MenuButton.xaml
-    /// </summary>
     public partial class MenuButton : UserControl
     {
+        // Регистрация RoutedEvent для Click
+        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent(
+            "Click", // Имя события
+            RoutingStrategy.Bubble, // Стратегия маршрутизации
+            typeof(RoutedEventHandler), // Тип делегата
+            typeof(MenuButton)); // Владелец события
+
+        // CLR-событие обертка для RoutedEvent
+        public event RoutedEventHandler Click
+        {
+            add { AddHandler(ClickEvent, value); }
+            remove { RemoveHandler(ClickEvent, value); }
+        }
+
         public MenuButton()
         {
             InitializeComponent();
+            this.MouseUp += OnMouseUp;
+        }
+
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+            }
         }
 
         public string Title

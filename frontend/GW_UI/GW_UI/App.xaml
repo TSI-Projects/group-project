@@ -75,7 +75,7 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Tag" Value="Visible"/>
                     <Setter Property="Background" Value="#f8f7fc"/>
-                    <Setter Property="Foreground" Value="#02968e"/>
+                    <Setter Property="Foreground" Value="#7A7CFF"/>
                 </Trigger>
 
                 <Trigger Property="IsMouseOver" Value="False">
@@ -85,7 +85,7 @@
                 <DataTrigger Binding="{Binding ElementName=menuButton, Path=IsActive}" Value="True">
                     <Setter Property="Tag" Value="Visible"/>
                     <Setter Property="Background" Value="#f8f7fc"/>
-                    <Setter Property="Foreground" Value="#02968e"/>
+                    <Setter Property="Foreground" Value="#7A7CFF"/>
 
                 </DataTrigger>
             </Style.Triggers>
