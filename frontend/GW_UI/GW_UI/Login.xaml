@@ -24,7 +24,7 @@
                 <!-- Кнопка входа -->
                 <Button Content="SIGN IN" Style="{StaticResource ActionButtonStyle}" Click="LoginButton_Click"/>
 
-                <!-- Дополнительные ссылки и текст -->
+                <!-- Дополнительные ссылки и текст (потом добавим что нибудь) -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                     <TextBlock Text="Can't log in?" Style="{StaticResource NormalTextStyle}"/>
                 </StackPanel>

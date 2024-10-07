@@ -6,7 +6,7 @@
         WindowStyle="None"
         AllowsTransparency="True" WindowStartupLocation="CenterScreen">
     <Grid>
-        <!-- Фон с изображением -->
+        <!-- Фон -->
         <Grid.Background>
             <ImageBrush ImageSource="Images/backgroung.jpg"/>
         </Grid.Background>

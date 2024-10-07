@@ -4,7 +4,7 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              StartupUri="Login.xaml">
     <Application.Resources>
-        <!-- Градиентный фон для окна -->
+        <!-- Градиентный фон для окна (удалить, не актуально) -->
         <LinearGradientBrush x:Key="BackgroundGradient" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#6A1B9A" Offset="0"/>
             <GradientStop Color="#283593" Offset="1"/>

@@ -6,7 +6,7 @@
         WindowStyle="None"
         AllowsTransparency="True" WindowStartupLocation="CenterScreen">
     <Grid>
-        <!-- Фон с изображением -->
+        <!-- Фон -->
         <Grid.Background>
             <ImageBrush ImageSource="Images/backgroung.jpg"/>
         </Grid.Background>
@@ -25,7 +25,7 @@
             <uc:MenuButton Title="Logout" Icon="Close" Width="100" Click="LogoutButton_Click"/>
         </StackPanel>
 
-        <!-- Иконка логаут в верхнем левом углу -->
+        <!-- Иконка назад в нижнем правом углу -->
         <StackPanel Margin="1075,0,25,40" VerticalAlignment="Bottom">
             <uc:MenuButton Title="Logout" Icon="KeyboardReturn" Width="100" Click="BackButton_Click"/>
         </StackPanel>

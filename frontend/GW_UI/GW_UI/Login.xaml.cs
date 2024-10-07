@@ -27,16 +27,15 @@ namespace GW_UI
             string password = PasswordBox.Password;
 
             // Проверка логина и пароля
-            if (login == "1" && password == "11111111")
+            if (login == "1" && password == "111")
             {
-                // Открываем главное меню при успешной проверке
                 MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
-                this.Close(); // Закрываем окно логина
+                this.Close();
             }
             else
             {
-                // Выводим сообщение об ошибке при неверном логине или пароле
+                // Сообщение об ошибке при неверном логине или пароле
                 MessageBox.Show("Неверный логин или пароль", "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

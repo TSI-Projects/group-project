@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace GW_UI
 {
-    /// <summary>
-    /// Interaction logic for Menu.xaml
-    /// </summary>
     public partial class Menu : Window
     {
         public Menu()
