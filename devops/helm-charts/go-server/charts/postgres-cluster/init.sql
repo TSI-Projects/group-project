@@ -81,6 +81,7 @@ CREATE TABLE public.orders (
     order_type_id bigint NOT NULL,
     worker_id bigint NOT NULL,
     customer_id bigint NOT NULL,
+    item_name character varying(64) NOT NULL,
     reason text,
     defect text,
     total_price_eur numeric(10, 2),
