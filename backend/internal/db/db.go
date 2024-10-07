@@ -33,3 +33,7 @@ func NewDBClient() (IDatabase, error) {
 func (c *DBClient) Close() {
 	c.connection.Close()
 }
+
+func (c *DBClient) GetConn() *sql.DB {
+	return c.connection
+}
