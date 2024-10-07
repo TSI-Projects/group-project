@@ -85,11 +85,11 @@ func (o *OrderRepo) DeleteOrder(id int) error {
 		return fmt.Errorf("failed to get status id '%d', from orders table", id)
 	}
 
-	if _, err = db.Exec("DELETE FROM order_statuses WHERE id = $1", orderStatusID); err != nil {
+	if _, err = tx.Exec("DELETE FROM order_statuses WHERE id = $1", orderStatusID); err != nil {
 		return fmt.Errorf("failed to execute delete command for order_statuses table, with id '%d': %v", orderStatusID, err)
 	}
 
-	if _, err = db.Exec("DELETE FROM orders WHERE id = $1", id); err != nil {
+	if _, err = tx.Exec("DELETE FROM orders WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to execute delete command for orders table, with id '%d': %v", id, err)
 	}
 
