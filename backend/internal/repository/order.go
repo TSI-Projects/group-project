@@ -17,10 +17,10 @@ type Order struct {
 	TotalPrice    float64 `db:"total_price"     json:"total_price"`
 	Prepayment    float64 `db:"prepayment"      json:"prepayment"`
 
-	Status   *OrderStatus `db:"order_statuses"`
-	Type     *OrderType   `db:"order_types"`
-	Customer *Customer    `db:"customers"`
-	Worker   *Worker      `db:"workers"`
+	Status   *OrderStatus `db:"order_statuses"  json:"status"`
+	Type     *OrderType   `db:"order_types"     json:"type"`
+	Customer *Customer    `db:"customers"       json:"customer"`
+	Worker   *Worker      `db:"workers"         json:"worker"`
 }
 
 type OrderRepo struct {
