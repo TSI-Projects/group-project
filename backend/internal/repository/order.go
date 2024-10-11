@@ -27,21 +27,13 @@ type OrderRepo struct {
 	DBClient db.IDatabase
 }
 
-type IOrderRepo interface {
-	CreateOrder(*Order) error
-	GetOrders() ([]*Order, error)
-	GetOrderById(id int) (*Order, error)
-	DeleteOrder(id int) error
-	UpdateOrder(order *Order) error
-}
-
-func NewOrderRepo(database db.IDatabase) IOrderRepo {
+func NewOrderRepo(database db.IDatabase) IRepository[Order] {
 	return &OrderRepo{
 		DBClient: database,
 	}
 }
 
-func (o *OrderRepo) CreateOrder(order *Order) error {
+func (o *OrderRepo) Create(order *Order) error {
 	var orderStatusID int
 	db := o.DBClient.GetConn()
 
@@ -71,7 +63,7 @@ func (o *OrderRepo) CreateOrder(order *Order) error {
 	return nil
 }
 
-func (o *OrderRepo) DeleteOrder(id int) error {
+func (o *OrderRepo) Delete(id int) error {
 	var orderStatusID int
 	db := o.DBClient.GetConn()
 
@@ -100,11 +92,11 @@ func (o *OrderRepo) DeleteOrder(id int) error {
 	return nil
 }
 
-func (o *OrderRepo) GetOrderById(id int) (*Order, error) {
+func (o *OrderRepo) GetByID(id int) (*Order, error) {
 	return nil, nil
 }
 
-func (o *OrderRepo) GetOrders() ([]*Order, error) {
+func (o *OrderRepo) GetAll() ([]*Order, error) {
 	orders := make([]*Order, 0)
 
 	selectQuery := `
@@ -194,6 +186,6 @@ func (o *OrderRepo) GetOrders() ([]*Order, error) {
 	return orders, nil
 }
 
-func (o *OrderRepo) UpdateOrder(order *Order) error {
+func (o *OrderRepo) Update(order *Order) error {
 	return nil
 }

@@ -13,7 +13,7 @@ import (
 func (h *Handler) GetWorkers(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	workers, err := h.WorkerRepo.GetWorkers()
+	workers, err := h.WorkerRepo.GetAll()
 	if err != nil {
 		log.Errorf("failed to get workers: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -41,7 +41,7 @@ func (h *Handler) DeleteWorker(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.WorkerRepo.DeleteWorker(id); err != nil {
+	if err := h.WorkerRepo.Delete(id); err != nil {
 		log.Errorf("failed to delete worker: %v", err)
 		w.Write([]byte("Internal Error"))
 		return
@@ -60,7 +60,7 @@ func (h *Handler) CreateWorker(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.WorkerRepo.CreateWorker(worker); err != nil {
+	if err := h.WorkerRepo.Create(worker); err != nil {
 		log.Errorf("failed to create new worker: %v", err)
 		w.Write([]byte("Internal Error"))
 		return

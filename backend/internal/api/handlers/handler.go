@@ -7,10 +7,10 @@ import (
 
 type Handler struct {
 	DBClient      db.IDatabase
-	OrderRepo     repository.IOrderRepo
-	OrderTypeRepo repository.IOrderTypeRepo
-	WorkerRepo    repository.IWorkerRepo
-	LanguageRepo  repository.ILanguageRepo
+	OrderRepo     repository.IRepository[repository.Order]
+	OrderTypeRepo repository.IRepository[repository.OrderType]
+	WorkerRepo    repository.IRepository[repository.Worker]
+	LanguageRepo  repository.IRepository[repository.Language]
 }
 
 func NewHandler(dbClient db.IDatabase) *Handler {
