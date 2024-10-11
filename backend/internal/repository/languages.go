@@ -7,9 +7,9 @@ import (
 )
 
 type Language struct {
-	ID        int    `db:"id"          json:"id"`
-	ShortName string `db:"short_name"  json:"short_name"`
-	FullName  string `db:"full_name"   json:"full_name"`
+	ID        int    `db:"id"          json:"id,omitempty"  validate:"omitempty"`
+	ShortName string `db:"short_name"  json:"short_name"    validate:"required"`
+	FullName  string `db:"full_name"   json:"full_name"     validate:"required"`
 }
 
 type LanguageRepo struct {
