@@ -16,19 +16,13 @@ type LanguageRepo struct {
 	DBClient db.IDatabase
 }
 
-type ILanguageRepo interface {
-	CreateLanguage(*Language) error
-	GetLanguage() ([]*Language, error)
-	DeleteLanguage(id int) error
-}
-
-func NewLanguageRepo(database db.IDatabase) ILanguageRepo {
+func NewLanguageRepo(database db.IDatabase) IRepository[Language] {
 	return &LanguageRepo{
 		DBClient: database,
 	}
 }
 
-func (l *LanguageRepo) CreateLanguage(language *Language) error {
+func (l *LanguageRepo) Create(language *Language) error {
 	db := l.DBClient.GetConn()
 
 	if _, err := db.Query(
@@ -45,7 +39,7 @@ func (l *LanguageRepo) CreateLanguage(language *Language) error {
 	return nil
 }
 
-func (l *LanguageRepo) DeleteLanguage(id int) error {
+func (l *LanguageRepo) Delete(id int) error {
 	db := l.DBClient.GetConn()
 
 	if _, err := db.Query("DELETE FROM languages WHERE id = $1", id); err != nil {
@@ -55,7 +49,7 @@ func (l *LanguageRepo) DeleteLanguage(id int) error {
 	return nil
 }
 
-func (l *LanguageRepo) GetLanguage() ([]*Language, error) {
+func (l *LanguageRepo) GetAll() ([]*Language, error) {
 	db := l.DBClient.GetConn()
 	var languages []*Language
 
@@ -87,4 +81,12 @@ func (l *LanguageRepo) GetLanguage() ([]*Language, error) {
 	}
 
 	return languages, nil
+}
+
+func (l *LanguageRepo) GetByID(int) (*Language, error) {
+	return nil, nil
+}
+
+func (l *LanguageRepo) Update(*Language) error {
+	return nil
 }

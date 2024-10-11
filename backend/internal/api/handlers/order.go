@@ -15,7 +15,7 @@ func (h *Handler) GetOrders(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	log.Println("Order request received!")
 
-	orders, err := h.OrderRepo.GetOrders()
+	orders, err := h.OrderRepo.GetAll()
 	if err != nil {
 		log.Errorf("Failed to get orders: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -56,7 +56,13 @@ func (h *Handler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.OrderRepo.CreateOrder(&newOrder); err != nil {
+	if err := h.Validator.Validate(newOrder); err != nil {
+		log.Errorf("failed to validate order struct: %v", err)
+		w.Write([]byte(utils.UppercaseFirstLetter(err.Error())))
+		return
+	}
+
+	if err := h.OrderRepo.Create(&newOrder); err != nil {
 		log.Errorf("failed to create order item: %v", err)
 		w.Write([]byte("Internal Error"))
 		return
@@ -82,7 +88,7 @@ func (h *Handler) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.OrderRepo.DeleteOrder(id); err != nil {
+	if err := h.OrderRepo.Delete(id); err != nil {
 		log.Errorf("failed to delete order with '%s' id: %v", rawId, err)
 		w.Write([]byte("Internal Error"))
 		return

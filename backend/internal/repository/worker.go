@@ -16,19 +16,13 @@ type WorkerRepo struct {
 	DBClient db.IDatabase
 }
 
-type IWorkerRepo interface {
-	CreateWorker(*Worker) error
-	GetWorkers() ([]*Worker, error)
-	DeleteWorker(int) error
-}
-
-func NewWorkerRepo(database db.IDatabase) IWorkerRepo {
+func NewWorkerRepo(database db.IDatabase) IRepository[Worker] {
 	return &WorkerRepo{
 		DBClient: database,
 	}
 }
 
-func (w *WorkerRepo) CreateWorker(worker *Worker) error {
+func (w *WorkerRepo) Create(worker *Worker) error {
 	db := w.DBClient.GetConn()
 
 	if _, err := db.Query(
@@ -45,7 +39,7 @@ func (w *WorkerRepo) CreateWorker(worker *Worker) error {
 	return nil
 }
 
-func (w *WorkerRepo) DeleteWorker(id int) error {
+func (w *WorkerRepo) Delete(id int) error {
 	db := w.DBClient.GetConn()
 
 	if _, err := db.Query(`DELETE FROM workers WHERE id = $1`, id); err != nil {
@@ -55,7 +49,7 @@ func (w *WorkerRepo) DeleteWorker(id int) error {
 	return nil
 }
 
-func (w *WorkerRepo) GetWorkers() ([]*Worker, error) {
+func (w *WorkerRepo) GetAll() ([]*Worker, error) {
 	db := w.DBClient.GetConn()
 	var workers []*Worker
 
@@ -86,4 +80,12 @@ func (w *WorkerRepo) GetWorkers() ([]*Worker, error) {
 	}
 
 	return workers, nil
+}
+
+func (w *WorkerRepo) GetByID(id int) (*Worker, error) {
+	return nil, nil
+}
+
+func (w *WorkerRepo) Update(*Worker) error {
+	return nil
 }
