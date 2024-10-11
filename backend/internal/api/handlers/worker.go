@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/TSI-Projects/group-project/internal/repository"
+	"github.com/TSI-Projects/group-project/utils"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
@@ -33,8 +34,14 @@ func (h *Handler) GetWorkers(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) DeleteWorker(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	rawID := mux.Vars(r)["id"]
-	id, err := strconv.Atoi(rawID)
+	rawId := mux.Vars(r)["id"]
+	if len(rawId) == 0 {
+		log.Errorf("failed to delete worker due to empty id param")
+		w.Write([]byte("Worker ID is not specified"))
+		return
+	}
+
+	id, err := strconv.Atoi(rawId)
 	if err != nil {
 		log.Errorf("failed to convert raw str id to int: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -57,6 +64,12 @@ func (h *Handler) CreateWorker(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(worker); err != nil {
 		log.Errorf("failed to decode worker: %v", err)
 		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	if err := h.Validator.Validate(worker); err != nil {
+		log.Errorf("failed to validate worker struct: %v", err)
+		w.Write([]byte(utils.UppercaseFirstLetter(err.Error())))
 		return
 	}
 
