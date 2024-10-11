@@ -23,9 +23,7 @@ func NewLanguageRepo(database db.IDatabase) IRepository[Language] {
 }
 
 func (l *LanguageRepo) Create(language *Language) error {
-	db := l.DBClient.GetConn()
-
-	if _, err := db.Query(
+	if _, err := l.DBClient.Exec(
 		`INSERT INTO languages
 			(short_name, full_name)
 		VALUES
@@ -40,20 +38,16 @@ func (l *LanguageRepo) Create(language *Language) error {
 }
 
 func (l *LanguageRepo) Delete(id int) error {
-	db := l.DBClient.GetConn()
-
-	if _, err := db.Query("DELETE FROM languages WHERE id = $1", id); err != nil {
+	if _, err := l.DBClient.Exec("DELETE FROM languages WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to make delete query request: %v", err)
 	}
-
 	return nil
 }
 
 func (l *LanguageRepo) GetAll() ([]*Language, error) {
-	db := l.DBClient.GetConn()
 	var languages []*Language
 
-	rows, err := db.Query(
+	rows, err := l.DBClient.Query(
 		`SELECT
 			id,
 			short_name,
