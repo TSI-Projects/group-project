@@ -23,9 +23,7 @@ func NewWorkerRepo(database db.IDatabase) IRepository[Worker] {
 }
 
 func (w *WorkerRepo) Create(worker *Worker) error {
-	db := w.DBClient.GetConn()
-
-	if _, err := db.Query(
+	if _, err := w.DBClient.Exec(
 		`INSERT INTO workers
 			(first_name, last_name)
 		VALUES
@@ -40,20 +38,16 @@ func (w *WorkerRepo) Create(worker *Worker) error {
 }
 
 func (w *WorkerRepo) Delete(id int) error {
-	db := w.DBClient.GetConn()
-
-	if _, err := db.Query(`DELETE FROM workers WHERE id = $1`, id); err != nil {
+	if _, err := w.DBClient.Exec(`DELETE FROM workers WHERE id = $1`, id); err != nil {
 		return fmt.Errorf("failed to make delete query request: %v", err)
 	}
-
 	return nil
 }
 
 func (w *WorkerRepo) GetAll() ([]*Worker, error) {
-	db := w.DBClient.GetConn()
 	var workers []*Worker
 
-	rows, err := db.Query(
+	rows, err := w.DBClient.Query(
 		`SELECT
 			id,
 			first_name,

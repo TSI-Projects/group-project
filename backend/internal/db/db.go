@@ -8,8 +8,8 @@ import (
 )
 
 type DBClient struct {
-	config     *PostgresConfig
-	connection *sql.DB
+	config   *PostgresConfig
+	database *sql.DB
 }
 
 func NewDBClient() (IDatabase, error) {
@@ -25,15 +25,23 @@ func NewDBClient() (IDatabase, error) {
 	}
 
 	return &DBClient{
-		config:     conf,
-		connection: db,
+		config:   conf,
+		database: db,
 	}, nil
 }
 
 func (c *DBClient) Close() {
-	c.connection.Close()
+	c.database.Close()
 }
 
-func (c *DBClient) GetConn() *sql.DB {
-	return c.connection
+func (c *DBClient) Query(query string, args ...any) (*sql.Rows, error) {
+	return c.database.Query(query, args)
+}
+
+func (c *DBClient) Exec(query string, args ...any) (sql.Result, error) {
+	return c.database.Exec(query, args)
+}
+
+func (c *DBClient) Begin() (*sql.Tx, error) {
+	return c.database.Begin()
 }

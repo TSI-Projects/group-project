@@ -22,8 +22,6 @@ func NewOrderTypeRepo(dbClient db.IDatabase) IRepository[OrderType] {
 }
 
 func (o *OrderTypeRepo) Create(orderType *OrderType) error {
-	db := o.DBClient.GetConn()
-
 	queryCommand := `
 	INSERT INTO order_types
 		(full_name)
@@ -31,7 +29,7 @@ func (o *OrderTypeRepo) Create(orderType *OrderType) error {
 		($1)
 	`
 
-	if _, err := db.Exec(queryCommand, orderType.FullName); err != nil {
+	if _, err := o.DBClient.Exec(queryCommand, orderType.FullName); err != nil {
 		return fmt.Errorf("failed to create order type: %v", err)
 	}
 
@@ -39,18 +37,13 @@ func (o *OrderTypeRepo) Create(orderType *OrderType) error {
 }
 
 func (o *OrderTypeRepo) Delete(id int) error {
-	db := o.DBClient.GetConn()
-
-	_, err := db.Query("DELETE FROM order_types WHERE id = $1", id)
-	if err != nil {
+	if _, err := o.DBClient.Exec("DELETE FROM order_types WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to make query: %v", err)
 	}
-
 	return nil
 }
 
 func (o *OrderTypeRepo) GetAll() ([]*OrderType, error) {
-	db := o.DBClient.GetConn()
 	orderTypes := make([]*OrderType, 0)
 
 	queryCommand := `
@@ -61,7 +54,7 @@ func (o *OrderTypeRepo) GetAll() ([]*OrderType, error) {
 		order_types
 	`
 
-	rows, err := db.Query(queryCommand)
+	rows, err := o.DBClient.Query(queryCommand)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make a query command: %v", err)
 	}

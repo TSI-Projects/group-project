@@ -35,9 +35,8 @@ func NewOrderRepo(database db.IDatabase) IRepository[Order] {
 
 func (o *OrderRepo) Create(order *Order) error {
 	var orderStatusID int
-	db := o.DBClient.GetConn()
 
-	tx, err := db.Begin()
+	tx, err := o.DBClient.Begin()
 	if err != nil {
 		return fmt.Errorf("failed to begin transaction: %v", err)
 	}
@@ -77,22 +76,9 @@ func (o *OrderRepo) Create(order *Order) error {
 }
 
 func (o *OrderRepo) Delete(id int) error {
-	db := o.DBClient.GetConn()
-
-	tx, err := db.Begin()
-	if err != nil {
-		return fmt.Errorf("failed to begin transaction: %v", err)
-	}
-	defer tx.Rollback()
-
-	if _, err = tx.Exec("DELETE FROM orders WHERE id = $1", id); err != nil {
+	if _, err := o.DBClient.Exec("DELETE FROM orders WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to execute delete command for orders table, with id '%d': %v", id, err)
 	}
-
-	if err := tx.Commit(); err != nil {
-		return fmt.Errorf("failed to commit transaction: %v", err)
-	}
-
 	return nil
 }
 
@@ -143,7 +129,7 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 		workers w
 		ON o.worker_id = w.id;`
 
-	rows, err := o.DBClient.GetConn().Query(selectQuery)
+	rows, err := o.DBClient.Query(selectQuery)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query orders: %v", err)
 	}
