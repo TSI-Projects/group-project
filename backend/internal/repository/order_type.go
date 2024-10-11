@@ -15,19 +15,13 @@ type OrderTypeRepo struct {
 	DBClient db.IDatabase
 }
 
-type IOrderTypeRepo interface {
-	CreateOrderType(*OrderType) error
-	GetOrderTypes() ([]*OrderType, error)
-	DeleteOrderType(id int) error
-}
-
-func NewOrderTypeRepo(dbClient db.IDatabase) IOrderTypeRepo {
+func NewOrderTypeRepo(dbClient db.IDatabase) IRepository[OrderType] {
 	return &OrderTypeRepo{
 		DBClient: dbClient,
 	}
 }
 
-func (o *OrderTypeRepo) CreateOrderType(orderType *OrderType) error {
+func (o *OrderTypeRepo) Create(orderType *OrderType) error {
 	db := o.DBClient.GetConn()
 
 	queryCommand := `
@@ -44,7 +38,7 @@ func (o *OrderTypeRepo) CreateOrderType(orderType *OrderType) error {
 	return nil
 }
 
-func (o *OrderTypeRepo) DeleteOrderType(id int) error {
+func (o *OrderTypeRepo) Delete(id int) error {
 	db := o.DBClient.GetConn()
 
 	_, err := db.Query("DELETE FROM order_types WHERE id = $1", id)
@@ -55,7 +49,7 @@ func (o *OrderTypeRepo) DeleteOrderType(id int) error {
 	return nil
 }
 
-func (o *OrderTypeRepo) GetOrderTypes() ([]*OrderType, error) {
+func (o *OrderTypeRepo) GetAll() ([]*OrderType, error) {
 	db := o.DBClient.GetConn()
 	orderTypes := make([]*OrderType, 0)
 
@@ -86,4 +80,12 @@ func (o *OrderTypeRepo) GetOrderTypes() ([]*OrderType, error) {
 	}
 
 	return orderTypes, nil
+}
+
+func (l *OrderTypeRepo) GetByID(int) (*OrderType, error) {
+	panic("unimplemented")
+}
+
+func (l *OrderTypeRepo) Update(*OrderType) error {
+	panic("unimplemented")
 }

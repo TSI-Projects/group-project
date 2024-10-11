@@ -13,7 +13,7 @@ import (
 func (h *Handler) GetOrderTypes(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	orderTypes, err := h.OrderTypeRepo.GetOrderTypes()
+	orderTypes, err := h.OrderTypeRepo.GetAll()
 	if err != nil {
 		log.Errorf("failed to get order types: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -40,7 +40,7 @@ func (h *Handler) CreateOrderType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.OrderTypeRepo.CreateOrderType(&orderType); err != nil {
+	if err := h.OrderTypeRepo.Create(&orderType); err != nil {
 		log.Errorf("failed to create order type: %v", err)
 		w.Write([]byte("Internal Error"))
 		return
@@ -60,7 +60,7 @@ func (h *Handler) DeleteOrderType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.OrderTypeRepo.DeleteOrderType(id); err != nil {
+	if err := h.OrderTypeRepo.Delete(id); err != nil {
 		log.Errorf("failed to delete order type item: %s", err)
 		w.Write([]byte("Internal Error"))
 		return

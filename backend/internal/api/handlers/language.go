@@ -13,7 +13,7 @@ import (
 func (h *Handler) GetLanguages(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	languages, err := h.LanguageRepo.GetLanguage()
+	languages, err := h.LanguageRepo.GetAll()
 	if err != nil {
 		log.Errorf("Failed to get languages: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -40,7 +40,7 @@ func (h *Handler) CreateLanguage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.LanguageRepo.CreateLanguage(language); err != nil {
+	if err := h.LanguageRepo.Create(language); err != nil {
 		log.Errorf("failed to create language: %v", err)
 		w.Write([]byte("Internal Error"))
 		return
@@ -60,7 +60,7 @@ func (h *Handler) DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.LanguageRepo.DeleteLanguage(id); err != nil {
+	if err := h.LanguageRepo.Delete(id); err != nil {
 		log.Errorf("failed to delete language: %v", err)
 		w.Write([]byte("Internal Error"))
 		return
