@@ -7,20 +7,20 @@ import (
 )
 
 type Order struct {
-	ID            int     `db:"id"              json:"id"`
-	OrderStatusID int     `db:"order_status_id" json:"order_status_id"`
-	OrderTypeID   int     `db:"order_type_id"   json:"order_type_id"`
-	WorkerID      int     `db:"worker_id"       json:"worker_id"`
-	CustomerID    int     `db:"customer_id"     json:"customer_id"`
-	Reason        string  `db:"reason"          json:"reason"`
-	Defect        string  `db:"defect"          json:"defect"`
-	TotalPrice    float64 `db:"total_price"     json:"total_price"`
-	Prepayment    float64 `db:"prepayment"      json:"prepayment"`
+	ID            int     `db:"id"              json:"id"                  validate:"omitempty"`
+	OrderStatusID int     `db:"order_status_id" json:"order_status_id"     validate:"omitempty"`
+	OrderTypeID   int     `db:"order_type_id"   json:"order_type_id"       validate:"required"`
+	WorkerID      int     `db:"worker_id"       json:"worker_id"           validate:"required"`
+	CustomerID    int     `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
+	Reason        string  `db:"reason"          json:"reason"              validate:"required"`
+	Defect        string  `db:"defect"          json:"defect"              validate:"required"`
+	TotalPrice    float64 `db:"total_price"     json:"total_price"         validate:"required"`
+	Prepayment    float64 `db:"prepayment"      json:"prepayment"          validate:"required"`
 
-	Status   *OrderStatus `db:"order_statuses"  json:"status"`
-	Type     *OrderType   `db:"order_types"     json:"type"`
-	Customer *Customer    `db:"customers"       json:"customer"`
-	Worker   *Worker      `db:"workers"         json:"worker"`
+	Status   *OrderStatus `db:"order_statuses"  json:"status"              validate:"omitempty"`
+	Type     *OrderType   `db:"order_types"     json:"type"                validate:"omitempty"`
+	Customer *Customer    `db:"customers"       json:"customer"            validate:"omitempty"`
+	Worker   *Worker      `db:"workers"         json:"worker"              validate:"omitempty"`
 }
 
 type OrderRepo struct {
@@ -55,11 +55,24 @@ func (o *OrderRepo) CreateOrder(order *Order) error {
 		return fmt.Errorf("failed to insert order status item into order_statuses table: %v", err)
 	}
 
+	if order.CustomerID <= 0 {
+		if err := tx.QueryRow(
+			`INSERT INTO customers
+				(phone_number, language_id)
+			VALUES
+				($1, $2)
+			RETURNING id`,
+			order.Customer.PhoneNumber, order.Customer.LanguageID,
+		).Scan(&order.CustomerID); err != nil {
+			return fmt.Errorf("failed to insert customer: %v", err)
+		}
+	}
+
 	if _, err = tx.Exec(
 		`INSERT INTO orders 
-			(reason, defect, total_price_eur, prepayment_eur, worker_id, customer_id, order_status_id, order_type_id)
-		VALUES 
-			($1, $2, $3, $4, $5, $6, $7, $8)`,
+				(reason, defect, total_price_eur, prepayment_eur, worker_id, customer_id, order_status_id, order_type_id)
+			VALUES 
+				($1, $2, $3, $4, $5, $6, $7, $8)`,
 		order.Reason, order.Defect, order.TotalPrice, order.Prepayment, order.WorkerID, order.CustomerID, orderStatusID, order.OrderTypeID); err != nil {
 		return fmt.Errorf("failed to insert order item into orders table: %v", err)
 	}
@@ -72,7 +85,6 @@ func (o *OrderRepo) CreateOrder(order *Order) error {
 }
 
 func (o *OrderRepo) DeleteOrder(id int) error {
-	var orderStatusID int
 	db := o.DBClient.GetConn()
 
 	tx, err := db.Begin()
@@ -80,14 +92,6 @@ func (o *OrderRepo) DeleteOrder(id int) error {
 		return fmt.Errorf("failed to begin transaction: %v", err)
 	}
 	defer tx.Rollback()
-
-	if err = tx.QueryRow("SELECT order_status_id FROM orders WHERE id = $1", id).Scan(&orderStatusID); err != nil {
-		return fmt.Errorf("failed to get status id '%d', from orders table", id)
-	}
-
-	if _, err = tx.Exec("DELETE FROM order_statuses WHERE id = $1", orderStatusID); err != nil {
-		return fmt.Errorf("failed to execute delete command for order_statuses table, with id '%d': %v", orderStatusID, err)
-	}
 
 	if _, err = tx.Exec("DELETE FROM orders WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to execute delete command for orders table, with id '%d': %v", id, err)
