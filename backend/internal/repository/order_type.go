@@ -7,8 +7,8 @@ import (
 )
 
 type OrderType struct {
-	ID       int    `db:"id"        json:"id"`
-	FullName string `db:"full_name" json:"full_name"`
+	ID       int    `db:"id"        json:"id"           validate:"omitempty"`
+	FullName string `db:"full_name" json:"full_name"    validate:"required"`
 }
 
 type OrderTypeRepo struct {
