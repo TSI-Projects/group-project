@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/TSI-Projects/group-project/internal/repository"
+	"github.com/TSI-Projects/group-project/utils"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
@@ -40,6 +41,18 @@ func (h *Handler) CreateLanguage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := h.Validator.Validate(language); err != nil {
+		log.Errorf("failed to validate language struct: %v", err)
+		w.Write([]byte(utils.UppercaseFirstLetter(err.Error())))
+		return
+	}
+
+	if err := h.Validator.Validate(language); err != nil {
+		log.Errorf("failed to validate language struct: %v", err)
+		w.Write([]byte(utils.UppercaseFirstLetter(err.Error())))
+		return
+	}
+
 	if err := h.LanguageRepo.Create(language); err != nil {
 		log.Errorf("failed to create language: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -53,6 +66,12 @@ func (h *Handler) DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	rawId := mux.Vars(r)["id"]
+	if len(rawId) == 0 {
+		log.Errorf("failed to delete language due to empty id param")
+		w.Write([]byte("Language ID is not specified"))
+		return
+	}
+
 	id, err := strconv.Atoi(rawId)
 	if err != nil {
 		log.Errorf("failed to convert raw str id to int: %v", err)

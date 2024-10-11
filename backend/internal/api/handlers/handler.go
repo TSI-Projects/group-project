@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/TSI-Projects/group-project/internal/db"
 	"github.com/TSI-Projects/group-project/internal/repository"
+	"github.com/TSI-Projects/group-project/pkg/validation"
 )
 
 type Handler struct {
@@ -11,6 +12,7 @@ type Handler struct {
 	OrderTypeRepo repository.IRepository[repository.OrderType]
 	WorkerRepo    repository.IRepository[repository.Worker]
 	LanguageRepo  repository.IRepository[repository.Language]
+	Validator     *validation.ValidatorClient
 }
 
 func NewHandler(dbClient db.IDatabase) *Handler {
@@ -20,5 +22,6 @@ func NewHandler(dbClient db.IDatabase) *Handler {
 		OrderTypeRepo: repository.NewOrderTypeRepo(dbClient),
 		WorkerRepo:    repository.NewWorkerRepo(dbClient),
 		LanguageRepo:  repository.NewLanguageRepo(dbClient),
+		Validator:     validation.NewValidatorClient(),
 	}
 }
