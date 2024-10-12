@@ -24,6 +24,13 @@ namespace GW_UI.UserControls
         {
             InitializeComponent();
             this.MouseUp += OnMouseUp;
+            this.Unloaded += MenuButton_Unloaded;
+        }
+
+        private void MenuButton_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.MouseUp -= OnMouseUp;
+            this.Unloaded -= MenuButton_Unloaded;
         }
 
         private void OnMouseUp(object sender, MouseButtonEventArgs e)

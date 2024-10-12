@@ -24,9 +24,9 @@ C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\Mah
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\MahApps.Metro.IconPacks.Material.xml
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\UserControls\MenuButton.baml
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\UserControls\MenuButton.g.cs
-C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GW_UI.csproj.Up2Date
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Menu.g.cs
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Menu.baml
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Employees.g.cs
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Employees.baml
+C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GW_UI.csproj.CopyComplete
