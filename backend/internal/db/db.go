@@ -35,13 +35,17 @@ func (c *DBClient) Close() {
 }
 
 func (c *DBClient) Query(query string, args ...any) (*sql.Rows, error) {
-	return c.database.Query(query, args)
+	return c.database.Query(query, args...)
 }
 
 func (c *DBClient) Exec(query string, args ...any) (sql.Result, error) {
-	return c.database.Exec(query, args)
+	return c.database.Exec(query, args...)
 }
 
 func (c *DBClient) Begin() (*sql.Tx, error) {
 	return c.database.Begin()
+}
+
+func (c *DBClient) QueryRow(query string, args ...any) *sql.Row {
+	return c.database.QueryRow(query, args...)
 }
