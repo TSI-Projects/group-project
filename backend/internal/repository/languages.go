@@ -77,10 +77,34 @@ func (l *LanguageRepo) GetAll() ([]*Language, error) {
 	return languages, nil
 }
 
-func (l *LanguageRepo) GetByID(int) (*Language, error) {
-	return nil, nil
+func (l *LanguageRepo) GetByID(id int) (*Language, error) {
+	language := &Language{ID: id}
+
+	if err := l.DBClient.QueryRow(
+		`SELECT full_name, short_name
+		 FROM languages
+		 WHERE id = $1`, id,
+	).Scan(
+		&language.FullName,
+		&language.ShortName,
+	); err != nil {
+		return language, fmt.Errorf("failed to make query row request: %w", err)
+	}
+
+	return language, nil
 }
 
-func (l *LanguageRepo) Update(*Language) error {
+func (l *LanguageRepo) Update(language *Language) error {
+	if _, err := l.DBClient.Exec(
+		`UPDATE languages
+         SET full_name = $1, short_name = $2
+         WHERE id = $3`,
+		language.FullName,
+		language.ShortName,
+		language.ID,
+	); err != nil {
+		return fmt.Errorf("failed to make exec request: %w", err)
+	}
+
 	return nil
 }

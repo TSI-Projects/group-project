@@ -96,3 +96,62 @@ func (h *Handler) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte("Success"))
 }
+
+func (h *Handler) GetOrderByID(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	rawId := mux.Vars(r)["id"]
+	if len(rawId) == 0 {
+		log.Errorf("failed to delete order due to empty id param")
+		w.Write([]byte("Order ID is not specified"))
+		return
+	}
+
+	id, err := strconv.Atoi(rawId)
+	if err != nil {
+		log.Errorf("failed to convert raw str id to int: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	order, err := h.OrderRepo.GetByID(id)
+	if err != nil {
+		log.Errorf("failed to get order by id: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	output, err := json.Marshal(order)
+	if err != nil {
+		log.Errorf("Failed to marshal orders struct: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	w.Write(output)
+}
+
+func (h *Handler) UpdateOrder(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	order := &repository.Order{}
+
+	if err := json.NewDecoder(r.Body).Decode(order); err != nil {
+		log.Errorf("failed to decode body: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	if err := h.Validator.Validate(order); err != nil {
+		log.Errorf("failed to validate order struct: %v", err)
+		w.Write([]byte(utils.UppercaseFirstLetter(err.Error())))
+		return
+	}
+
+	if err := h.OrderRepo.Update(order); err != nil {
+		log.Errorf("failed to create order: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	w.Write([]byte("Success"))
+}

@@ -24,10 +24,8 @@ func NewWorkerRepo(database db.IDatabase) IRepository[Worker] {
 
 func (w *WorkerRepo) Create(worker *Worker) error {
 	if _, err := w.DBClient.Exec(
-		`INSERT INTO workers
-			(first_name, last_name)
-		VALUES
-			($1, $2)`,
+		`INSERT INTO workers (first_name, last_name)
+		 VALUES ($1, $2)`,
 		worker.FirstName,
 		worker.LastName,
 	); err != nil {
@@ -48,12 +46,8 @@ func (w *WorkerRepo) GetAll() ([]*Worker, error) {
 	var workers []*Worker
 
 	rows, err := w.DBClient.Query(
-		`SELECT
-			id,
-			first_name,
-			last_name
-		FROM
-			workers`,
+		`SELECT id, first_name, last_name
+		 FROM workers`,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make get query request: %v", err)
@@ -77,9 +71,33 @@ func (w *WorkerRepo) GetAll() ([]*Worker, error) {
 }
 
 func (w *WorkerRepo) GetByID(id int) (*Worker, error) {
-	return nil, nil
+	worker := &Worker{ID: id}
+
+	if err := w.DBClient.QueryRow(
+		`SELECT first_name, last_name
+		 FROM workers
+		 WHERE id = $1`, id,
+	).Scan(
+		&worker.FirstName,
+		&worker.LastName,
+	); err != nil {
+		return worker, fmt.Errorf("failed to make query row request: %w", err)
+	}
+
+	return worker, nil
 }
 
-func (w *WorkerRepo) Update(*Worker) error {
+func (w *WorkerRepo) Update(worker *Worker) error {
+	if _, err := w.DBClient.Exec(
+		`UPDATE workers
+         SET first_name = $1, last_name = $2
+         WHERE id = $3`,
+		worker.FirstName,
+		worker.LastName,
+		worker.ID,
+	); err != nil {
+		return fmt.Errorf("failed to make exec request: %w", err)
+	}
+
 	return nil
 }

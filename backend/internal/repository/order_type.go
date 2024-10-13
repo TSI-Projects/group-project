@@ -22,14 +22,11 @@ func NewOrderTypeRepo(dbClient db.IDatabase) IRepository[OrderType] {
 }
 
 func (o *OrderTypeRepo) Create(orderType *OrderType) error {
-	queryCommand := `
-	INSERT INTO order_types
-		(full_name)
-	VALUES
-		($1)
-	`
-
-	if _, err := o.DBClient.Exec(queryCommand, orderType.FullName); err != nil {
+	if _, err := o.DBClient.Exec(
+		`INSERT INTO order_types (full_name)
+		 VALUES ($1)`,
+		orderType.FullName,
+	); err != nil {
 		return fmt.Errorf("failed to create order type: %v", err)
 	}
 
@@ -46,15 +43,11 @@ func (o *OrderTypeRepo) Delete(id int) error {
 func (o *OrderTypeRepo) GetAll() ([]*OrderType, error) {
 	orderTypes := make([]*OrderType, 0)
 
-	queryCommand := `
-	SELECT
-		id,
-		full_name
-	FROM
-		order_types
-	`
-
-	rows, err := o.DBClient.Query(queryCommand)
+	rows, err := o.DBClient.Query(
+		`SELECT id, full_name
+		 FROM order_types
+		`,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make a query command: %v", err)
 	}
@@ -75,10 +68,32 @@ func (o *OrderTypeRepo) GetAll() ([]*OrderType, error) {
 	return orderTypes, nil
 }
 
-func (l *OrderTypeRepo) GetByID(int) (*OrderType, error) {
-	panic("unimplemented")
+func (l *OrderTypeRepo) GetByID(id int) (*OrderType, error) {
+	orderType := &OrderType{ID: id}
+
+	if err := l.DBClient.QueryRow(
+		`SELECT full_name
+		 FROM order_types
+		 WHERE id = $1`, id,
+	).Scan(
+		&orderType.FullName,
+	); err != nil {
+		return orderType, fmt.Errorf("failed to make query row request: %w", err)
+	}
+
+	return orderType, nil
 }
 
-func (l *OrderTypeRepo) Update(*OrderType) error {
-	panic("unimplemented")
+func (l *OrderTypeRepo) Update(orderType *OrderType) error {
+	if _, err := l.DBClient.Exec(
+		`UPDATE order_types
+         SET full_name = $1
+         WHERE id = $2`,
+		orderType.FullName,
+		orderType.ID,
+	); err != nil {
+		return fmt.Errorf("failed to make exec request: %w", err)
+	}
+
+	return nil
 }
