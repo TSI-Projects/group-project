@@ -93,7 +93,7 @@ namespace GW_UI
             var client = new HttpClient();
             client.BaseAddress = new Uri("http://demo.localdev.me");
 
-            await client.DeleteAsync($"/api/type/{type.ID}");
+            await client.DeleteAsync($"/api/orders/type/{type.ID}");
 
             if (TypeGrid.SelectedItem != null)
             {
@@ -109,13 +109,13 @@ namespace GW_UI
         }
     }
 
-    // Класс TypeItem
-    public class TypeItem
-    {
-        [JsonPropertyName("id")]
-        public int ID { get; set; }
+    //// Класс TypeItem
+    //public class TypeItem
+    //{
+    //    [JsonPropertyName("id")]
+    //    public int ID { get; set; }
 
-        [JsonPropertyName("full_name")]
-        public string TypeName { get; set; }
-    }
+    //    [JsonPropertyName("full_name")]
+    //    public string TypeName { get; set; }
+    //}
 }

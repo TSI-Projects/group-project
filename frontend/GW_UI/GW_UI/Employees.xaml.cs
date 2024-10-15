@@ -110,20 +110,20 @@ namespace GW_UI
         }
     }
 
-    // Класс Employee (создать отдельно файл с классом если заработает)
-    public class Employee
-    {
-        public Employee(string firstName, string lastName)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-        }
+    //// Класс Employee (создать отдельно файл с классом если заработает)
+    //public class Employee
+    //{
+    //    public Employee(string firstName, string lastName)
+    //    {
+    //        FirstName = firstName;
+    //        LastName = lastName;
+    //    }
 
-        [JsonPropertyName("id")]
-        public int ID { get; set; }
-        [JsonPropertyName("first_name")]
-        public string FirstName { get; set; }
-        [JsonPropertyName("last_name")]
-        public string LastName { get; set; }
-    }
+    //    [JsonPropertyName("id")]
+    //    public int ID { get; set; }
+    //    [JsonPropertyName("first_name")]
+    //    public string FirstName { get; set; }
+    //    [JsonPropertyName("last_name")]
+    //    public string LastName { get; set; }
+    //}
 }

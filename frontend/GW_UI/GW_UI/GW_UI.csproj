@@ -94,6 +94,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Employee.cs" />
+    <Compile Include="Classes\TypeItem.cs" />
     <Compile Include="Employees.xaml.cs">
       <DependentUpon>Employees.xaml</DependentUpon>
     </Compile>
