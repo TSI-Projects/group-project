@@ -11,10 +11,6 @@ namespace GW_UI
 {
     public partial class Employees : Window
     {
-        //private List<Employee> EmployeesList = new List<Employee>();
-       
-
-
         private ObservableCollection<Employee> EmployeesList = new ObservableCollection<Employee>();
 
         public Employees()
@@ -31,13 +27,17 @@ namespace GW_UI
   
             var result = await client.GetFromJsonAsync<List<Employee>>("/api/workers");
             //можно оптимизировать, использовать метод вместо фор лупа
-            foreach (Employee emp in result) {
+            if (result == null)
+            {
+                return;
+            }
+
+            foreach (Employee emp in result)
+            {
                 EmployeesList.Add(emp);
             }
-          
+
         }
-
-
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -83,12 +83,7 @@ namespace GW_UI
             var client = new HttpClient(); //Создать глобальную переменную
             client.BaseAddress = new Uri("http://demo.localdev.me");
             var data = new Employee(FirstNameTextBox.Text, LastNameTextBox.Text);
-            //var content = new FormUrlEncodedContent(new Dictionary<string, string> { { "first_name", FirstNameTextBox.Text }, { "last_name", LastNameTextBox.Text });
             var result = await client.PostAsJsonAsync("/api/workers", data);
-            //var todo = await result.Content.ReadFromJsonAsync<Employee>();
-            //var result = await client.PostAsync("/api/workers", content);
-            //string resultContent = await result.Content.ReadAsStringAsync();
-            //Console.WriteLine(todo);
 
             EmployeesList.Add(new Employee(FirstNameTextBox.Text, LastNameTextBox.Text));
         }

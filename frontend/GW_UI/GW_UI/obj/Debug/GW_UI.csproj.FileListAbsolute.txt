@@ -29,7 +29,6 @@ C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Men
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Menu.baml
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Employees.g.cs
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Employees.baml
-C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GW_UI.csproj.CopyComplete
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\System.Buffers.dll
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\System.Memory.dll
@@ -50,3 +49,6 @@ C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\Sys
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\System.Text.Json.xml
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\bin\Debug\System.ValueTuple.xml
+C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\GW_UI.csproj.Up2Date
+C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Types.g.cs
+C:\Users\vlari\Documents\GitHub\group-project\frontend\GW_UI\GW_UI\obj\Debug\Types.baml
