@@ -87,3 +87,62 @@ func (h *Handler) DeleteOrderType(w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte("Success"))
 }
+
+func (h *Handler) GetOrderTypeByID(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	rawId := mux.Vars(r)["id"]
+	if len(rawId) == 0 {
+		log.Errorf("failed to delete orderType due to empty id param")
+		w.Write([]byte("OrderType ID is not specified"))
+		return
+	}
+
+	id, err := strconv.Atoi(rawId)
+	if err != nil {
+		log.Errorf("failed to convert raw str id to int: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	orderType, err := h.OrderTypeRepo.GetByID(id)
+	if err != nil {
+		log.Errorf("failed to delete orderType: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	output, err := json.Marshal(orderType)
+	if err != nil {
+		log.Errorf("Failed to marshal orderTypes struct: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	w.Write(output)
+}
+
+func (h *Handler) UpdateOrderType(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	orderType := &repository.OrderType{}
+
+	if err := json.NewDecoder(r.Body).Decode(orderType); err != nil {
+		log.Errorf("failed to decode body: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	if err := h.Validator.Validate(orderType); err != nil {
+		log.Errorf("failed to validate orderType struct: %v", err)
+		w.Write([]byte(utils.UppercaseFirstLetter(err.Error())))
+		return
+	}
+
+	if err := h.OrderTypeRepo.Update(orderType); err != nil {
+		log.Errorf("failed to create orderType: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	w.Write([]byte("Success"))
+}

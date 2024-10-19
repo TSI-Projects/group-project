@@ -45,3 +45,7 @@ func (c *DBClient) Exec(query string, args ...any) (sql.Result, error) {
 func (c *DBClient) Begin() (*sql.Tx, error) {
 	return c.database.Begin()
 }
+
+func (c *DBClient) QueryRow(query string, args ...any) *sql.Row {
+	return c.database.QueryRow(query, args...)
+}

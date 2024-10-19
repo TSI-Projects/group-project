@@ -12,6 +12,7 @@ type Handler struct {
 	OrderTypeRepo repository.IRepository[repository.OrderType]
 	WorkerRepo    repository.IRepository[repository.Worker]
 	LanguageRepo  repository.IRepository[repository.Language]
+	CustomerRepo  repository.IRepository[repository.Customer]
 	Validator     *validation.ValidatorClient
 }
 
@@ -22,6 +23,7 @@ func NewHandler(dbClient db.IDatabase) *Handler {
 		OrderTypeRepo: repository.NewOrderTypeRepo(dbClient),
 		WorkerRepo:    repository.NewWorkerRepo(dbClient),
 		LanguageRepo:  repository.NewLanguageRepo(dbClient),
+		CustomerRepo:  repository.NewCustomerRepo(dbClient),
 		Validator:     validation.NewValidatorClient(),
 	}
 }

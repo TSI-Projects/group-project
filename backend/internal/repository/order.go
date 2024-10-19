@@ -82,10 +82,6 @@ func (o *OrderRepo) Delete(id int) error {
 	return nil
 }
 
-func (o *OrderRepo) GetByID(id int) (*Order, error) {
-	return nil, nil
-}
-
 func (o *OrderRepo) GetAll() ([]*Order, error) {
 	orders := make([]*Order, 0)
 
@@ -176,6 +172,102 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 	return orders, nil
 }
 
-func (o *OrderRepo) Update(order *Order) error {
+func (l *OrderRepo) GetByID(id int) (*Order, error) {
+	order := &Order{
+		ID:       id,
+		Status:   &OrderStatus{},
+		Worker:   &Worker{},
+		Customer: &Customer{},
+		Type:     &OrderType{},
+	}
+
+	if err := l.DBClient.QueryRow(
+		`SELECT
+			o.id AS order_id,
+			o.order_status_id,
+			o.order_type_id,
+			o.worker_id,
+			o.customer_id,
+			o.reason,
+			o.defect,
+			o.total_price_eur,
+			o.prepayment_eur,
+			os.id AS order_status_id,
+			os.ready_at,
+			os.returned_at,
+			os.customer_notified_at,
+			os.is_outsourced,
+			os.is_receipt_lost,
+			ot.id AS order_types_id,
+			ot.full_name,
+			c.id AS customer_id,
+			c.language_id,
+			c.phone_number,
+			w.id AS worker_id,
+			w.first_name,
+			w.last_name
+		FROM
+			orders o
+		JOIN
+			order_statuses os
+			ON o.order_status_id = os.id
+		JOIN
+			order_types ot
+			ON o.order_type_id = ot.id
+		JOIN
+			customers c
+			ON o.customer_id = c.id
+		JOIN
+			workers w
+			ON o.worker_id = w.id
+		WHERE o.id = $1;`, id,
+	).Scan(
+		&order.ID,
+		&order.OrderStatusID,
+		&order.OrderTypeID,
+		&order.WorkerID,
+		&order.CustomerID,
+		&order.Reason,
+		&order.Defect,
+		&order.TotalPrice,
+		&order.Prepayment,
+		&order.Status.ID,
+		&order.Status.ReadyAt,
+		&order.Status.ReturnedAt,
+		&order.Status.CustomerNotifiedAt,
+		&order.Status.IsOutsourced,
+		&order.Status.IsReceiptLost,
+		&order.Type.ID,
+		&order.Type.FullName,
+		&order.Customer.ID,
+		&order.Customer.LanguageID,
+		&order.Customer.PhoneNumber,
+		&order.Worker.ID,
+		&order.Worker.FirstName,
+		&order.Worker.LastName,
+	); err != nil {
+		return order, fmt.Errorf("failed to make query row request: %w", err)
+	}
+
+	return order, nil
+}
+
+func (l *OrderRepo) Update(order *Order) error {
+	if _, err := l.DBClient.Exec(
+		`UPDATE orders
+		SET reason = $1,
+			defect = $2,
+			total_price_eur = $3,
+			prepayment_eur = $4
+		WHERE id = $5 ;`,
+		order.Reason,
+		order.Defect,
+		order.TotalPrice,
+		order.Prepayment,
+		order.ID,
+	); err != nil {
+		return fmt.Errorf("failed to make exec request: %w", err)
+	}
+
 	return nil
 }
