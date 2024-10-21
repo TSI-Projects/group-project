@@ -22,10 +22,7 @@ namespace GW_UI
 
         private async void EmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var client = new HttpClient(); //Создать глобальную переменную
-            client.BaseAddress = new Uri("http://demo.localdev.me");
-  
-            var result = await client.GetFromJsonAsync<List<Employee>>("/api/workers");
+            var result = await GlobalVariables.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
             //можно оптимизировать, использовать метод вместо фор лупа
             if (result == null)
             {
@@ -80,10 +77,8 @@ namespace GW_UI
         private async void AddEmployee_Click(object sender, RoutedEventArgs e)
         {
             // логика добавления нового сотрудника
-            var client = new HttpClient(); //Создать глобальную переменную
-            client.BaseAddress = new Uri("http://demo.localdev.me");
             var data = new Employee(FirstNameTextBox.Text, LastNameTextBox.Text);
-            var result = await client.PostAsJsonAsync("/api/workers", data);
+            var result = await GlobalVariables.HttpClient.PostAsJsonAsync("/api/workers", data);
 
             EmployeesList.Add(new Employee(FirstNameTextBox.Text, LastNameTextBox.Text));
         }
@@ -91,10 +86,8 @@ namespace GW_UI
         private async void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
             var worker = (Employee)EmployeeGrid.SelectedItem;
-            var client = new HttpClient(); //Создать глобальную переменную
-            client.BaseAddress = new Uri("http://demo.localdev.me");
             
-           await client.DeleteAsync($"/api/worker/{worker.ID}");
+           await GlobalVariables.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
             // логика удаления выбранного сотрудника
             if (EmployeeGrid.SelectedItem != null)
             {
@@ -109,21 +102,4 @@ namespace GW_UI
             Close();
         }
     }
-
-    //// Класс Employee (создать отдельно файл с классом если заработает)
-    //public class Employee
-    //{
-    //    public Employee(string firstName, string lastName)
-    //    {
-    //        FirstName = firstName;
-    //        LastName = lastName;
-    //    }
-
-    //    [JsonPropertyName("id")]
-    //    public int ID { get; set; }
-    //    [JsonPropertyName("first_name")]
-    //    public string FirstName { get; set; }
-    //    [JsonPropertyName("last_name")]
-    //    public string LastName { get; set; }
-    //}
 }
