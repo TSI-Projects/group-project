@@ -22,10 +22,7 @@ namespace GW_UI
 
         private async void TypesWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("http://demo.localdev.me");
-
-            var result = await client.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
+            var result = await GlobalVariables.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
 
             if (result == null)
             {
@@ -78,11 +75,8 @@ namespace GW_UI
 
         private async void AddType_Click(object sender, RoutedEventArgs e)
         {
-            // логика добавления нового типа
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("http://demo.localdev.me");
             var data = new TypeItem { TypeName = TypeTextBox.Text };
-            var result = await client.PostAsJsonAsync("/api/orders/types", data);
+            var result = await GlobalVariables.HttpClient.PostAsJsonAsync("/api/orders/types", data);
 
             TypesList.Add(new TypeItem {TypeName = TypeTextBox.Text});
         }
@@ -90,10 +84,8 @@ namespace GW_UI
         private async void DeleteType_Click(object sender, RoutedEventArgs e)
         {
             var type = (TypeItem)TypeGrid.SelectedItem;
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("http://demo.localdev.me");
 
-            await client.DeleteAsync($"/api/orders/type/{type.ID}");
+            await GlobalVariables.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
 
             if (TypeGrid.SelectedItem != null)
             {
@@ -108,14 +100,4 @@ namespace GW_UI
             Close();
         }
     }
-
-    //// Класс TypeItem
-    //public class TypeItem
-    //{
-    //    [JsonPropertyName("id")]
-    //    public int ID { get; set; }
-
-    //    [JsonPropertyName("full_name")]
-    //    public string TypeName { get; set; }
-    //}
 }
