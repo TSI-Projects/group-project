@@ -22,7 +22,7 @@ namespace GW_UI
 
         private async void EmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var result = await GlobalVariables.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
+            var result = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
             //можно оптимизировать, использовать метод вместо фор лупа
             if (result == null)
             {
@@ -78,7 +78,7 @@ namespace GW_UI
         {
             // логика добавления нового сотрудника
             var data = new Employee(FirstNameTextBox.Text, LastNameTextBox.Text);
-            var result = await GlobalVariables.HttpClient.PostAsJsonAsync("/api/workers", data);
+            var result = await App.HttpClient.PostAsJsonAsync("/api/workers", data);
 
             EmployeesList.Add(new Employee(FirstNameTextBox.Text, LastNameTextBox.Text));
         }
@@ -87,7 +87,7 @@ namespace GW_UI
         {
             var worker = (Employee)EmployeeGrid.SelectedItem;
             
-           await GlobalVariables.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
+           await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
             // логика удаления выбранного сотрудника
             if (EmployeeGrid.SelectedItem != null)
             {

@@ -22,7 +22,7 @@ namespace GW_UI
 
         private async void TypesWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var result = await GlobalVariables.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
+            var result = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
 
             if (result == null)
             {
@@ -76,7 +76,7 @@ namespace GW_UI
         private async void AddType_Click(object sender, RoutedEventArgs e)
         {
             var data = new TypeItem { TypeName = TypeTextBox.Text };
-            var result = await GlobalVariables.HttpClient.PostAsJsonAsync("/api/orders/types", data);
+            var result = await App.HttpClient.PostAsJsonAsync("/api/orders/types", data);
 
             TypesList.Add(new TypeItem {TypeName = TypeTextBox.Text});
         }
@@ -85,7 +85,7 @@ namespace GW_UI
         {
             var type = (TypeItem)TypeGrid.SelectedItem;
 
-            await GlobalVariables.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
+            await App.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
 
             if (TypeGrid.SelectedItem != null)
             {
