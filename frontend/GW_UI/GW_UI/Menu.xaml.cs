@@ -39,5 +39,13 @@ namespace GW_UI
             employees.Show();
             this.Close();
         }
+
+        private void TypesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Types types = new Types();
+            types.Show();
+            this.Close();
+        }
+
     }
 }
