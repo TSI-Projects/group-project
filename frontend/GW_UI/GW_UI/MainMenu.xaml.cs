@@ -30,7 +30,14 @@ namespace GW_UI
         {
             Menu menuPage = new Menu();
             menuPage.Show();
-            this.Close();
+            Close();
+        }
+
+        private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            Orders orderPage = new Orders();
+            orderPage.Show();
+            Close();
         }
     }
 }

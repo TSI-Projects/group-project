@@ -11,17 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
 
 namespace GW_UI
 {
-    /// <summary>
-    /// Interaction logic for Orders.xaml
-    /// </summary>
     public partial class Orders : Window
     {
+        private ToggleButton activeLanguageButton;
+
         public Orders()
         {
             InitializeComponent();
+            activeLanguageButton = null; // Изначально нет активной кнопки
         }
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -33,13 +34,13 @@ namespace GW_UI
         {
             MainMenu mainMenu = new MainMenu();
             mainMenu.Show();
-            this.Close();
+            Close();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            Menu menuPage = new Menu();
-            menuPage.Show();
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.Show();
             Close();
         }
 
@@ -48,7 +49,7 @@ namespace GW_UI
             TextBox textBox = sender as TextBox;
             if (textBox != null)
             {
-                TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "Placeholder")}");
+                TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
                 if (placeholder != null)
                 {
                     placeholder.Visibility = Visibility.Hidden;
@@ -61,7 +62,7 @@ namespace GW_UI
             TextBox textBox = sender as TextBox;
             if (textBox != null && string.IsNullOrEmpty(textBox.Text))
             {
-                TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "Placeholder")}");
+                TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
                 if (placeholder != null)
                 {
                     placeholder.Visibility = Visibility.Visible;
@@ -69,10 +70,49 @@ namespace GW_UI
             }
         }
 
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
+            if (placeholder != null)
+            {
+                placeholder.Visibility = string.IsNullOrEmpty(textBox.Text) ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
 
+        // ---------------------------------------------//
 
+        private void RuButton_Click(object sender, RoutedEventArgs e)
+        {
+            HandleLanguageButtonClick(sender as ToggleButton);
+        }
 
+        private void LvButton_Click(object sender, RoutedEventArgs e)
+        {
+            HandleLanguageButtonClick(sender as ToggleButton);
+        }
 
+        private void EngButton_Click(object sender, RoutedEventArgs e)
+        {
+            HandleLanguageButtonClick(sender as ToggleButton);
+        }
 
+        private void HandleLanguageButtonClick(ToggleButton clickedButton)
+        {
+            if (activeLanguageButton != null && activeLanguageButton != clickedButton)
+            {
+                activeLanguageButton.IsChecked = false; // Деактивировать предыдущую кнопку
+            }
+
+            // Если текущая кнопка была активна, снять с нее активацию
+            if (activeLanguageButton == clickedButton)
+            {
+                activeLanguageButton = null;
+            }
+            else
+            {
+                activeLanguageButton = clickedButton; // Сделать новую кнопку активной
+            }
+        }
     }
 }

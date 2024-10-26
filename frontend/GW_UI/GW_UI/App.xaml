@@ -124,5 +124,50 @@
             <Setter Property="Foreground" Value="{Binding Path=Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"/>
         </Style>
 
+        <Style x:Key="LanguageToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" BorderBrush="Gray" BorderThickness="1" Background="Transparent" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Наведение мыши -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#7A7CFF"/>
+                            </Trigger>
+                            <!-- Нажатие кнопки -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#7A7CFF"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <!-- Активное состояние кнопки (нажата) -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#7A7CFF"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <!-- Сброс активного состояния -->
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <!-- Стиль для контейнера кнопок (UniformGrid) -->
+        <Style x:Key="LanguageButtonContainerStyle" TargetType="UniformGrid">
+            <Setter Property="Columns" Value="3"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
     </Application.Resources>
 </Application>
