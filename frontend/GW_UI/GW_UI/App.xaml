@@ -5,13 +5,7 @@
              StartupUri="Login.xaml"
              Startup="Application_Startup">
     <Application.Resources>
-        <!-- Градиентный фон для окна (удалить, не актуально) -->
-        <LinearGradientBrush x:Key="BackgroundGradient" EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#6A1B9A" Offset="0"/>
-            <GradientStop Color="#283593" Offset="1"/>
-        </LinearGradientBrush>
-
-        <!-- Стили текстового поля -->
+        <!-- Стили текстового поля для логина-->
         <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
             <Setter Property="Width" Value="220"/>
             <Setter Property="Height" Value="35"/>
@@ -22,6 +16,36 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- Стиль текстового поля для TextBox -->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border 
+                    CornerRadius="10" 
+                    BorderBrush="#3B71CA" 
+                    BorderThickness="2" 
+                    Background="White">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <!-- Стиль текстового поля для TextBox -->
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Margin" Value="15,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
 
         <!-- Стиль кнопки -->

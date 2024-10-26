@@ -14,28 +14,28 @@
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
-                <TextBox Name="OrderTypeTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="OrderTypePlaceholder" Text="Тип заказа" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBox Name="OrderTypeTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ProductModelTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="ProductModelPlaceholder" Text="Название и модель изделия" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ClientPhoneTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="ClientPhonePlaceholder" Text="Номер телефона клиента" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="RequestDateTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="RequestDatePlaceholder" Text="Дата обращения" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBox Name="RequestDateTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ReasonTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="ReasonPlaceholder" Text="Причина обращения" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="ReasonTextBlock" Text="Причина обращения" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="DefectDescriptionTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="DefectDescriptionPlaceholder" Text="Описание дефекта" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="DefectDescriptionTextBlock" Text="Описание дефекта" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
         </StackPanel>
 
@@ -50,15 +50,15 @@
             </StackPanel>
             <Grid>
                 <TextBox Name="EmployeeNameTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="EmployeeNamePlaceholder" Text="Имя работника, принявшего заказ" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <TextBox Name="PrepaymentTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="PrepaymentPlaceholder" Text="Предоплата" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBlock Name="PrepaymentTextBlock" Text="Предоплата" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <TextBox Name="TotalCostTextBox" Width="400" Height="40" Margin="0,10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="TotalCostPlaceholder" Text="Общая стоимость" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBlock Name="TotalCostTextBlock" Text="Общая стоимость" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
         </StackPanel>
 
