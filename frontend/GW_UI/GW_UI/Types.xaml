@@ -14,7 +14,7 @@
         <!-- Поля ввода для типа -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
             <Grid>
-                <TextBox Name="TypeTextBox" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="TypeTextBox" Style="{StaticResource TextBoxStyle}" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="TypePlaceholder" Text="Тип" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
             </Grid>
             

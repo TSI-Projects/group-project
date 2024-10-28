@@ -19,7 +19,7 @@
                 <TextBox Name="UsernameTextBox" Style="{StaticResource InputTextBoxStyle}" Tag="Username"/>
 
                 <!-- Поле ввода пароля -->
-                <PasswordBox Name="PasswordBox" Width="220" Height="35" Margin="0,10" Padding="5" BorderThickness="1" BorderBrush="#AAAAAA" Background="Transparent"/>
+                <PasswordBox Name="PasswordBox" Style="{StaticResource InputPasswordBoxStyle}" />
 
                 <!-- Кнопка входа -->
                 <Button Content="SIGN IN" Style="{StaticResource ActionButtonStyle}" Click="LoginButton_Click"/>
