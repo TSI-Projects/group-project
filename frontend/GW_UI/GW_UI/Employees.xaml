@@ -47,12 +47,12 @@
         <!-- Таблица сотрудников -->
         <DataGrid Name="EmployeeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Width="600" Height="400">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
-                <DataGridTemplateColumn Width="Auto">
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*" />
+                <DataGridTemplateColumn Width="60">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="🗑️" Width="30" Height="30" Click="DeleteEmployee_Click"/>
+                            <Button Style="{StaticResource DeleteButtonStyle}" Click="DeleteEmployee_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
