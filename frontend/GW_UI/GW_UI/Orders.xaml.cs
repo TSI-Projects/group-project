@@ -114,5 +114,10 @@ namespace GW_UI
                 activeLanguageButton = clickedButton; // Сделать новую кнопку активной
             }
         }
+
+        private void AddOrder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

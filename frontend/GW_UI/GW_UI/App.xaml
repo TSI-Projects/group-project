@@ -186,5 +186,13 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="0,0,0,20"/>
         </Style>
+
+        <!-- Стиль для заголовков -->
+        <Style x:Key="HeadingTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#7A7CFF"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
     </Application.Resources>
 </Application>
