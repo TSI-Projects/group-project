@@ -300,5 +300,38 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <!-- Стиль для ползунка прокрутки -->
+        <Style x:Key="ScrollBarThumbStyle" TargetType="Thumb">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="150"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border Background="#7A7CFF" BorderBrush="#b8b9fc" BorderThickness="1" CornerRadius="7"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Основной стиль ScrollBar -->
+        <Style TargetType="ScrollBar">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="GridRoot" Background="{TemplateBinding Background}">
+                            <Track x:Name="PART_Track">
+                                <!-- Только ползунок без кнопок прокрутки -->
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

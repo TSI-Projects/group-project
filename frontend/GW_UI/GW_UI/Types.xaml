@@ -40,13 +40,13 @@
         <TextBlock Text="Типы" Style="{StaticResource HeadingTextBlockStyle}" Margin="50 150 0 0"/>
 
         <!-- Таблица типов -->
-        <DataGrid Name="TypeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Width="600" Height="400">
+        <DataGrid Name="TypeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Width="300" Height="400">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Тип" Binding="{Binding TypeName}" Width="*"/>
-                <DataGridTemplateColumn Width="Auto">
+                <DataGridTemplateColumn Width="60">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="🗑️" Width="30" Height="30" Click="DeleteType_Click"/>
+                            <Button Style="{StaticResource DeleteButtonStyle}" Click="DeleteType_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
