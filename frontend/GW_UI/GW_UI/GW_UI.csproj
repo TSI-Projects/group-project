@@ -36,10 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro.IconPacks.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.Core.5.0.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Core.5.1.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro.IconPacks.Material, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.5.0.0\lib\net47\MahApps.Metro.IconPacks.Material.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.5.1.0\lib\net47\MahApps.Metro.IconPacks.Material.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>

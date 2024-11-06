@@ -26,15 +26,15 @@ namespace GW_UI
         {
             InitializeComponent();
             AvailableOrderTypes = new ObservableCollection<TypeItem>();
-            OrderTypeComboBox.ItemsSource = AvailableOrderTypes; // Убедитесь, что элемент управления уже инициализирован
-            this.Loaded += OrdersWindow_Loaded;
+            OrderTypeComboBox.ItemsSource = AvailableOrderTypes;
+            this.Loaded += OrdersWindow_Loaded; //Сделать отписку
         }
 
         private async void OrdersWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                var orderTypes = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
+                var orderTypes = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types"); //Поправить
                 if (orderTypes != null)
                 {
                     foreach (TypeItem type in orderTypes)
@@ -103,8 +103,6 @@ namespace GW_UI
                 placeholder.Visibility = string.IsNullOrEmpty(textBox.Text) ? Visibility.Visible : Visibility.Hidden;
             }
         }
-
-        // ---------------------------------------------//
 
         private void RuButton_Click(object sender, RoutedEventArgs e)
         {
