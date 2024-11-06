@@ -14,9 +14,14 @@
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
-                <TextBox Name="OrderTypeTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <!--<ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Width="200" />-->
+                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
+            <!--<Grid>
+                <TextBox Name="OrderTypeTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>-->
             <Grid>
                 <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
@@ -45,9 +50,9 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,50,0">
                 <TextBlock Text="Язык общения с клиентом" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <UniformGrid Style="{StaticResource LanguageButtonContainerStyle}">
-                    <ToggleButton Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click"/>
-                    <ToggleButton Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click"/>
-                    <ToggleButton Content="ENG" Style="{StaticResource LanguageToggleButtonStyle}" Click="EngButton_Click"/>
+                    <ToggleButton Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click" Checked="RuButton_Checked"/>
+                    <ToggleButton Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click" Checked="LvButton_Checked"/>
+                    <ToggleButton Content="ENG" Style="{StaticResource LanguageToggleButtonStyle}" Click="EngButton_Click" Checked="EngButton_Checked"/>
                 </UniformGrid>
             </StackPanel>
             <Grid>

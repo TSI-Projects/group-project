@@ -12,17 +12,41 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
+using System.Net.Http.Json;
+using System.Collections.ObjectModel;
 
 namespace GW_UI
 {
     public partial class Orders : Window
     {
         private ToggleButton activeLanguageButton;
+        public ObservableCollection<TypeItem> AvailableOrderTypes { get; set; }
 
         public Orders()
         {
             InitializeComponent();
-            activeLanguageButton = null; // Изначально нет активной кнопки
+            AvailableOrderTypes = new ObservableCollection<TypeItem>();
+            OrderTypeComboBox.ItemsSource = AvailableOrderTypes; // Убедитесь, что элемент управления уже инициализирован
+            this.Loaded += OrdersWindow_Loaded;
+        }
+
+        private async void OrdersWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var orderTypes = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
+                if (orderTypes != null)
+                {
+                    foreach (TypeItem type in orderTypes)
+                    {
+                        AvailableOrderTypes.Add(type);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки типов заказов: " + ex.Message);
+            }
         }
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -116,6 +140,21 @@ namespace GW_UI
         }
 
         private void AddOrder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RuButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LvButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EngButton_Checked(object sender, RoutedEventArgs e)
         {
 
         }
