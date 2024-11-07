@@ -46,7 +46,7 @@ namespace GW_UI
                         OrderTypes.Add(type);
                     }
                 }
-                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
+                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers"); //Поправить
                 if (employees != null)
                 {
                     foreach (Employee employee in employees)
@@ -135,10 +135,9 @@ namespace GW_UI
         {
             if (activeLanguageButton != null && activeLanguageButton != clickedButton)
             {
-                activeLanguageButton.IsChecked = false; // Деактивировать предыдущую кнопку
+                activeLanguageButton.IsChecked = false; // Деактивировать кнопку
             }
-
-            // Если текущая кнопка была активна, снять с нее активацию
+            // Если кнопка активна, снять с нее активацию
             if (activeLanguageButton == clickedButton)
             {
                 activeLanguageButton = null;
@@ -149,10 +148,48 @@ namespace GW_UI
             }
         }
 
-        private void AddOrder_Click(object sender, RoutedEventArgs e)
+        private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
+            int orderTypeId = (OrderTypeComboBox.SelectedItem as TypeItem).ID;
+            int workerId = (EmployeeNameComboBox.SelectedItem as Employee).ID;
+            double.TryParse(ClientPhoneTextBox.Text, out double customerId);
+            //string requestDate = RequestDateTextBox.Text; //Вот тут вопросики возникают, в дизайне есть графа для даты, а в backend нет
+            string reason = ReasonTextBox.Text;
+            string defectDescription = DefectDescriptionTextBox.Text;
+            double.TryParse(PrepaymentTextBox.Text, out double prepayment);
+            double.TryParse(TotalCostTextBox.Text, out double totalPrice);
 
+            var orderRequest = new Order
+            {
+                OrderTypeId = orderTypeId,
+                WorkerId = workerId,
+                CustomerId = customerId,
+                Reason = reason,
+                Defect = defectDescription,
+                TotalPrice = totalPrice,
+                Prepayment = prepayment,
+                LanguageId = languageId
+            };
+
+            try
+            {
+                var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Заказ успешно добавлен!");
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка добавления заказа: " + response.ReasonPhrase);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
+            }
         }
+
+        private int languageId = 0; //это временный костыль, надо придумать будет как будем языки передавать, если не будет CustomerID, то просто RU LV ENG
 
         private void RuButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -167,6 +204,19 @@ namespace GW_UI
         private void EngButton_Checked(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void UpdateLanguageSelection(ToggleButton clickedButton)
+        {
+            if (activeLanguageButton != null && activeLanguageButton != clickedButton)
+            {
+                activeLanguageButton.IsChecked = false;
+            }
+            activeLanguageButton = clickedButton;
+            if (clickedButton != null)
+            {
+                clickedButton.IsChecked = true;
+            }
         }
 
         private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,8 +234,5 @@ namespace GW_UI
                 OrderTypeTextBlock.Text = "";
             }
         }
-
-
-
     }
 }
