@@ -20,13 +20,17 @@ namespace GW_UI
     public partial class Orders : Window
     {
         private ToggleButton activeLanguageButton;
-        public ObservableCollection<TypeItem> AvailableOrderTypes { get; set; }
+        public ObservableCollection<TypeItem> OrderTypes { get; set; }
+        public ObservableCollection<Employee> Employees { get; set; }
+
 
         public Orders()
         {
             InitializeComponent();
-            AvailableOrderTypes = new ObservableCollection<TypeItem>();
-            OrderTypeComboBox.ItemsSource = AvailableOrderTypes;
+            OrderTypes = new ObservableCollection<TypeItem>();
+            Employees = new ObservableCollection<Employee>();
+            OrderTypeComboBox.ItemsSource = OrderTypes;
+            EmployeeNameComboBox.ItemsSource = Employees;
             this.Loaded += OrdersWindow_Loaded; //Сделать отписку
         }
 
@@ -39,7 +43,15 @@ namespace GW_UI
                 {
                     foreach (TypeItem type in orderTypes)
                     {
-                        AvailableOrderTypes.Add(type);
+                        OrderTypes.Add(type);
+                    }
+                }
+                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
+                if (employees != null)
+                {
+                    foreach (Employee employee in employees)
+                    {
+                        Employees.Add(employee);
                     }
                 }
             }
@@ -156,5 +168,24 @@ namespace GW_UI
         {
 
         }
+
+        private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EmployeeNameComboBox.SelectedItem != null)
+            {
+                EmployeeNameTextBlock.Text = "";
+            }
+        }
+
+        private void OrderTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OrderTypeComboBox.SelectedItem != null)
+            {
+                OrderTypeTextBlock.Text = "";
+            }
+        }
+
+
+
     }
 }

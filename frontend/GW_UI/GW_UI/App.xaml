@@ -78,7 +78,7 @@
             <Setter Property="Margin" Value="0,0,0,15"/>
         </Style>
 
-        <!-- Стиль текстового поля для TextBox -->
+        <!-- Стиль текстового поля для TextBlock -->
         <Style x:Key="TextBlockStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="Gray"/>
@@ -334,37 +334,6 @@
             </Setter>
         </Style>
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        <!--<Style x:Key="ComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Border 
-                    CornerRadius="10" 
-                    BorderBrush="#3B71CA" 
-                    BorderThickness="2" 
-                    Background="White">
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Width" Value="400"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
-        </Style>-->
-
         <!-- Шаблон для редактируемого текста в ComboBox -->
         <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
             <Border x:Name="PART_ContentHost" Focusable="False" Background="White" />
@@ -386,8 +355,8 @@
         <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
             <Setter Property="Width" Value="400"/>
             <Setter Property="Height" Value="45"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 15"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
@@ -414,7 +383,7 @@
                         Content="{TemplateBinding SelectionBoxItem}"
                         ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                         ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                        Margin="3"
+                        Margin="15 0 0 0"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"/>
                             <TextBox 
@@ -423,7 +392,7 @@
                         Template="{StaticResource ComboBoxTextBox}"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center" 
-                        Margin="3,3,23,3"
+                        Margin="3 3 23 3"
                         Focusable="True" 
                         Background="Transparent"
                         Visibility="Hidden"

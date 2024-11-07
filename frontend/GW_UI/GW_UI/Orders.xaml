@@ -14,14 +14,9 @@
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
-                <!--<ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Width="200" />-->
-                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="OrderTypeComboBox_SelectionChanged"/>
                 <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
-            <!--<Grid>
-                <TextBox Name="OrderTypeTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
-            </Grid>-->
             <Grid>
                 <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
@@ -56,9 +51,13 @@
                 </UniformGrid>
             </StackPanel>
             <Grid>
-                <TextBox Name="EmployeeNameTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="EmployeeNameComboBox_SelectionChanged"/>
                 <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
+            <!--<Grid>
+                <TextBox Name="EmployeeNameTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>-->
             <Grid>
                 <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="PrepaymentTextBlock" Text="Предоплата" Style="{StaticResource TextBlockStyle}"/>
