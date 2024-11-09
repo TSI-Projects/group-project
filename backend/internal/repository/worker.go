@@ -7,7 +7,7 @@ import (
 )
 
 type Worker struct {
-	ID        int    `db:"id"          json:"id"            validate:"omitempty"`
+	ID        uint   `db:"id"          json:"id"            validate:"omitempty"`
 	FirstName string `db:"first_name"  json:"first_name"    validate:"required"`
 	LastName  string `db:"last_name"   json:"last_name"     validate:"required"`
 }
@@ -35,7 +35,7 @@ func (w *WorkerRepo) Create(worker *Worker) error {
 	return nil
 }
 
-func (w *WorkerRepo) Delete(id int) error {
+func (w *WorkerRepo) Delete(id uint) error {
 	if _, err := w.DBClient.Exec(`DELETE FROM workers WHERE id = $1`, id); err != nil {
 		return fmt.Errorf("failed to make delete query request: %v", err)
 	}
@@ -70,7 +70,7 @@ func (w *WorkerRepo) GetAll() ([]*Worker, error) {
 	return workers, nil
 }
 
-func (w *WorkerRepo) GetByID(id int) (*Worker, error) {
+func (w *WorkerRepo) GetByID(id uint) (*Worker, error) {
 	worker := &Worker{ID: id}
 
 	if err := w.DBClient.QueryRow(

@@ -8,7 +8,7 @@ import (
 )
 
 type OrderStatus struct {
-	ID                 int        `db:"id"                       json:"id"                     validate:"omitempty"`
+	ID                 uint       `db:"id"                       json:"id"                     validate:"omitempty"`
 	ReadyAt            *time.Time `db:"ready_at"                 json:"ready_at"               validate:"omitempty"`
 	ReturnedAt         *time.Time `db:"returned_at"              json:"returned_at"            validate:"omitempty"`
 	CustomerNotifiedAt *time.Time `db:"customer_notified_at"     json:"customer_notified_at"   validate:"omitempty"`
@@ -44,7 +44,7 @@ func (o *OrderStatusRepo) Create(orderStatus *OrderStatus) error {
 	return nil
 }
 
-func (o *OrderStatusRepo) Delete(id int) error {
+func (o *OrderStatusRepo) Delete(id uint) error {
 	if _, err := o.DBClient.Exec(
 		`DELETE FROM order_statuses WHERE id = $1`, id); err != nil {
 		return fmt.Errorf("failed to make exec request: %v", err)
@@ -91,7 +91,7 @@ func (o *OrderStatusRepo) GetAll() ([]*OrderStatus, error) {
 	return orderStatuses, nil
 }
 
-func (o *OrderStatusRepo) GetByID(id int) (*OrderStatus, error) {
+func (o *OrderStatusRepo) GetByID(id uint) (*OrderStatus, error) {
 	orderStatus := &OrderStatus{ID: id}
 
 	if err := o.DBClient.QueryRow(

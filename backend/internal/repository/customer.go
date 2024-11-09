@@ -8,7 +8,7 @@ import (
 )
 
 type Customer struct {
-	ID          int    `db:"id"              json:"id"               validate:"omitempty"`
+	ID          uint   `db:"id"              json:"id"               validate:"omitempty"`
 	LanguageID  int    `db:"language_id"     json:"language_id"      validate:"required"`
 	PhoneNumber string `db:"phone_number"    json:"phone_number"     validate:"required"`
 
@@ -38,7 +38,7 @@ func (c *CustomerRepo) Create(customer *Customer) error {
 	return nil
 }
 
-func (c *CustomerRepo) Delete(id int) error {
+func (c *CustomerRepo) Delete(id uint) error {
 	if _, err := c.DBClient.Exec("DELETE FROM customers WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to make exec request: %w", err)
 	}
@@ -87,7 +87,7 @@ func (c *CustomerRepo) GetAll() ([]*Customer, error) {
 	return customers, nil
 }
 
-func (c *CustomerRepo) GetByID(id int) (*Customer, error) {
+func (c *CustomerRepo) GetByID(id uint) (*Customer, error) {
 	customer := &Customer{
 		ID:       id,
 		Language: &Language{},

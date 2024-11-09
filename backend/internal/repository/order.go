@@ -1,17 +1,18 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/TSI-Projects/group-project/internal/db"
 )
 
 type Order struct {
-	ID            int     `db:"id"              json:"id"                  validate:"omitempty"`
-	OrderStatusID int     `db:"order_status_id" json:"order_status_id"     validate:"omitempty"`
-	OrderTypeID   int     `db:"order_type_id"   json:"order_type_id"       validate:"required"`
-	WorkerID      int     `db:"worker_id"       json:"worker_id"           validate:"required"`
-	CustomerID    int     `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
+	ID            uint    `db:"id"              json:"id"                  validate:"omitempty"`
+	OrderStatusID uint    `db:"order_status_id" json:"order_status_id"     validate:"omitempty"`
+	OrderTypeID   uint    `db:"order_type_id"   json:"order_type_id"       validate:"required"`
+	WorkerID      uint    `db:"worker_id"       json:"worker_id"           validate:"required"`
+	CustomerID    uint    `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
 	Reason        string  `db:"reason"          json:"reason"              validate:"required"`
 	Defect        string  `db:"defect"          json:"defect"              validate:"required"`
 	TotalPrice    float64 `db:"total_price"     json:"total_price"         validate:"required"`
@@ -42,21 +43,29 @@ func (o *OrderRepo) Create(order *Order) error {
 	}
 	defer tx.Rollback()
 
-	if err = tx.QueryRow("INSERT INTO order_statuses DEFAULT VALUES RETURNING id").Scan(&orderStatusID); err != nil {
-		return fmt.Errorf("failed to insert order status item into order_statuses table: %v", err)
+	if err := tx.QueryRow(`
+		SELECT id 
+		FROM customers
+		WHERE phone_number = $1`,
+		order.Customer.PhoneNumber,
+	).Scan(&order.CustomerID); err != nil {
+		if err != sql.ErrNoRows {
+			return fmt.Errorf("failed to query customer id: %v", err)
+		}
+
+		if err := tx.QueryRow(`
+			INSERT INTO customers (phone_number, language_id)
+			VALUES ($1, $2)
+			RETURNING id`,
+			order.Customer.PhoneNumber,
+			order.Customer.LanguageID,
+		).Scan(&order.CustomerID); err != nil {
+			return fmt.Errorf("failed to create new customer: %v", err)
+		}
 	}
 
-	if order.CustomerID <= 0 {
-		if err := tx.QueryRow(
-			`INSERT INTO customers
-				(phone_number, language_id)
-			VALUES
-				($1, $2)
-			RETURNING id`,
-			order.Customer.PhoneNumber, order.Customer.LanguageID,
-		).Scan(&order.CustomerID); err != nil {
-			return fmt.Errorf("failed to insert customer: %v", err)
-		}
+	if err = tx.QueryRow("INSERT INTO order_statuses DEFAULT VALUES RETURNING id").Scan(&orderStatusID); err != nil {
+		return fmt.Errorf("failed to insert order status item into order_statuses table: %v", err)
 	}
 
 	if _, err = tx.Exec(
@@ -75,7 +84,7 @@ func (o *OrderRepo) Create(order *Order) error {
 	return nil
 }
 
-func (o *OrderRepo) Delete(id int) error {
+func (o *OrderRepo) Delete(id uint) error {
 	if _, err := o.DBClient.Exec("DELETE FROM orders WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to execute delete command for orders table, with id '%d': %v", id, err)
 	}
@@ -172,7 +181,7 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 	return orders, nil
 }
 
-func (l *OrderRepo) GetByID(id int) (*Order, error) {
+func (l *OrderRepo) GetByID(id uint) (*Order, error) {
 	order := &Order{
 		ID:       id,
 		Status:   &OrderStatus{},

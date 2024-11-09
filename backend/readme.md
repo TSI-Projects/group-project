@@ -95,11 +95,14 @@ Creates a new order with the specified details.
 {
   "order_type_id": 1,
   "worker_id": 2,
-  "customer_id": 3,
   "reason": "Something went wrong",
   "defect": "Something broken",
   "total_price": 10.0,
-  "prepayment": 5.0
+  "prepayment": 5.0,
+  "customer": {
+    "language_id": 3,
+    "phone_number": "+37126578411"
+  }
 }
 ```
 

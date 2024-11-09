@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/TSI-Projects/group-project/internal/repository"
 	"github.com/TSI-Projects/group-project/utils"
@@ -66,7 +65,7 @@ func (h *Handler) DeleteCustomer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(rawId)
+	id, err := utils.StringToUint(rawId)
 	if err != nil {
 		log.Errorf("failed to convert raw str id to int: %v", err)
 		w.Write([]byte("Internal Error"))
@@ -92,7 +91,7 @@ func (h *Handler) GetCustomerByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(rawId)
+	id, err := utils.StringToUint(rawId)
 	if err != nil {
 		log.Errorf("failed to convert raw str id to int: %v", err)
 		w.Write([]byte("Internal Error"))

@@ -7,7 +7,7 @@ import (
 )
 
 type Language struct {
-	ID        int    `db:"id"          json:"id,omitempty"  validate:"omitempty"`
+	ID        uint   `db:"id"          json:"id,omitempty"  validate:"omitempty"`
 	ShortName string `db:"short_name"  json:"short_name"    validate:"required"`
 	FullName  string `db:"full_name"   json:"full_name"     validate:"required"`
 }
@@ -37,7 +37,7 @@ func (l *LanguageRepo) Create(language *Language) error {
 	return nil
 }
 
-func (l *LanguageRepo) Delete(id int) error {
+func (l *LanguageRepo) Delete(id uint) error {
 	if _, err := l.DBClient.Exec("DELETE FROM languages WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to make delete query request: %v", err)
 	}
@@ -77,7 +77,7 @@ func (l *LanguageRepo) GetAll() ([]*Language, error) {
 	return languages, nil
 }
 
-func (l *LanguageRepo) GetByID(id int) (*Language, error) {
+func (l *LanguageRepo) GetByID(id uint) (*Language, error) {
 	language := &Language{ID: id}
 
 	if err := l.DBClient.QueryRow(
