@@ -7,7 +7,7 @@ import (
 )
 
 type OrderType struct {
-	ID       int    `db:"id"        json:"id"           validate:"omitempty"`
+	ID       uint   `db:"id"        json:"id"           validate:"omitempty"`
 	FullName string `db:"full_name" json:"full_name"    validate:"required"`
 }
 
@@ -33,7 +33,7 @@ func (o *OrderTypeRepo) Create(orderType *OrderType) error {
 	return nil
 }
 
-func (o *OrderTypeRepo) Delete(id int) error {
+func (o *OrderTypeRepo) Delete(id uint) error {
 	if _, err := o.DBClient.Exec("DELETE FROM order_types WHERE id = $1", id); err != nil {
 		return fmt.Errorf("failed to make query: %v", err)
 	}
@@ -68,7 +68,7 @@ func (o *OrderTypeRepo) GetAll() ([]*OrderType, error) {
 	return orderTypes, nil
 }
 
-func (l *OrderTypeRepo) GetByID(id int) (*OrderType, error) {
+func (l *OrderTypeRepo) GetByID(id uint) (*OrderType, error) {
 	orderType := &OrderType{ID: id}
 
 	if err := l.DBClient.QueryRow(

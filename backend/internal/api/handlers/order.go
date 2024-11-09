@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/TSI-Projects/group-project/internal/repository"
 	"github.com/TSI-Projects/group-project/utils"
@@ -81,7 +80,7 @@ func (h *Handler) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(rawId)
+	id, err := utils.StringToUint(rawId)
 	if err != nil {
 		log.Errorf("failed to convert id url param '%s': %v", rawId, err)
 		w.Write([]byte("Internal Error"))
@@ -107,7 +106,7 @@ func (h *Handler) GetOrderByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(rawId)
+	id, err := utils.StringToUint(rawId)
 	if err != nil {
 		log.Errorf("failed to convert raw str id to int: %v", err)
 		w.Write([]byte("Internal Error"))
