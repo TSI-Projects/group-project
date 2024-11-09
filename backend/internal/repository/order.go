@@ -68,19 +68,6 @@ func (o *OrderRepo) Create(order *Order) error {
 		return fmt.Errorf("failed to insert order status item into order_statuses table: %v", err)
 	}
 
-	if order.CustomerID == 0 || order.Customer.ID == 0 {
-		if err := tx.QueryRow(
-			`INSERT INTO customers
-				(phone_number, language_id)
-			VALUES
-				($1, $2)
-			RETURNING id`,
-			order.Customer.PhoneNumber, order.Customer.LanguageID,
-		).Scan(&order.CustomerID); err != nil {
-			return fmt.Errorf("failed to insert customer: %v", err)
-		}
-	}
-
 	if _, err = tx.Exec(
 		`INSERT INTO orders 
 				(reason, defect, total_price_eur, prepayment_eur, worker_id, customer_id, order_status_id, order_type_id)
