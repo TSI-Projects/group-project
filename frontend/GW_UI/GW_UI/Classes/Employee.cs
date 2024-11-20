@@ -18,5 +18,7 @@ namespace GW_UI
 
         [JsonPropertyName("last_name")]
         public string LastName { get; set; }
+
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

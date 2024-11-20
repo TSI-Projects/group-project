@@ -14,12 +14,12 @@
         <!-- Поля ввода для имени и фамилии -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
             <Grid>
-                <TextBox Name="FirstNameTextBox" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="FirstNameTextBox" Style="{StaticResource TextBoxStyle}" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="FirstNamePlaceholder" Text="Имя" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
             </Grid>
 
             <Grid>
-                <TextBox Name="LastNameTextBox" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="LastNameTextBox" Style="{StaticResource TextBoxStyle}" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="LastNamePlaceholder" Text="Фамилия" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
             </Grid>
 
@@ -47,12 +47,12 @@
         <!-- Таблица сотрудников -->
         <DataGrid Name="EmployeeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Width="600" Height="400">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
-                <DataGridTemplateColumn Width="Auto">
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*" />
+                <DataGridTemplateColumn Width="60">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="🗑️" Width="30" Height="30" Click="DeleteEmployee_Click"/>
+                            <Button Style="{StaticResource DeleteButtonStyle}" Click="DeleteEmployee_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

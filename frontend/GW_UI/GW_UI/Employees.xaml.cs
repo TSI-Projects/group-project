@@ -48,6 +48,14 @@ namespace GW_UI
             this.Close();
         }
 
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Menu menuPage = new Menu();
+            menuPage.Show();
+            Close();
+        }
+
+
         private void RemoveText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -93,13 +101,6 @@ namespace GW_UI
             {
                 EmployeesList.Remove((Employee)EmployeeGrid.SelectedItem);
             }
-        }
-
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            Menu menuPage = new Menu();
-            menuPage.Show();
-            Close();
         }
     }
 }
