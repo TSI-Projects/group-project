@@ -206,18 +206,18 @@ namespace GW_UI
 
         }
 
-        private void UpdateLanguageSelection(ToggleButton clickedButton)
-        {
-            if (activeLanguageButton != null && activeLanguageButton != clickedButton)
-            {
-                activeLanguageButton.IsChecked = false;
-            }
-            activeLanguageButton = clickedButton;
-            if (clickedButton != null)
-            {
-                clickedButton.IsChecked = true;
-            }
-        }
+        //private void UpdateLanguageSelection(ToggleButton clickedButton)
+        //{
+        //    if (activeLanguageButton != null && activeLanguageButton != clickedButton)
+        //    {
+        //        activeLanguageButton.IsChecked = false;
+        //    }
+        //    activeLanguageButton = clickedButton;
+        //    if (clickedButton != null)
+        //    {
+        //        clickedButton.IsChecked = true;
+        //    }
+        //}
 
         private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -234,5 +234,14 @@ namespace GW_UI
                 OrderTypeTextBlock.Text = "";
             }
         }
+
+        private void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RequestDatePicker.SelectedDate != null)
+            {
+                RequestDateTextBlock.Text = "";
+            }
+        }
+
     }
 }

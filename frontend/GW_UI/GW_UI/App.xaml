@@ -446,6 +446,52 @@
         </Style>
 
         <!-- Стиль для DatePicker -->
+        <!--<Style x:Key="DatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Border 
+                    CornerRadius="10" 
+                    BorderBrush="#3B71CA" 
+                    BorderThickness="2" 
+                    Background="White">
+                            <Grid>
+                                --><!-- Текстовое поле для отображения выбранной даты --><!--
+                                <TextBox 
+                            x:Name="PART_TextBox" 
+                            Margin="10,5,40,5" 
+                            Background="Transparent" 
+                            BorderThickness="0" 
+                            IsReadOnly="True"/>
+
+                                --><!-- Кнопка для открытия календаря --><!--
+                                <Button 
+                            x:Name="PART_Button" 
+                            Width="30" 
+                            Height="30" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" 
+                            Content="▼" 
+                            Background="Transparent" 
+                            BorderThickness="0"/>
+
+                                --><!-- Всплывающее окно с календарем --><!--
+                                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" StaysOpen="False">
+                                    <Border Background="White" BorderBrush="#3B71CA" BorderThickness="2">
+                                        <Calendar x:Name="PART_Calendar"/>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>-->
+
         <Style x:Key="DatePickerStyle" TargetType="DatePicker">
             <Setter Property="Template">
                 <Setter.Value>
@@ -456,16 +502,36 @@
                     BorderThickness="2" 
                     Background="White">
                             <Grid>
-                                <TextBox x:Name="PART_TextBox" 
-                                 Margin="{TemplateBinding Padding}" 
-                                 Background="Transparent" 
-                                 BorderThickness="0"/>
-                                <Button x:Name="PART_Button" 
-                                Width="20" 
-                                HorizontalAlignment="Right" 
-                                Content="▼"
-                                Background="Transparent" 
-                                BorderThickness="0"/>
+                                <!-- Текстовое поле для отображения выбранной даты -->
+                                <TextBox 
+                                    x:Name="PART_TextBox" 
+                                    Margin="10,5,40,5" 
+                                    Background="Transparent" 
+                                    BorderThickness="0" 
+                                    IsReadOnly="True"
+                                    Text="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, StringFormat='dd.MM.yyyy'}"/>
+                                <!-- Кнопка для открытия календаря -->
+                                <Button 
+                                    x:Name="PART_Button" 
+                                    Width="30" 
+                                    Height="30" 
+                                    HorizontalAlignment="Right" 
+                                    VerticalAlignment="Center" 
+                                    Content="📅" 
+                                    Background="Transparent" 
+                                    BorderThickness="0"/>
+                                <!-- Всплывающее окно с календарем -->
+                                <Popup 
+                                    x:Name="PART_Popup" 
+                                    AllowsTransparency="True" 
+                                    Placement="Bottom" 
+                                    StaysOpen="False">
+                                        <Border Background="White" BorderBrush="#3B71CA" BorderThickness="2">
+                                            <Calendar 
+                                                x:Name="PART_Calendar" 
+                                                SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                                        </Border>
+                                </Popup>
                             </Grid>
                         </Border>
                     </ControlTemplate>
