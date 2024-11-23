@@ -26,7 +26,8 @@
                 <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="RequestDateTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <!--<TextBox Name="RequestDateTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>-->
+                <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}"/>
                 <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
