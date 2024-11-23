@@ -20,6 +20,5 @@ require (
 
 require (
 	github.com/go-playground/validator/v10 v10.22.1
-	github.com/stretchr/testify v1.8.4 // indirect
 	golang.org/x/sys v0.17.0 // indirect
 )
