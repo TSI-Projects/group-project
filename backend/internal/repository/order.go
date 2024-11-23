@@ -3,20 +3,23 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/TSI-Projects/group-project/internal/db"
+	"github.com/TSI-Projects/group-project/utils"
 )
 
 type Order struct {
-	ID            uint    `db:"id"              json:"id"                  validate:"omitempty"`
-	OrderStatusID uint    `db:"order_status_id" json:"order_status_id"     validate:"omitempty"`
-	OrderTypeID   uint    `db:"order_type_id"   json:"order_type_id"       validate:"required"`
-	WorkerID      uint    `db:"worker_id"       json:"worker_id"           validate:"required"`
-	CustomerID    uint    `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
-	Reason        string  `db:"reason"          json:"reason"              validate:"required"`
-	Defect        string  `db:"defect"          json:"defect"              validate:"required"`
-	TotalPrice    float64 `db:"total_price"     json:"total_price"         validate:"required"`
-	Prepayment    float64 `db:"prepayment"      json:"prepayment"          validate:"required"`
+	ID            uint       `db:"id"              json:"id"                  validate:"omitempty"`
+	OrderStatusID uint       `db:"order_status_id" json:"order_status_id"     validate:"omitempty"`
+	OrderTypeID   uint       `db:"order_type_id"   json:"order_type_id"       validate:"required"`
+	WorkerID      uint       `db:"worker_id"       json:"worker_id"           validate:"required"`
+	CustomerID    uint       `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
+	Reason        string     `db:"reason"          json:"reason"              validate:"required"`
+	Defect        string     `db:"defect"          json:"defect"              validate:"required"`
+	TotalPrice    float64    `db:"total_price"     json:"total_price"         validate:"required"`
+	Prepayment    float64    `db:"prepayment"      json:"prepayment"          validate:"required"`
+	CreatedAt     *time.Time `db:"created_at"      json:"created_at"          validate:"omitempty"`
 
 	Status   *OrderStatus `db:"order_statuses"  json:"status"              validate:"omitempty"`
 	Type     *OrderType   `db:"order_types"     json:"type"                validate:"omitempty"`
@@ -70,10 +73,27 @@ func (o *OrderRepo) Create(order *Order) error {
 
 	if _, err = tx.Exec(
 		`INSERT INTO orders 
-				(reason, defect, total_price_eur, prepayment_eur, worker_id, customer_id, order_status_id, order_type_id)
+				(reason,
+				 defect,
+				 total_price_eur,
+				 prepayment_eur,
+				 created_at,
+				 worker_id,
+				 customer_id,
+				 order_status_id,
+				 order_type_id)
 			VALUES 
-				($1, $2, $3, $4, $5, $6, $7, $8)`,
-		order.Reason, order.Defect, order.TotalPrice, order.Prepayment, order.WorkerID, order.CustomerID, orderStatusID, order.OrderTypeID); err != nil {
+				($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+		order.Reason,
+		order.Defect,
+		order.TotalPrice,
+		order.Prepayment,
+		utils.GetTimestamp(),
+		order.WorkerID,
+		order.CustomerID,
+		orderStatusID,
+		order.OrderTypeID,
+	); err != nil {
 		return fmt.Errorf("failed to insert order item into orders table: %v", err)
 	}
 
@@ -105,6 +125,7 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 		o.defect,
 		o.total_price_eur,
 		o.prepayment_eur,
+		o.created_at,
 		os.id AS order_status_id,
 		os.ready_at,
 		os.returned_at,
@@ -158,6 +179,7 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 			&order.Defect,
 			&order.TotalPrice,
 			&order.Prepayment,
+			&order.CreatedAt,
 			&order.Status.ID,
 			&order.Status.ReadyAt,
 			&order.Status.ReturnedAt,
@@ -201,6 +223,7 @@ func (l *OrderRepo) GetByID(id uint) (*Order, error) {
 			o.defect,
 			o.total_price_eur,
 			o.prepayment_eur,
+			o.created_at,
 			os.id AS order_status_id,
 			os.ready_at,
 			os.returned_at,
@@ -240,6 +263,7 @@ func (l *OrderRepo) GetByID(id uint) (*Order, error) {
 		&order.Defect,
 		&order.TotalPrice,
 		&order.Prepayment,
+		&order.CreatedAt,
 		&order.Status.ID,
 		&order.Status.ReadyAt,
 		&order.Status.ReturnedAt,
