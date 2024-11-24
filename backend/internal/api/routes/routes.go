@@ -43,5 +43,6 @@ func NewRouter(dbClient db.IDatabase) *mux.Router {
 	router.HandleFunc("/api/customer/{id}", handler.GetCustomerByID).Methods(http.MethodGet)
 
 	router.HandleFunc("/", handler.GetOrders).Methods(http.MethodGet)
+	router.HandleFunc("/ping", handler.Pong).Methods(http.MethodGet)
 	return router
 }
