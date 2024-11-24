@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/TSI-Projects/group-project/internal/api/handlers"
+	"github.com/TSI-Projects/group-project/internal/api/middleware"
 	"github.com/TSI-Projects/group-project/internal/db"
 	"github.com/gorilla/mux"
 )
@@ -11,6 +12,8 @@ import (
 func NewRouter(dbClient db.IDatabase) *mux.Router {
 	router := mux.NewRouter()
 	handler := handlers.NewHandler(dbClient)
+
+	router.Use(middleware.ContentTypeJsonMW)
 
 	router.HandleFunc("/api/orders", handler.GetOrders).Methods(http.MethodGet)
 	router.HandleFunc("/api/orders", handler.CreateOrder).Methods(http.MethodPost)
