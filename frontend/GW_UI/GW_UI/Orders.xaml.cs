@@ -34,6 +34,14 @@ namespace GW_UI
             this.Loaded += OrdersWindow_Loaded; //Сделать отписку
         }
 
+        public enum Language
+        {
+            RU, LV, ENG
+        }
+
+        private Language selectedLanguage = Language.RU;
+
+
         private async void OrdersWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -150,27 +158,27 @@ namespace GW_UI
 
         private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
-            int orderTypeId = (OrderTypeComboBox.SelectedItem as TypeItem).ID;
-            int workerId = (EmployeeNameComboBox.SelectedItem as Employee).ID;
-            double.TryParse(ClientPhoneTextBox.Text, out double customerId);
-            //string requestDate = RequestDateTextBox.Text; //Вот тут вопросики возникают, в дизайне есть графа для даты, а в backend нет
-            string reason = ReasonTextBox.Text;
-            string defectDescription = DefectDescriptionTextBox.Text;
-            double.TryParse(PrepaymentTextBox.Text, out double prepayment);
-            double.TryParse(TotalCostTextBox.Text, out double totalPrice);
-
-            var orderRequest = new Order
+            // Создание объекта Customer
+            var customer = new Customer
             {
-                OrderTypeId = orderTypeId,
-                WorkerId = workerId,
-                CustomerId = customerId,
-                Reason = reason,
-                Defect = defectDescription,
-                TotalPrice = totalPrice,
-                Prepayment = prepayment,
-                LanguageId = languageId
+                PhoneNumber = ClientPhoneTextBox.Text,
+                LanguageId = (int)selectedLanguage
             };
 
+            // Создание объекта Order
+            var orderRequest = new Order
+            {
+                OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
+                WorkerId = (int)EmployeeNameComboBox.SelectedValue,
+                Customer = customer,  // Присваивание объекта Customer
+                Reason = ReasonTextBox.Text,
+                Defect = DefectDescriptionTextBox.Text,
+                TotalPrice = double.Parse(TotalCostTextBox.Text),
+                Prepayment = double.Parse(PrepaymentTextBox.Text),
+                CreatedAt = DateTime.Now
+            };
+
+            // Отправка данных
             try
             {
                 var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
@@ -189,8 +197,6 @@ namespace GW_UI
             }
         }
 
-        private int languageId = 0; //это временный костыль, надо придумать будет как будем языки передавать, если не будет CustomerID, то просто RU LV ENG
-
         private void RuButton_Checked(object sender, RoutedEventArgs e)
         {
 
@@ -205,19 +211,6 @@ namespace GW_UI
         {
 
         }
-
-        //private void UpdateLanguageSelection(ToggleButton clickedButton)
-        //{
-        //    if (activeLanguageButton != null && activeLanguageButton != clickedButton)
-        //    {
-        //        activeLanguageButton.IsChecked = false;
-        //    }
-        //    activeLanguageButton = clickedButton;
-        //    if (clickedButton != null)
-        //    {
-        //        clickedButton.IsChecked = true;
-        //    }
-        //}
 
         private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -242,6 +235,5 @@ namespace GW_UI
                 RequestDateTextBlock.Text = "";
             }
         }
-
     }
 }
