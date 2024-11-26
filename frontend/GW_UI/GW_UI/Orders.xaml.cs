@@ -34,13 +34,12 @@ namespace GW_UI
             this.Loaded += OrdersWindow_Loaded; //Сделать отписку
         }
 
-        public enum Language
+        public enum SelectedLanguage
         {
             RU, LV, ENG
         }
 
-        private Language selectedLanguage = Language.RU;
-
+        private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
 
         private async void OrdersWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -156,13 +155,56 @@ namespace GW_UI
             }
         }
 
+        //private async void AddOrder_Click(object sender, RoutedEventArgs e)
+        //{
+        //    int languageId = (int)selectedLanguage;
+
+        //    // Создание объекта Customer
+        //    var customer = new Customer
+        //    {
+        //        PhoneNumber = ClientPhoneTextBox.Text,
+        //        LanguageId = languageId
+        //    };
+
+        //    // Создание объекта Order
+        //    var orderRequest = new Order
+        //    {
+        //        OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
+        //        WorkerId = (int)EmployeeNameComboBox.SelectedValue,
+        //        Customer = customer,  // Присваивание объекта Customer
+        //        Reason = ReasonTextBox.Text,
+        //        Defect = DefectDescriptionTextBox.Text,
+        //        TotalPrice = double.Parse(TotalCostTextBox.Text),
+        //        Prepayment = double.Parse(PrepaymentTextBox.Text),
+        //        CreatedAt = DateTime.Now
+        //    };
+
+        //    // Отправка данных
+        //    try
+        //    {
+        //        var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            MessageBox.Show("Заказ успешно добавлен!");
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Ошибка добавления заказа: " + response.ReasonPhrase);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
+        //    }
+        //}
+
         private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
-            // Создание объекта Customer
+            // Создание объекта Customer с фиксированным LanguageId
             var customer = new Customer
             {
                 PhoneNumber = ClientPhoneTextBox.Text,
-                LanguageId = (int)selectedLanguage
+                LanguageId = 1  // Фиксируем LanguageId как 1
             };
 
             // Создание объекта Order
@@ -170,7 +212,7 @@ namespace GW_UI
             {
                 OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
                 WorkerId = (int)EmployeeNameComboBox.SelectedValue,
-                Customer = customer,  // Присваивание объекта Customer
+                Customer = customer,
                 Reason = ReasonTextBox.Text,
                 Defect = DefectDescriptionTextBox.Text,
                 TotalPrice = double.Parse(TotalCostTextBox.Text),
@@ -196,6 +238,7 @@ namespace GW_UI
                 MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
             }
         }
+
 
         private void RuButton_Checked(object sender, RoutedEventArgs e)
         {
