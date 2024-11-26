@@ -165,3 +165,9 @@ ALTER TABLE public.order_types OWNER TO app;
 ALTER TABLE public.orders OWNER TO app;
 
 ALTER TABLE public.workers OWNER TO app;
+
+INSERT INTO public.admins (username, password)
+VALUES ('admin', 'admin');
+
+INSERT INTO public.languages (short_name, full_name)
+VALUES ('ru', 'Russian'), ('lv', 'Latvian'), ('en', 'English');
