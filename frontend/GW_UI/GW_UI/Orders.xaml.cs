@@ -185,6 +185,7 @@ namespace GW_UI
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Заказ успешно добавлен!");
+                    ClearInputFields();
                 }
                 else
                 {
@@ -196,6 +197,29 @@ namespace GW_UI
                 MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
             }
         }
+
+        private void ClearInputFields()
+        {
+            // Очистка полей ввода
+            ClientPhoneTextBox.Text = string.Empty;
+            ReasonTextBox.Text = string.Empty;
+            DefectDescriptionTextBox.Text = string.Empty;
+            TotalCostTextBox.Text = string.Empty;
+            PrepaymentTextBox.Text = string.Empty;
+
+            // Сброс выбранных значений в ComboBox
+            OrderTypeComboBox.SelectedIndex = -1;
+            EmployeeNameComboBox.SelectedIndex = -1;
+
+            // Сброс DatePicker
+            RequestDatePicker.SelectedDate = null;
+
+            foreach (var textBox in new TextBox[] { ClientPhoneTextBox, ReasonTextBox, DefectDescriptionTextBox, TotalCostTextBox, PrepaymentTextBox })
+            {
+                AddText(textBox, null);
+            }
+        }
+
 
         private void RuButton_Checked(object sender, RoutedEventArgs e)
         {

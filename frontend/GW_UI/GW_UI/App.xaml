@@ -446,52 +446,6 @@
         </Style>
 
         <!-- Стиль для DatePicker -->
-        <!--<Style x:Key="DatePickerStyle" TargetType="DatePicker">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePicker">
-                        <Border 
-                    CornerRadius="10" 
-                    BorderBrush="#3B71CA" 
-                    BorderThickness="2" 
-                    Background="White">
-                            <Grid>
-                                --><!-- Текстовое поле для отображения выбранной даты --><!--
-                                <TextBox 
-                            x:Name="PART_TextBox" 
-                            Margin="10,5,40,5" 
-                            Background="Transparent" 
-                            BorderThickness="0" 
-                            IsReadOnly="True"/>
-
-                                --><!-- Кнопка для открытия календаря --><!--
-                                <Button 
-                            x:Name="PART_Button" 
-                            Width="30" 
-                            Height="30" 
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Center" 
-                            Content="▼" 
-                            Background="Transparent" 
-                            BorderThickness="0"/>
-
-                                --><!-- Всплывающее окно с календарем --><!--
-                                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" StaysOpen="False">
-                                    <Border Background="White" BorderBrush="#3B71CA" BorderThickness="2">
-                                        <Calendar x:Name="PART_Calendar"/>
-                                    </Border>
-                                </Popup>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Width" Value="400"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
-        </Style>-->
-
         <Style x:Key="DatePickerStyle" TargetType="DatePicker">
             <Setter Property="Template">
                 <Setter.Value>
@@ -543,5 +497,13 @@
             <Setter Property="Margin" Value="0,0,0,15"/>
         </Style>
 
+        <!-- Стиль для кнопок -->
+        <Style x:Key="DataGridButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="3 0"/>
+            <Setter Property="ToolTip" Value="Edit"/>
+        </Style>
     </Application.Resources>
 </Application>

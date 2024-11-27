@@ -39,5 +39,12 @@ namespace GW_UI
             orderPage.Show();
             Close();
         }
+
+        private void OrderListButton_Click(object sender, RoutedEventArgs e)
+        {
+            EditOrders editOrderPage = new EditOrders();
+            editOrderPage.Show();
+            Close();
+        }
     }
 }

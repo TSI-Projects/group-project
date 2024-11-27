@@ -12,15 +12,15 @@
         </Grid.Background>
 
         <!-- Поля ввода для имени и фамилии -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 100 0 0">
             <Grid>
                 <TextBox Name="FirstNameTextBox" Style="{StaticResource TextBoxStyle}" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="FirstNamePlaceholder" Text="Имя" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBlock Name="FirstNamePlaceholder" Text="Имя" Foreground="Gray" VerticalAlignment="Center" Margin="15 0 0 0" IsHitTestVisible="False"/>
             </Grid>
 
             <Grid>
                 <TextBox Name="LastNameTextBox" Style="{StaticResource TextBoxStyle}" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="LastNamePlaceholder" Text="Фамилия" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBlock Name="LastNamePlaceholder" Text="Фамилия" Foreground="Gray" VerticalAlignment="Center" Margin="15 0 0 0" IsHitTestVisible="False"/>
             </Grid>
 
             <Button Content="Добавить" Style="{StaticResource ActionButtonStyle}" Click="AddEmployee_Click" Width="100" Height="30" Margin="10"/>
@@ -42,10 +42,10 @@
         </StackPanel>
 
         <!-- Заголовок -->
-        <TextBlock Text="Работники" FontSize="30" FontWeight="Bold" Foreground="#7A7CFF" HorizontalAlignment="Left" Margin="50,150,0,0"/>
+        <TextBlock Text="Работники" FontSize="30" FontWeight="Bold" Foreground="#7A7CFF" HorizontalAlignment="Left" Margin="50 150 0 0"/>
 
         <!-- Таблица сотрудников -->
-        <DataGrid Name="EmployeeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Width="600" Height="400">
+        <DataGrid Name="EmployeeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50 200 0 0" Width="600" Height="400">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*" />
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*" />
