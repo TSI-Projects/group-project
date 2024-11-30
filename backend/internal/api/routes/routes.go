@@ -46,6 +46,7 @@ func NewRouter(dbClient db.IDatabase) *mux.Router {
 	router.HandleFunc("/api/customer/{id}", middleware.AuthMW(handler.GetCustomerByID)).Methods(http.MethodGet)
 
 	router.HandleFunc("/api/login", handler.Login).Methods(http.MethodPost)
+	router.HandleFunc("/ping", handler.Pong).Methods(http.MethodGet)
 
 	return router
 }
