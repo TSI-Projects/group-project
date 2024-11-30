@@ -13,6 +13,8 @@ func NewRouter(dbClient db.IDatabase) *mux.Router {
 	router := mux.NewRouter()
 	handler := handlers.NewHandler(dbClient)
 
+	router.Use(middleware.ContentTypeJsonMW)
+
 	router.HandleFunc("/api/orders", middleware.AuthMW(handler.GetOrders)).Methods(http.MethodGet)
 	router.HandleFunc("/api/orders", middleware.AuthMW(handler.CreateOrder)).Methods(http.MethodPost)
 	router.HandleFunc("/api/orders", middleware.AuthMW(handler.UpdateOrder)).Methods(http.MethodPut)
