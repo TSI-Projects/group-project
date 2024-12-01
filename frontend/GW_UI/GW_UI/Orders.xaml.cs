@@ -171,6 +171,7 @@ namespace GW_UI
             {
                 OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
                 WorkerId = (int)EmployeeNameComboBox.SelectedValue,
+                ItemName = ProductModelTextBox.Text,
                 Customer = customer,
                 Reason = ReasonTextBox.Text,
                 Defect = DefectDescriptionTextBox.Text,

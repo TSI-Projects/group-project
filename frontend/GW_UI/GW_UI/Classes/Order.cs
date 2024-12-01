@@ -35,6 +35,9 @@ namespace GW_UI
         [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
 
+        [JsonPropertyName("item_name")]
+        public string ItemName { get; set; }
+
         // Добавление статуса заказа как свойства класса
         [JsonPropertyName("status")]
         public OrderStatus Status { get; set; }
