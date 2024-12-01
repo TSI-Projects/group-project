@@ -34,6 +34,13 @@ namespace GW_UI
             this.Loaded += OrdersWindow_Loaded; //Сделать отписку
         }
 
+        public enum SelectedLanguage
+        {
+            RU = 2, LV = 1, ENG = 3
+        }
+
+        private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
+
         private async void OrdersWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -118,18 +125,22 @@ namespace GW_UI
 
         private void RuButton_Click(object sender, RoutedEventArgs e)
         {
+            selectedLanguage = SelectedLanguage.RU;
             HandleLanguageButtonClick(sender as ToggleButton);
         }
 
         private void LvButton_Click(object sender, RoutedEventArgs e)
         {
+            selectedLanguage = SelectedLanguage.LV;
             HandleLanguageButtonClick(sender as ToggleButton);
         }
 
         private void EngButton_Click(object sender, RoutedEventArgs e)
         {
+            selectedLanguage = SelectedLanguage.ENG;
             HandleLanguageButtonClick(sender as ToggleButton);
         }
+
 
         private void HandleLanguageButtonClick(ToggleButton clickedButton)
         {
@@ -150,25 +161,23 @@ namespace GW_UI
 
         private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
-            int orderTypeId = (OrderTypeComboBox.SelectedItem as TypeItem).ID;
-            int workerId = (EmployeeNameComboBox.SelectedItem as Employee).ID;
-            double.TryParse(ClientPhoneTextBox.Text, out double customerId);
-            //string requestDate = RequestDateTextBox.Text; //Вот тут вопросики возникают, в дизайне есть графа для даты, а в backend нет
-            string reason = ReasonTextBox.Text;
-            string defectDescription = DefectDescriptionTextBox.Text;
-            double.TryParse(PrepaymentTextBox.Text, out double prepayment);
-            double.TryParse(TotalCostTextBox.Text, out double totalPrice);
+            var customer = new Customer
+            {
+                PhoneNumber = ClientPhoneTextBox.Text,
+                LanguageId = (int)selectedLanguage
+            };
 
             var orderRequest = new Order
             {
-                OrderTypeId = orderTypeId,
-                WorkerId = workerId,
-                CustomerId = customerId,
-                Reason = reason,
-                Defect = defectDescription,
-                TotalPrice = totalPrice,
-                Prepayment = prepayment,
-                LanguageId = languageId
+                OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
+                WorkerId = (int)EmployeeNameComboBox.SelectedValue,
+                ItemName = ProductModelTextBox.Text,
+                Customer = customer,
+                Reason = ReasonTextBox.Text,
+                Defect = DefectDescriptionTextBox.Text,
+                TotalPrice = double.Parse(TotalCostTextBox.Text),
+                Prepayment = double.Parse(PrepaymentTextBox.Text),
+                CreatedAt = DateTime.Now
             };
 
             try
@@ -177,6 +186,7 @@ namespace GW_UI
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Заказ успешно добавлен!");
+                    ClearInputFields();
                 }
                 else
                 {
@@ -189,7 +199,28 @@ namespace GW_UI
             }
         }
 
-        private int languageId = 0; //это временный костыль, надо придумать будет как будем языки передавать, если не будет CustomerID, то просто RU LV ENG
+        private void ClearInputFields()
+        {
+            // Очистка полей ввода
+            ClientPhoneTextBox.Text = string.Empty;
+            ReasonTextBox.Text = string.Empty;
+            DefectDescriptionTextBox.Text = string.Empty;
+            TotalCostTextBox.Text = string.Empty;
+            PrepaymentTextBox.Text = string.Empty;
+
+            // Сброс выбранных значений в ComboBox
+            OrderTypeComboBox.SelectedIndex = -1;
+            EmployeeNameComboBox.SelectedIndex = -1;
+
+            // Сброс DatePicker
+            RequestDatePicker.SelectedDate = null;
+
+            foreach (var textBox in new TextBox[] { ClientPhoneTextBox, ReasonTextBox, DefectDescriptionTextBox, TotalCostTextBox, PrepaymentTextBox })
+            {
+                AddText(textBox, null);
+            }
+        }
+
 
         private void RuButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -206,19 +237,6 @@ namespace GW_UI
 
         }
 
-        private void UpdateLanguageSelection(ToggleButton clickedButton)
-        {
-            if (activeLanguageButton != null && activeLanguageButton != clickedButton)
-            {
-                activeLanguageButton.IsChecked = false;
-            }
-            activeLanguageButton = clickedButton;
-            if (clickedButton != null)
-            {
-                clickedButton.IsChecked = true;
-            }
-        }
-
         private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (EmployeeNameComboBox.SelectedItem != null)
@@ -232,6 +250,14 @@ namespace GW_UI
             if (OrderTypeComboBox.SelectedItem != null)
             {
                 OrderTypeTextBlock.Text = "";
+            }
+        }
+
+        private void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RequestDatePicker.SelectedDate != null)
+            {
+                RequestDateTextBlock.Text = "";
             }
         }
     }
