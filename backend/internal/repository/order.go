@@ -17,6 +17,7 @@ type Order struct {
 	CustomerID    uint       `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
 	Reason        string     `db:"reason"          json:"reason"              validate:"required"`
 	Defect        string     `db:"defect"          json:"defect"              validate:"required"`
+	ItemName      string     `db:"item_name"       json:"item_name"           validate:"required"`
 	TotalPrice    float64    `db:"total_price"     json:"total_price"         validate:"required"`
 	Prepayment    float64    `db:"prepayment"      json:"prepayment"          validate:"required"`
 	CreatedAt     *time.Time `db:"created_at"      json:"created_at"          validate:"omitempty"`
@@ -75,6 +76,7 @@ func (o *OrderRepo) Create(order *Order) error {
 		`INSERT INTO orders 
 				(reason,
 				 defect,
+				 item_name,
 				 total_price_eur,
 				 prepayment_eur,
 				 created_at,
@@ -83,9 +85,10 @@ func (o *OrderRepo) Create(order *Order) error {
 				 order_status_id,
 				 order_type_id)
 			VALUES 
-				($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+				($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 		order.Reason,
 		order.Defect,
+		order.ItemName,
 		order.TotalPrice,
 		order.Prepayment,
 		utils.GetTimestamp(),
@@ -121,6 +124,7 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 		o.order_type_id,
 		o.worker_id,
 		o.customer_id,
+		o.item_name,
 		o.reason,
 		o.defect,
 		o.total_price_eur,
@@ -175,6 +179,7 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 			&order.OrderTypeID,
 			&order.WorkerID,
 			&order.CustomerID,
+			&order.ItemName,
 			&order.Reason,
 			&order.Defect,
 			&order.TotalPrice,
@@ -219,6 +224,7 @@ func (l *OrderRepo) GetByID(id uint) (*Order, error) {
 			o.order_type_id,
 			o.worker_id,
 			o.customer_id,
+			o.item_name,
 			o.reason,
 			o.defect,
 			o.total_price_eur,
@@ -259,6 +265,7 @@ func (l *OrderRepo) GetByID(id uint) (*Order, error) {
 		&order.OrderTypeID,
 		&order.WorkerID,
 		&order.CustomerID,
+		&order.ItemName,
 		&order.Reason,
 		&order.Defect,
 		&order.TotalPrice,
