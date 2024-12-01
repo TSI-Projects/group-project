@@ -99,6 +99,7 @@
     <Compile Include="Classes\Order.cs" />
     <Compile Include="Classes\OrderStatus.cs" />
     <Compile Include="Classes\TypeItem.cs" />
+    <Compile Include="Classes\Users.cs" />
     <Compile Include="EditOrders.xaml.cs">
       <DependentUpon>EditOrders.xaml</DependentUpon>
     </Compile>
