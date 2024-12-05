@@ -33,7 +33,7 @@ namespace GW_UI
         public double Prepayment { get; set; }
 
         [JsonPropertyName("created_at")]
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [JsonPropertyName("item_name")]
         public string ItemName { get; set; }

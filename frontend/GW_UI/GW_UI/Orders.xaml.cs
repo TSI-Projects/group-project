@@ -159,6 +159,56 @@ namespace GW_UI
             }
         }
 
+        //private async void AddOrder_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var customer = new Customer
+        //    {
+        //        PhoneNumber = ClientPhoneTextBox.Text,
+        //        LanguageId = (int)selectedLanguage
+        //    };
+
+        //    DateTime? selectedDate = RequestDatePicker.SelectedDate;
+        //    if (!selectedDate.HasValue)
+        //    {
+        //        MessageBox.Show("Дата не выбрана.");
+        //        return; // Выходим из метода, если дата не выбрана
+        //    }
+
+        //    //string formattedDate = selectedDate.Value.ToString("yyyy-MM-dd");
+
+        //    var orderRequest = new Order
+        //    {
+        //        OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
+        //        WorkerId = (int)EmployeeNameComboBox.SelectedValue,
+        //        ItemName = ProductModelTextBox.Text,
+        //        Customer = customer,
+        //        Reason = ReasonTextBox.Text,
+        //        Defect = DefectDescriptionTextBox.Text,
+        //        TotalPrice = double.Parse(TotalCostTextBox.Text),
+        //        Prepayment = double.Parse(PrepaymentTextBox.Text),
+        //        //CreatedAt = DateTime.Now
+        //        CreatedAt = selectedDate.Value
+        //    };
+
+        //    try
+        //    {
+        //        var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            MessageBox.Show("Заказ успешно добавлен!");
+        //            ClearInputFields();
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Ошибка добавления заказа: " + response.ReasonPhrase);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
+        //    }
+        //}
+
         private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
             var customer = new Customer
@@ -166,6 +216,15 @@ namespace GW_UI
                 PhoneNumber = ClientPhoneTextBox.Text,
                 LanguageId = (int)selectedLanguage
             };
+
+            DateTime? selectedDate = RequestDatePicker.SelectedDate;
+            if (!selectedDate.HasValue)
+            {
+                MessageBox.Show("Дата не выбрана.");
+                return; // Выходим из метода, если дата не выбрана
+            }
+
+            DateTime utcDate = DateTime.SpecifyKind(selectedDate.Value, DateTimeKind.Utc);
 
             var orderRequest = new Order
             {
@@ -177,7 +236,7 @@ namespace GW_UI
                 Defect = DefectDescriptionTextBox.Text,
                 TotalPrice = double.Parse(TotalCostTextBox.Text),
                 Prepayment = double.Parse(PrepaymentTextBox.Text),
-                CreatedAt = DateTime.Now
+                CreatedAt = utcDate // Передаем DateTime
             };
 
             try
@@ -199,6 +258,7 @@ namespace GW_UI
             }
         }
 
+
         private void ClearInputFields()
         {
             // Очистка полей ввода
@@ -207,9 +267,11 @@ namespace GW_UI
             DefectDescriptionTextBox.Text = string.Empty;
             TotalCostTextBox.Text = string.Empty;
             PrepaymentTextBox.Text = string.Empty;
+            ProductModelTextBox.Text = string.Empty;
+
 
             // Сброс выбранных значений в ComboBox
-            OrderTypeComboBox.SelectedIndex = -1;
+            OrderTypeComboBox.SelectedIndex = -1; //clear
             EmployeeNameComboBox.SelectedIndex = -1;
 
             // Сброс DatePicker
