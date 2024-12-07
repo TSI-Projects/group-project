@@ -96,6 +96,7 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Customer.cs" />
     <Compile Include="Classes\Employee.cs" />
+    <Compile Include="Classes\LanguageConverter.cs" />
     <Compile Include="Classes\Order.cs" />
     <Compile Include="Classes\OrderStatus.cs" />
     <Compile Include="Classes\TypeItem.cs" />

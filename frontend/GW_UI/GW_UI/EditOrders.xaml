@@ -2,9 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:GW_UI.UserControls"
+        xmlns:local="clr-namespace:GW_UI"
         Title="EditOrders" Height="800" Width="1200"
         WindowStyle="None"
         AllowsTransparency="True" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:LanguageConverter x:Key="LanguageConverter"/>
+    </Window.Resources>
     <Grid>
         <!-- Фон -->
         <Grid.Background>
@@ -17,18 +21,22 @@
         <!-- DataGrid для отображения данных -->
         <DataGrid Name="OrdersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20 100 20 20" RowHeight="30" Width="1160" Height="700">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Type" Binding="{Binding OrderTypeId}" Width="80"/>
+                <!--<DataGridTextColumn Header="Type" Binding="{Binding OrderTypeId}" Width="80"/>-->
+                <DataGridTextColumn Header="Type" Binding="{Binding Type.TypeName}" Width="80"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding ItemName}" Width="120"/>
-                <DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="100"/>
+                <!--<DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="100"/>-->
+                <DataGridTextColumn Header="Phone" Binding="{Binding Customer.PhoneNumber}" Width="100"/>
                 <DataGridTextColumn Header="Created" Binding="{Binding CreatedAt, StringFormat=yyyy-MM-dd}" Width="80"/>
                 <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="100"/>
                 <DataGridTextColumn Header="Defect" Binding="{Binding Defect}" Width="150"/>
-                <DataGridTextColumn Header="Worker" Binding="{Binding WorkerId}" Width="120"/>
+                <!--<DataGridTextColumn Header="Worker" Binding="{Binding WorkerId}" Width="120"/>-->
+                <DataGridTextColumn Header="Worker" Binding="{Binding Worker.FullName}" Width="120"/>
                 <DataGridTextColumn Header="Prepayment" Binding="{Binding Prepayment}" Width="60"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice}" Width="80"/>
                 <DataGridCheckBoxColumn Header="A" Binding="{Binding Checkbox1}" Width="40"/>
                 <DataGridCheckBoxColumn Header="B" Binding="{Binding Checkbox2}" Width="40"/>
-                <DataGridTextColumn Header="Language" Binding="{Binding LanguageId}" Width="60"/>
+                <!--<DataGridTextColumn Header="Language" Binding="{Binding LanguageId}" Width="60"/>-->
+                <DataGridTextColumn Header="Language" Binding="{Binding LanguageId, Converter={StaticResource LanguageConverter}}" Width="60"/>
                 <DataGridTextColumn Header="Free" Binding="{Binding Additional}" Width="80"/>
 
                 <DataGridTemplateColumn Width="*">

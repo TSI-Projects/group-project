@@ -36,7 +36,7 @@ namespace GW_UI
 
         public enum SelectedLanguage
         {
-            RU = 2, LV = 1, ENG = 3
+            RU = 1, LV = 2, ENG = 3
         }
 
         private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
@@ -158,56 +158,6 @@ namespace GW_UI
                 activeLanguageButton = clickedButton; // Сделать новую кнопку активной
             }
         }
-
-        //private async void AddOrder_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var customer = new Customer
-        //    {
-        //        PhoneNumber = ClientPhoneTextBox.Text,
-        //        LanguageId = (int)selectedLanguage
-        //    };
-
-        //    DateTime? selectedDate = RequestDatePicker.SelectedDate;
-        //    if (!selectedDate.HasValue)
-        //    {
-        //        MessageBox.Show("Дата не выбрана.");
-        //        return; // Выходим из метода, если дата не выбрана
-        //    }
-
-        //    //string formattedDate = selectedDate.Value.ToString("yyyy-MM-dd");
-
-        //    var orderRequest = new Order
-        //    {
-        //        OrderTypeId = (int)OrderTypeComboBox.SelectedValue,
-        //        WorkerId = (int)EmployeeNameComboBox.SelectedValue,
-        //        ItemName = ProductModelTextBox.Text,
-        //        Customer = customer,
-        //        Reason = ReasonTextBox.Text,
-        //        Defect = DefectDescriptionTextBox.Text,
-        //        TotalPrice = double.Parse(TotalCostTextBox.Text),
-        //        Prepayment = double.Parse(PrepaymentTextBox.Text),
-        //        //CreatedAt = DateTime.Now
-        //        CreatedAt = selectedDate.Value
-        //    };
-
-        //    try
-        //    {
-        //        var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            MessageBox.Show("Заказ успешно добавлен!");
-        //            ClearInputFields();
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Ошибка добавления заказа: " + response.ReasonPhrase);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
-        //    }
-        //}
 
         private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
