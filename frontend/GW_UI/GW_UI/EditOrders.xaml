@@ -33,7 +33,7 @@
                 <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice}" Width="80"/>
                 <DataGridCheckBoxColumn Header="Outsource" Binding="{Binding Checkbox1}" Width="80"/>
                 <DataGridCheckBoxColumn Header="Called Back" Binding="{Binding Checkbox2}" Width="80"/>
-                <DataGridTextColumn Header="Language" Binding="{Binding Customer.LanguageId}" Width="80"/>
+                <DataGridTextColumn Header="Language" Binding="{Binding Customer.LanguageId, Converter={StaticResource LanguageConverter}}" Width="80"/>
 
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>

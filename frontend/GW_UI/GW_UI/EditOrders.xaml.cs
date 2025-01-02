@@ -28,24 +28,6 @@ namespace GW_UI
             this.Loaded += OrderWindow_Loaded;
         }
 
-        //private async void OrderWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    var result = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders");
-        //    //var result = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
-
-        //    //можно оптимизировать, использовать метод вместо фор лупа
-        //    if (result == null)
-        //    {
-        //        return;
-        //    }
-
-        //    foreach (Order emp in result)
-        //    {
-        //        OrdersList.Add(emp);
-        //    }
-
-        //}
-
         private async void OrderWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
