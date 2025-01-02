@@ -38,7 +38,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Style="{StaticResource DeleteButtonStyle}" Click="EditOrder_Click"/>
+                            <Button Style="{StaticResource EditButtonStyle}" Click="EditOrder_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

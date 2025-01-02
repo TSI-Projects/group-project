@@ -302,6 +302,29 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Стиль для кнопки Delete в DataGrid -->
+        <Style x:Key="EditButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <iconPacks:PackIconMaterial Kind="FileEdit" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <!-- Добавление эффекта при наведении -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B0B3FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
         <!-- Стиль для ползунка прокрутки -->
         <Style x:Key="ScrollBarThumbStyle" TargetType="Thumb">
             <Setter Property="Width" Value="20"/>
