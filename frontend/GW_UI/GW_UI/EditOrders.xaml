@@ -31,8 +31,11 @@
                 <DataGridTextColumn Header="Worker" Binding="{Binding Employee.FirstName}" Width="120"/>
                 <DataGridTextColumn Header="Prepayment" Binding="{Binding Prepayment}" Width="80"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice}" Width="80"/>
-                <DataGridCheckBoxColumn Header="Outsource" Binding="{Binding Checkbox1}" Width="80"/>
-                <DataGridCheckBoxColumn Header="Called Back" Binding="{Binding Checkbox2}" Width="80"/>
+                <!--<DataGridCheckBoxColumn Header="Outsource" Binding="{Binding IsOutsourced}" Width="80"/>
+                <DataGridCheckBoxColumn Header="Called Back" Binding="{Binding CustomerNotified}" Width="80"/>-->
+                <DataGridCheckBoxColumn Header="Outsource" Binding="{Binding OrderStatus.IsOutsourced}" Width="80" />
+                <DataGridCheckBoxColumn Header="Called Back" Binding="{Binding OrderStatus.IsRecipientLost}" Width="80" />
+
                 <DataGridTextColumn Header="Language" Binding="{Binding Customer.LanguageId, Converter={StaticResource LanguageConverter}}" Width="80"/>
 
                 <DataGridTemplateColumn Width="*">

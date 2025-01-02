@@ -3,23 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GW_UI
 {
     public partial class EditOrders : Window
     {
         private ObservableCollection<Order> OrdersList = new ObservableCollection<Order>();
-
+        private Button currentEditButton;
 
         public EditOrders()
         {
@@ -58,11 +50,62 @@ namespace GW_UI
             }
         }
 
-
-
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
+            if (sender is Button editButton && OrdersDataGrid.SelectedItem is Order selectedOrder)
+            {
+                // Сохранение ссылки на текущую кнопку
+                currentEditButton = editButton;
 
+                // Включить режим редактирования для DataGrid
+                OrdersDataGrid.IsReadOnly = false;
+
+                // Изменить стиль и функциональность кнопки
+                editButton.Style = (Style)FindResource("SaveButtonStyle");
+                editButton.Click -= EditOrder_Click; // Отписка от предыдущего события
+                editButton.Click += SaveOrder_Click; // Подписка на новое событие
+            }
+            else
+            {
+                MessageBox.Show("Выберите строку для редактирования.");
+            }
+        }
+
+        private async void SaveOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrdersDataGrid.SelectedItem is Order selectedOrder)
+            {
+                try
+                {
+                    // Отправить обновления в API
+                    var response = await App.HttpClient.PutAsJsonAsync($"/api/orders/{selectedOrder.Id}", selectedOrder);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Изменения успешно сохранены!");
+                        OrdersDataGrid.IsReadOnly = true;
+
+                        // Вернуть кнопку в режим "Редактировать"
+                        if (currentEditButton != null)
+                        {
+                            currentEditButton.Style = (Style)FindResource("EditButtonStyle");
+                            currentEditButton.Click -= SaveOrder_Click; // Отписка от события сохранения
+                            currentEditButton.Click += EditOrder_Click; // Подписка на событие редактирования
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите строку для сохранения изменений.");
+            }
         }
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
