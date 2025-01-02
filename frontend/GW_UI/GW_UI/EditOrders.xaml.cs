@@ -28,21 +28,55 @@ namespace GW_UI
             this.Loaded += OrderWindow_Loaded;
         }
 
+        //private async void OrderWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    var result = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders");
+        //    //var result = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
+
+        //    //можно оптимизировать, использовать метод вместо фор лупа
+        //    if (result == null)
+        //    {
+        //        return;
+        //    }
+
+        //    foreach (Order emp in result)
+        //    {
+        //        OrdersList.Add(emp);
+        //    }
+
+        //}
+
         private async void OrderWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var result = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders");
-            //можно оптимизировать, использовать метод вместо фор лупа
-            if (result == null)
+            try
             {
-                return;
-            }
+                var orders = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders");
+                var types = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
+                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
 
-            foreach (Order emp in result)
+                if (orders != null)
+                {
+                    foreach (var order in orders)
+                    {
+                        // Устанавливаем связанные объекты
+                        order.TypeItem = types.FirstOrDefault(t => t.ID == order.OrderTypeId);
+                        order.Employee = employees.FirstOrDefault(r => r.ID == order.WorkerId);
+                    }
+
+                    OrdersList.Clear();
+                    foreach (var order in orders)
+                    {
+                        OrdersList.Add(order);
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                OrdersList.Add(emp);
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}");
             }
-
         }
+
+
 
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
