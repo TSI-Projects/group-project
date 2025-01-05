@@ -286,6 +286,7 @@ func (l *OrderRepo) GetByID(id uint) (*Order, error) {
 }
 
 func (l *OrderRepo) Update(order *Order) error {
+	fmt.Println(order)
 	if _, err := l.DBClient.Exec(
 		`UPDATE orders
 		SET reason = $1,

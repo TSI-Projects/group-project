@@ -40,10 +40,11 @@ namespace GW_UI
 
 
 
-
-
-
+        [JsonPropertyName("type")]
         public TypeItem TypeItem { get; set; }
+        [JsonPropertyName("worker")]
         public Employee Employee { get; set; }
+        [JsonPropertyName("status")]
+        public OrderStatus OrderStatus { get; set; }    
     }
 }

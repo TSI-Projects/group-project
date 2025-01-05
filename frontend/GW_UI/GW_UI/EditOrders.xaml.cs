@@ -25,18 +25,9 @@ namespace GW_UI
             try
             {
                 var orders = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders");
-                var types = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
-                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
 
                 if (orders != null)
                 {
-                    foreach (var order in orders)
-                    {
-                        // Устанавливаем связанные объекты
-                        order.TypeItem = types.FirstOrDefault(t => t.ID == order.OrderTypeId);
-                        order.Employee = employees.FirstOrDefault(r => r.ID == order.WorkerId);
-                    }
-
                     OrdersList.Clear();
                     foreach (var order in orders)
                     {
@@ -73,38 +64,36 @@ namespace GW_UI
 
         private async void SaveOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (OrdersDataGrid.SelectedItem is Order selectedOrder)
+            if (!(OrdersDataGrid.SelectedItem is Order selectedOrder))
             {
-                try
-                {
-                    // Отправить обновления в API
-                    var response = await App.HttpClient.PutAsJsonAsync($"/api/orders/{selectedOrder.Id}", selectedOrder);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Изменения успешно сохранены!");
-                        OrdersDataGrid.IsReadOnly = true;
-
-                        // Вернуть кнопку в режим "Редактировать"
-                        if (currentEditButton != null)
-                        {
-                            currentEditButton.Style = (Style)FindResource("EditButtonStyle");
-                            currentEditButton.Click -= SaveOrder_Click; // Отписка от события сохранения
-                            currentEditButton.Click += EditOrder_Click; // Подписка на событие редактирования
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
-                }
+                return;
             }
-            else
+
+            try
             {
-                MessageBox.Show("Выберите строку для сохранения изменений.");
+                // Отправить обновления в API
+                var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", selectedOrder);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
+                    return;
+                }
+
+                OrdersDataGrid.IsReadOnly = true;
+
+                // Вернуть кнопку в режим "Редактировать"
+                if (currentEditButton != null)
+                {
+                    currentEditButton.Style = (Style)FindResource("EditButtonStyle");
+                    currentEditButton.Click -= SaveOrder_Click; // Отписка от события сохранения
+                    currentEditButton.Click += EditOrder_Click; // Подписка на событие редактирования
+                }
+                MessageBox.Show("Изменения успешно сохранены!");
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
             }
         }
 
