@@ -38,9 +38,10 @@ namespace GW_UI
         [JsonPropertyName("item_name")]
         public string ItemName { get; set; }
 
-        // Добавление статуса заказа как свойства класса
-        [JsonPropertyName("status")]
-        public OrderStatus Status { get; set; }
+
+
+
+
 
         public TypeItem TypeItem { get; set; }
         public Employee Employee { get; set; }
