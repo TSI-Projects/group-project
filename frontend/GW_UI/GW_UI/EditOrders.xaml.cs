@@ -69,8 +69,15 @@ namespace GW_UI
                 return;
             }
 
+
+            OrdersDataGrid.IsReadOnly = false;
             try
             {
+                selectedOrder.TotalPrice = double.Parse(AccessCellByColumnName("Total"));
+                selectedOrder.Prepayment = double.Parse(AccessCellByColumnName("Prepayment"));
+                selectedOrder.Reason = AccessCellByColumnName("Reason");
+                //selectedOrder.OrderStatus.IsOutsourced = bool.Parse(AccessCellByColumnName("Outsource"));
+
                 // Отправить обновления в API
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", selectedOrder);
                 if (!response.IsSuccessStatusCode)
@@ -78,8 +85,6 @@ namespace GW_UI
                     MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
                     return;
                 }
-
-                OrdersDataGrid.IsReadOnly = true;
 
                 // Вернуть кнопку в режим "Редактировать"
                 if (currentEditButton != null)
@@ -95,7 +100,38 @@ namespace GW_UI
             {
                 MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
             }
+
+            OrdersDataGrid.IsReadOnly = true;
         }
+
+        //private void ToggleEditing()
+        //{ 
+        //    OrdersDataGrid.Row
+        //}
+
+        private string AccessCellByColumnName(string columnName)
+        {
+            var item = OrdersDataGrid.SelectedItem; // Get the item at the specified row index
+            var column = OrdersDataGrid.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+
+            if (column == null)
+            {
+                throw new Exception("Column Name is Not Found");
+            }
+
+            var cellContent = column.GetCellContent(item); // Get the cell content
+
+            if (cellContent is TextBlock textBlock)
+            {
+                return textBlock.Text;
+            }
+
+            return "";
+        }
+
+
+
+
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
         {

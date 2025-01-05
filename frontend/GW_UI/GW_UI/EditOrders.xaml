@@ -22,21 +22,19 @@
         <!-- DataGrid для отображения данных -->
         <DataGrid Name="OrdersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20 100 20 100" RowHeight="30" Width="1160" Height="700">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Type" Binding="{Binding TypeItem.TypeName}" Width="80"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding TypeItem.TypeName}" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding ItemName}" Width="100"/>
-                <DataGridTextColumn Header="Phone" Binding="{Binding Customer.PhoneNumber}" Width="100"/>
-                <DataGridTextColumn Header="Created" Binding="{Binding CreatedAt, StringFormat=yyyy-MM-dd}" Width="80"/>
+                <DataGridTextColumn Header="Phone" Binding="{Binding Customer.PhoneNumber}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Created" Binding="{Binding CreatedAt, StringFormat=yyyy-MM-dd}" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="100"/>
                 <DataGridTextColumn Header="Defect" Binding="{Binding Defect}" Width="120"/>
-                <DataGridTextColumn Header="Worker" Binding="{Binding Employee.FirstName}" Width="120"/>
+                <DataGridTextColumn Header="Worker" Binding="{Binding Employee.FirstName}" Width="120" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Prepayment" Binding="{Binding Prepayment}" Width="80"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice}" Width="80"/>
-                <!--<DataGridCheckBoxColumn Header="Outsource" Binding="{Binding IsOutsourced}" Width="80"/>
-                <DataGridCheckBoxColumn Header="Called Back" Binding="{Binding CustomerNotified}" Width="80"/>-->
                 <DataGridCheckBoxColumn Header="Outsource" Binding="{Binding OrderStatus.IsOutsourced}" Width="80" />
                 <DataGridCheckBoxColumn Header="Called Back" Binding="{Binding OrderStatus.IsRecipientLost}" Width="80" />
 
-                <DataGridTextColumn Header="Language" Binding="{Binding Customer.LanguageId, Converter={StaticResource LanguageConverter}}" Width="80"/>
+                <DataGridTextColumn Header="Language" Binding="{Binding Customer.LanguageId, Converter={StaticResource LanguageConverter}}" Width="80" IsReadOnly="True"/>
 
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
