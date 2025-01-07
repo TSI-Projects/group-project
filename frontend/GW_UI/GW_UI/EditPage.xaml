@@ -1,0 +1,89 @@
+﻿<Page x:Class="GW_UI.EditPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uc="clr-namespace:GW_UI.UserControls"
+      Width="1200" Height="800"
+      Title="EditPage">
+
+    <Grid>
+        <!-- Фон -->
+        <Grid.Background>
+            <ImageBrush ImageSource="Images/backgroung.jpg"/>
+        </Grid.Background>
+
+        <!-- Левая колонка с полями -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
+            <Grid>
+                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="OrderTypeComboBox_SelectionChanged"/>
+                <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}" SelectedDateChanged="DatePicker_SelectionChanged"/>
+                <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="ReasonTextBlock" Text="Причина обращения" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="DefectDescriptionTextBlock" Text="Описание дефекта" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- Правая колонка с полями и кнопками выбора языка -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,150,0">
+            <!-- Язык общения -->
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,50,0">
+                <TextBlock Text="Язык общения с клиентом" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <UniformGrid Style="{StaticResource LanguageButtonContainerStyle}">
+                    <ToggleButton Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click" Checked="RuButton_Checked"/>
+                    <ToggleButton Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click" Checked="LvButton_Checked"/>
+                    <ToggleButton Content="ENG" Style="{StaticResource LanguageToggleButtonStyle}" Click="EngButton_Click" Checked="EngButton_Checked"/>
+                </UniformGrid>
+            </StackPanel>
+            <Grid>
+                <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="EmployeeNameComboBox_SelectionChanged"/>
+                <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="PrepaymentTextBlock" Text="Предоплата" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="TotalCostTextBlock" Text="Общая стоимость" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="OutsourceTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="OutsourceTexBlock" Text="Outsource" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="CalledBackTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="CalledBackTexBlock" Text="Перезвонили клиенту" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <TextBox Name="DoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBlock Name="DoneTexBlock" Text="Выполнено" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- Иконка логаут в верхнем правом углу -->
+        <StackPanel Margin="1075,0,25,720" VerticalAlignment="Bottom">
+            <uc:MenuButton Title="Cancel" Icon="Close" Width="100" Click="CancelButton_Click"/>
+        </StackPanel>
+
+        <!-- Иконка назад в нижнем правом углу -->
+        <StackPanel Margin="1075,0,25,40" VerticalAlignment="Bottom">
+            <uc:MenuButton Title="Save and Close" Icon="KeyboardReturn" Width="100" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>
