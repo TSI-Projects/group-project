@@ -14,27 +14,27 @@
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
-                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="OrderTypeComboBox_SelectionChanged"/>
+                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}" SelectedDateChanged="DatePicker_SelectionChanged"/>
+                <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}"/>
                 <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="ReasonTextBlock" Text="Причина обращения" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="DefectDescriptionTextBlock" Text="Описание дефекта" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
         </StackPanel>
@@ -51,28 +51,34 @@
                 </UniformGrid>
             </StackPanel>
             <Grid>
-                <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="EmployeeNameComboBox_SelectionChanged"/>
+                <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="PrepaymentTextBlock" Text="Предоплата" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="TotalCostTextBlock" Text="Общая стоимость" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="OutsourceTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <TextBox Name="OutsourceTextBox" Style="{StaticResource TextBoxStyle}"/>
                 <TextBlock Name="OutsourceTexBlock" Text="Outsource" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="CalledBackTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
+                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
+                </Border>
                 <TextBlock Name="CalledBackTexBlock" Text="Перезвонили клиенту" Style="{StaticResource TextBlockStyle}"/>
+                <CheckBox Name="CalledBackCheck"  Margin="350 20 30 30"/>
             </Grid>
             <Grid>
-                <TextBox Name="DoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
+                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
+                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
+                </Border>
                 <TextBlock Name="DoneTexBlock" Text="Выполнено" Style="{StaticResource TextBlockStyle}"/>
+                <CheckBox Name="OutsourceCheck"  Margin="350 20 30 30"/>
             </Grid>
         </StackPanel>
 

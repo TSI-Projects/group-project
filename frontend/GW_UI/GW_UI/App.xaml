@@ -75,19 +75,28 @@
             </Setter>
             <Setter Property="Width" Value="400"/>
             <Setter Property="Height" Value="45"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 15"/>
         </Style>
 
         <!-- Стиль текстового поля для TextBlock -->
         <Style x:Key="TextBlockStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Margin" Value="15,0,0,0"/>
+            <Setter Property="Margin" Value="15 0 0 0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
 
+        <!-- Стиль текстового поля для TextBlock -->
+        <Style x:Key="StaticButtonStyle" TargetType="TextBlock">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        
         <!-- Стиль кнопки -->
         <Style x:Key="ActionButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="220"/>

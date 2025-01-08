@@ -43,24 +43,39 @@ namespace GW_UI
 
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button editButton && OrdersDataGrid.SelectedItem is Order selectedOrder)
+            Window editPage = new Window
             {
-                // Сохранение ссылки на текущую кнопку
-                currentEditButton = editButton;
+                Title = "Edit Page",
+                Content = new EditPage(),
+                Height = 800,
+                Width = 1200,
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
 
-                // Включить режим редактирования для DataGrid
-                OrdersDataGrid.IsReadOnly = false;
-
-                // Изменить стиль и функциональность кнопки
-                editButton.Style = (Style)FindResource("SaveButtonStyle");
-                editButton.Click -= EditOrder_Click; // Отписка от предыдущего события
-                editButton.Click += SaveOrder_Click; // Подписка на новое событие
-            }
-            else
-            {
-                MessageBox.Show("Выберите строку для редактирования.");
-            }
+            editPage.ShowDialog();
         }
+
+        //private void EditOrder_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (sender is Button editButton && OrdersDataGrid.SelectedItem is Order selectedOrder)
+        //    {
+        //        // Сохранение ссылки на текущую кнопку
+        //        currentEditButton = editButton;
+
+        //        // Включить режим редактирования для DataGrid
+        //        OrdersDataGrid.IsReadOnly = false;
+
+        //        // Изменить стиль и функциональность кнопки
+        //        editButton.Style = (Style)FindResource("SaveButtonStyle");
+        //        editButton.Click -= EditOrder_Click; // Отписка от предыдущего события
+        //        editButton.Click += SaveOrder_Click; // Подписка на новое событие
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Выберите строку для редактирования.");
+        //    }
+        //}
 
         private async void SaveOrder_Click(object sender, RoutedEventArgs e)
         {
