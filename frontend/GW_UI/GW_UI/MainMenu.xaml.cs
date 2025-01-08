@@ -46,5 +46,12 @@ namespace GW_UI
             editOrderPage.Show();
             Close();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CompletedOrders completedOrders = new CompletedOrders();
+            completedOrders.Show();
+            Close();
+        }
     }
 }

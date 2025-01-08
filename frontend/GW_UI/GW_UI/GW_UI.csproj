@@ -101,6 +101,9 @@
     <Compile Include="Classes\OrderStatus.cs" />
     <Compile Include="Classes\TypeItem.cs" />
     <Compile Include="Classes\Users.cs" />
+    <Compile Include="CompletedOrders.xaml.cs">
+      <DependentUpon>CompletedOrders.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditOrders.xaml.cs">
       <DependentUpon>EditOrders.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
     <Compile Include="UserControls\MenuButton.xaml.cs">
       <DependentUpon>MenuButton.xaml</DependentUpon>
     </Compile>
+    <Page Include="CompletedOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
