@@ -43,39 +43,29 @@ namespace GW_UI
 
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
-            Window editPage = new Window
+            if (!(OrdersDataGrid.SelectedItem is Order selectedOrder))
             {
-                Title = "Edit Page",
-                Content = new EditPage(),
-                Height = 800,
-                Width = 1200,
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
+                return;
+            }
 
-            editPage.ShowDialog();
+
+
+            //Window editPage = new Window
+            //{
+            //    Title = "Edit Page",
+            //    Content = new EditPage(selectedOrder),
+            //    Height = 800,
+            //    Width = 1200,
+            //    Owner = this,
+            //    WindowStartupLocation = WindowStartupLocation.CenterOwner
+            //};
+
+            //editPage.ShowDialog();
+
+            EditWindow editWindow = new EditWindow(selectedOrder);
+            editWindow.Show();
+            Close();
         }
-
-        //private void EditOrder_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (sender is Button editButton && OrdersDataGrid.SelectedItem is Order selectedOrder)
-        //    {
-        //        // Сохранение ссылки на текущую кнопку
-        //        currentEditButton = editButton;
-
-        //        // Включить режим редактирования для DataGrid
-        //        OrdersDataGrid.IsReadOnly = false;
-
-        //        // Изменить стиль и функциональность кнопки
-        //        editButton.Style = (Style)FindResource("SaveButtonStyle");
-        //        editButton.Click -= EditOrder_Click; // Отписка от предыдущего события
-        //        editButton.Click += SaveOrder_Click; // Подписка на новое событие
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Выберите строку для редактирования.");
-        //    }
-        //}
 
         private async void SaveOrder_Click(object sender, RoutedEventArgs e)
         {
@@ -84,14 +74,12 @@ namespace GW_UI
                 return;
             }
 
-
             OrdersDataGrid.IsReadOnly = false;
             try
             {
                 selectedOrder.TotalPrice = double.Parse(AccessCellByColumnName("Total"));
                 selectedOrder.Prepayment = double.Parse(AccessCellByColumnName("Prepayment"));
                 selectedOrder.Reason = AccessCellByColumnName("Reason");
-                //selectedOrder.OrderStatus.IsOutsourced = bool.Parse(AccessCellByColumnName("Outsource"));
 
                 // Отправить обновления в API
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", selectedOrder);

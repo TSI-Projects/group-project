@@ -13,18 +13,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GW_UI
 {
-    public partial class EditPage : Page
+    public partial class EditWindow : Window
     {
         private ToggleButton activeLanguageButton;
         public ObservableCollection<TypeItem> OrderTypes { get; set; }
         public Order order;
 
-        public EditPage(Order order)
+        public EditWindow(Order order)
         {
             InitializeComponent();
             this.order = order;
@@ -48,7 +47,6 @@ namespace GW_UI
             }
             return -1;
         }
-
 
         public enum SelectedLanguage
         {
@@ -76,7 +74,6 @@ namespace GW_UI
                 //    }
                 //}
 
-                //OrderTypeComboBox.SelectedIndex = GetItemIdByName(order.TypeItem.TypeName);
                 OrderTypeComboBox.SelectedValue = order.TypeItem.ID;
             }
             catch (Exception ex)
@@ -157,7 +154,5 @@ namespace GW_UI
         {
 
         }
-
-
     }
 }
