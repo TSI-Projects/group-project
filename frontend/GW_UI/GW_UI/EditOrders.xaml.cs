@@ -48,20 +48,6 @@ namespace GW_UI
                 return;
             }
 
-
-
-            //Window editPage = new Window
-            //{
-            //    Title = "Edit Page",
-            //    Content = new EditPage(selectedOrder),
-            //    Height = 800,
-            //    Width = 1200,
-            //    Owner = this,
-            //    WindowStartupLocation = WindowStartupLocation.CenterOwner
-            //};
-
-            //editPage.ShowDialog();
-
             EditWindow editWindow = new EditWindow(selectedOrder);
             editWindow.Show();
             Close();

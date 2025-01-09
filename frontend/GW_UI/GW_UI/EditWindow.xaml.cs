@@ -21,7 +21,10 @@ namespace GW_UI
     {
         private ToggleButton activeLanguageButton;
         public ObservableCollection<TypeItem> OrderTypes { get; set; }
+        public ObservableCollection<Employee> Employees { get; set; }
+
         public Order order;
+        public Employee emp;
 
         public EditWindow(Order order)
         {
@@ -32,20 +35,11 @@ namespace GW_UI
             OrderTypes = new ObservableCollection<TypeItem>();
             OrderTypeComboBox.ItemsSource = OrderTypes;
 
+            Employees = new ObservableCollection<Employee>();
+            EmployeeNameComboBox.ItemsSource = Employees;
+
             PrepaymentTextBox.Text = order.Prepayment.ToString();
             this.Loaded += OrdersWindow_Loaded;
-        }
-
-        private int GetItemIdByName(string name)
-        {
-            for (int i = 0; i < OrderTypes.Count; i++)
-            {
-                if (OrderTypes[i].TypeName == name)
-                {
-                    return i;
-                }
-            }
-            return -1;
         }
 
         public enum SelectedLanguage
@@ -65,23 +59,27 @@ namespace GW_UI
                         OrderTypes.Add(type);
                     }
                 }
-                //var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers"); //Поправить
-                //if (employees != null)
-                //{
-                //    foreach (Employee employee in employees)
-                //    {
-                //        Employees.Add(employee);
-                //    }
-                //}
+                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers"); //Поправить
+                if (employees != null)
+                {
+                    foreach (Employee employee in employees)
+                    {
+                        Employees.Add(employee);
+                    }
+                }
 
                 OrderTypeComboBox.SelectedValue = order.TypeItem.ID;
+
+                if (emp != null)
+                {
+                    EmployeeNameComboBox.SelectedValue = emp.ID;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка загрузки типов заказов: " + ex.Message);
             }
         }
-
 
         private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
 
@@ -147,7 +145,9 @@ namespace GW_UI
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Window.GetWindow(this)?.Close();
+            EditOrders editOrders = new EditOrders();
+            editOrders.Show();
+            Close();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
