@@ -21,6 +21,9 @@ func NewRouter(dbClient db.IDatabase) *mux.Router {
 	router.HandleFunc("/api/order/{id}", middleware.AuthMW(handler.DeleteOrder)).Methods(http.MethodDelete)
 	router.HandleFunc("/api/order/{id}", middleware.AuthMW(handler.GetOrderByID)).Methods(http.MethodGet)
 
+	router.HandleFunc("/api/orders/active", middleware.AuthMW(handler.GetActiveOrders)).Methods(http.MethodGet)
+	router.HandleFunc("/api/orders/completed", middleware.AuthMW(handler.GetCompletedOrders)).Methods(http.MethodGet)
+
 	router.HandleFunc("/api/orders/types", middleware.AuthMW(handler.GetOrderTypes)).Methods(http.MethodGet)
 	router.HandleFunc("/api/orders/types", middleware.AuthMW(handler.CreateOrderType)).Methods(http.MethodPost)
 	router.HandleFunc("/api/orders/types", middleware.AuthMW(handler.UpdateOrderType)).Methods(http.MethodPut)

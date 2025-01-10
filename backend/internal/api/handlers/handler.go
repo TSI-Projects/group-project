@@ -9,7 +9,7 @@ import (
 
 type Handler struct {
 	DBClient      db.IDatabase
-	OrderRepo     repository.IRepository[repository.Order]
+	OrderRepo     repository.IOrderRepository[repository.Order]
 	OrderTypeRepo repository.IRepository[repository.OrderType]
 	WorkerRepo    repository.IRepository[repository.Worker]
 	LanguageRepo  repository.IRepository[repository.Language]
