@@ -10,17 +10,17 @@ import (
 )
 
 type Order struct {
-	ID            uint       `db:"id"              json:"id"                  validate:"omitempty"`
-	OrderStatusID uint       `db:"order_status_id" json:"order_status_id"     validate:"omitempty"`
-	OrderTypeID   uint       `db:"order_type_id"   json:"order_type_id"       validate:"required"`
-	WorkerID      uint       `db:"worker_id"       json:"worker_id"           validate:"required"`
-	CustomerID    uint       `db:"customer_id"     json:"customer_id"         validate:"omitempty"`
-	Reason        string     `db:"reason"          json:"reason"              validate:"required"`
-	Defect        string     `db:"defect"          json:"defect"              validate:"required"`
-	ItemName      string     `db:"item_name"       json:"item_name"           validate:"required"`
-	TotalPrice    float64    `db:"total_price"     json:"total_price"         validate:"required"`
-	Prepayment    float64    `db:"prepayment"      json:"prepayment"          validate:"required"`
-	CreatedAt     *time.Time `db:"created_at"      json:"created_at"          validate:"omitempty"`
+	ID            uint       `db:"id"              json:"id"                    validate:"omitempty"`
+	OrderStatusID uint       `db:"order_status_id" json:"order_status_id"       validate:"omitempty"`
+	OrderTypeID   uint       `db:"order_type_id"   json:"order_type_id"         validate:"required"`
+	WorkerID      uint       `db:"worker_id"       json:"worker_id"             validate:"required"`
+	CustomerID    uint       `db:"customer_id"     json:"customer_id"           validate:"omitempty"`
+	Reason        string     `db:"reason"          json:"reason"                validate:"required"`
+	Defect        string     `db:"defect"          json:"defect"                validate:"required"`
+	ItemName      string     `db:"item_name"       json:"item_name"             validate:"required"`
+	TotalPrice    float64    `db:"total_price"     json:"total_price"           validate:"required"`
+	Prepayment    float64    `db:"prepayment"      json:"prepayment"            validate:"required"`
+	CreatedAt     *time.Time `db:"created_at"      json:"created_at,omitempty"  validate:"omitempty"`
 
 	Status   *OrderStatus `db:"order_statuses"  json:"status"              validate:"omitempty"`
 	Type     *OrderType   `db:"order_types"     json:"type"                validate:"omitempty"`
