@@ -37,6 +37,8 @@ namespace GW_UI
 
             Employees = new ObservableCollection<Employee>();
             EmployeeNameComboBox.ItemsSource = Employees;
+            
+            //выгружаем на страницу
 
             PrepaymentTextBox.Text = order.Prepayment.ToString();
             this.Loaded += OrdersWindow_Loaded;
@@ -147,8 +149,35 @@ namespace GW_UI
             Close();
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (OutsourceCheck.IsChecked == true)
+                {
+                    order.OrderStatus.ReadyAt = DateTime.Now;
+                }
+
+                order.Prepayment = double.Parse(PrepaymentTextBox.Text); 
+                //загрузить все данные в ордер, 
+
+
+
+                    var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
+                    return;
+                }
+
+                MessageBox.Show("Изменения успешно сохранены!");
+      
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
+            }
 
         }
     }

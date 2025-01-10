@@ -24,7 +24,7 @@ namespace GW_UI
         {
             try
             {
-                var orders = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders");
+                var orders = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders/active");
 
                 if (orders != null)
                 {
@@ -92,11 +92,6 @@ namespace GW_UI
 
             OrdersDataGrid.IsReadOnly = true;
         }
-
-        //private void ToggleEditing()
-        //{ 
-        //    OrdersDataGrid.Row
-        //}
 
         private string AccessCellByColumnName(string columnName)
         {

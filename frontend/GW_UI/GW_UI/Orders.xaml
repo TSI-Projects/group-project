@@ -25,10 +25,10 @@
                 <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
-            <Grid>
+            <!--<Grid>
                 <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}" SelectedDateChanged="DatePicker_SelectionChanged"/>
                 <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
-            </Grid>
+            </Grid>-->
             <Grid>
                 <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="ReasonTextBlock" Text="Причина обращения" Style="{StaticResource TextBlockStyle}"/>

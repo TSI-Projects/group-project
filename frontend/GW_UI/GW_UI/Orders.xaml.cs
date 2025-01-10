@@ -167,14 +167,14 @@ namespace GW_UI
                 LanguageId = (int)selectedLanguage
             };
 
-            DateTime? selectedDate = RequestDatePicker.SelectedDate;
-            if (!selectedDate.HasValue)
-            {
-                MessageBox.Show("Дата не выбрана.");
-                return; // Выходим из метода, если дата не выбрана
-            }
+            //DateTime? selectedDate = RequestDatePicker.SelectedDate;
+            //if (!selectedDate.HasValue)
+            //{
+            //    MessageBox.Show("Дата не выбрана.");
+            //    return; // Выходим из метода, если дата не выбрана
+            //}
 
-            DateTime utcDate = DateTime.SpecifyKind(selectedDate.Value, DateTimeKind.Utc);
+            //DateTime utcDate = DateTime.SpecifyKind(selectedDate.Value, DateTimeKind.Utc);
 
             var orderRequest = new Order
             {
@@ -186,7 +186,7 @@ namespace GW_UI
                 Defect = DefectDescriptionTextBox.Text,
                 TotalPrice = double.Parse(TotalCostTextBox.Text),
                 Prepayment = double.Parse(PrepaymentTextBox.Text),
-                CreatedAt = utcDate // Передаем DateTime
+                //CreatedAt = utcDate // Передаем DateTime
             };
 
             try
@@ -224,8 +224,8 @@ namespace GW_UI
             OrderTypeComboBox.SelectedIndex = -1; //clear
             EmployeeNameComboBox.SelectedIndex = -1;
 
-            // Сброс DatePicker
-            RequestDatePicker.SelectedDate = null;
+            //// Сброс DatePicker
+            //RequestDatePicker.SelectedDate = null;
 
             foreach (var textBox in new TextBox[] { ClientPhoneTextBox, ReasonTextBox, DefectDescriptionTextBox, TotalCostTextBox, PrepaymentTextBox })
             {
@@ -265,12 +265,12 @@ namespace GW_UI
             }
         }
 
-        private void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (RequestDatePicker.SelectedDate != null)
-            {
-                RequestDateTextBlock.Text = "";
-            }
-        }
+        //private void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (RequestDatePicker.SelectedDate != null)
+        //    {
+        //        RequestDateTextBlock.Text = "";
+        //    }
+        //}
     }
 }
