@@ -17,12 +17,12 @@ type OrderStatus struct {
 }
 
 type OrderStatusRepo struct {
-	DBClient *db.DBClient
+	DBClient db.IDatabase
 }
 
-func NewOrderStatusRepo(dbClient db.DBClient) IRepository[OrderStatus] {
+func NewOrderStatusRepo(dbClient db.IDatabase) IRepository[OrderStatus] {
 	return &OrderStatusRepo{
-		DBClient: &dbClient,
+		DBClient: dbClient,
 	}
 }
 

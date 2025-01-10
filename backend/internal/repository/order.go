@@ -253,12 +253,18 @@ func (o *OrderRepo) GetByID(id uint) (*Order, error) {
 
 func (o *OrderRepo) Update(order *Order) error {
 	if _, err := o.DBClient.Exec(
-		`UPDATE orders
-		SET reason = $1,
-			defect = $2,
-			total_price_eur = $3,
-			prepayment_eur = $4
-		WHERE id = $5 ;`,
+		`UPDATE orders 
+		SET order_type_id   = $1,
+			worker_id       = $2,
+			item_name       = $3,
+			reason          = $4,
+			defect          = $5,
+			total_price_eur = $6,
+			prepayment_eur  = $7
+		WHERE id = $8;`,
+		order.OrderTypeID,
+		order.WorkerID,
+		order.ItemName,
 		order.Reason,
 		order.Defect,
 		order.TotalPrice,
@@ -267,7 +273,6 @@ func (o *OrderRepo) Update(order *Order) error {
 	); err != nil {
 		return fmt.Errorf("failed to make exec request: %w", err)
 	}
-
 	return nil
 }
 

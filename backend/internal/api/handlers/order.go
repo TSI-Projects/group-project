@@ -201,7 +201,19 @@ func (h *Handler) UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.OrderRepo.Update(order); err != nil {
-		log.Errorf("failed to create order: %v", err)
+		log.Errorf("failed to update order: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	if err := h.OrderStatusRepo.Update(order.Status); err != nil {
+		log.Errorf("failed to update order status: %v", err)
+		w.Write([]byte("Internal Error"))
+		return
+	}
+
+	if err := h.CustomerRepo.Update(order.Customer); err != nil {
+		log.Errorf("failed to update customer: %v", err)
 		w.Write([]byte("Internal Error"))
 		return
 	}
