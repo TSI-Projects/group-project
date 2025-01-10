@@ -69,11 +69,8 @@ namespace GW_UI
                 }
 
                 OrderTypeComboBox.SelectedValue = order.TypeItem.ID;
+                EmployeeNameComboBox.SelectedValue = order.Employee.ID;
 
-                if (emp != null)
-                {
-                    EmployeeNameComboBox.SelectedValue = emp.ID;
-                }
             }
             catch (Exception ex)
             {
