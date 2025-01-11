@@ -20,6 +20,7 @@ namespace GW_UI
 
         [JsonPropertyName("customer_notified_at")]
         public DateTime? CustomerNotifiedAt { get; set; }
+        public bool IsCustomerNotified => CustomerNotifiedAt != null;
 
         [JsonPropertyName("is_outsourced")]
         public bool IsOutsourced { get; set; }

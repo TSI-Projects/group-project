@@ -29,6 +29,13 @@ namespace GW_UI
         public Employee emp;
         public Customer customer;
 
+        public enum SelectedLanguage
+        {
+            RU = 1, LV = 2, ENG = 3
+        }
+
+        private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
+
         public EditWindow(Order order)
         {
             InitializeComponent();
@@ -51,30 +58,29 @@ namespace GW_UI
             DefectDescriptionTextBox.Text = order.Defect.ToString();
             TotalCostTextBox.Text = order.TotalPrice.ToString();
             PrepaymentTextBox.Text = order.Prepayment.ToString();
-            var languageId = order.Customer.LanguageId; // Получите language_id из базы данных
-            switch (languageId)
+
+            switch (order.Customer.LanguageId)
             {
                 case 1:
                     RuButton.IsChecked = true;
+                    activeLanguageButton = RuButton;
+                    selectedLanguage = SelectedLanguage.RU;
                     break;
                 case 2:
                     LvButton.IsChecked = true;
+                    activeLanguageButton = LvButton;
+                    selectedLanguage = SelectedLanguage.LV;
                     break;
                 case 3:
                     EngButton.IsChecked = true;
-                    break;
-                default:
-                    RuButton.IsChecked = true; // По умолчанию RU
+                    activeLanguageButton = EngButton;
+                    selectedLanguage = SelectedLanguage.ENG;
                     break;
             }
 
             this.Loaded += OrdersWindow_Loaded;
         }
 
-        public enum SelectedLanguage
-        {
-            RU = 1, LV = 2, ENG = 3
-        }
 
         private async void OrdersWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -106,7 +112,6 @@ namespace GW_UI
                 MessageBox.Show("Ошибка загрузки типов заказов: " + ex.Message);
             }
         }
-        private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -183,22 +188,17 @@ namespace GW_UI
                 {
                     order.OrderStatus.ReadyAt = DateTime.Now;
                 }
+
                 if (CalledBackCheck.IsChecked == true)
                 {
                     order.OrderStatus.CustomerNotifiedAt = DateTime.Now;
                 }
-
-                //if (OutsourceCheck.IsChecked == true)
-                //{
-                //    order.OrderStatus.IsOutsourced = true;
-                //}
-                //else
-                //{
-                //    order.OrderStatus.IsOutsourced = false;
-                //}
+                else
+                {
+                    order.OrderStatus.CustomerNotifiedAt = null;
+                }
 
                 order.OrderStatus.IsOutsourced = (bool)OutsourceCheck.IsChecked;
-
                 order.WorkerId = (int)EmployeeNameComboBox.SelectedValue;
                 order.OrderTypeId = (int)OrderTypeComboBox.SelectedValue;
                 order.Customer.PhoneNumber = ClientPhoneTextBox.Text;
@@ -206,7 +206,9 @@ namespace GW_UI
                 order.ItemName = ProductModelTextBox.Text;
                 order.Defect = DefectDescriptionTextBox.Text;
                 order.TotalPrice = double.Parse(TotalCostTextBox.Text);
-                order.Prepayment = double.Parse(PrepaymentTextBox.Text); 
+                order.Prepayment = double.Parse(PrepaymentTextBox.Text);
+                order.Customer.LanguageId = (int)selectedLanguage;
+
                 //загрузить все данные в ордер 
 
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
