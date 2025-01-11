@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -42,6 +43,8 @@ namespace GW_UI
 
 
             //выгружаем на страницу
+            OutsourceCheck.IsChecked = order.OrderStatus.IsOutsourced;
+            CalledBackCheck.IsChecked = order.OrderStatus.CustomerNotifiedAt != null;
             ProductModelTextBox.Text = order.ItemName.ToString();   
             ClientPhoneTextBox.Text = order.Customer.PhoneNumber.ToString();
             ReasonTextBox.Text = order.Reason.ToString();
@@ -180,11 +183,31 @@ namespace GW_UI
                 {
                     order.OrderStatus.ReadyAt = DateTime.Now;
                 }
+                if (CalledBackCheck.IsChecked == true)
+                {
+                    order.OrderStatus.CustomerNotifiedAt = DateTime.Now;
+                }
 
+                //if (OutsourceCheck.IsChecked == true)
+                //{
+                //    order.OrderStatus.IsOutsourced = true;
+                //}
+                //else
+                //{
+                //    order.OrderStatus.IsOutsourced = false;
+                //}
+
+                order.OrderStatus.IsOutsourced = (bool)OutsourceCheck.IsChecked;
+
+                order.WorkerId = (int)EmployeeNameComboBox.SelectedValue;
+                order.OrderTypeId = (int)OrderTypeComboBox.SelectedValue;
+                order.Customer.PhoneNumber = ClientPhoneTextBox.Text;
+                order.Reason = ReasonTextBox.Text;
+                order.ItemName = ProductModelTextBox.Text;
+                order.Defect = DefectDescriptionTextBox.Text;
+                order.TotalPrice = double.Parse(TotalCostTextBox.Text);
                 order.Prepayment = double.Parse(PrepaymentTextBox.Text); 
-                //загрузить все данные в ордер, 
-
-
+                //загрузить все данные в ордер 
 
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
                 if (!response.IsSuccessStatusCode)
@@ -194,7 +217,6 @@ namespace GW_UI
                 }
 
                 MessageBox.Show("Изменения успешно сохранены!");
-      
             }
 
             catch (Exception ex)
