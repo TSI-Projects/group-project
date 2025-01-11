@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,15 +16,37 @@ using System.Windows.Shapes;
 
 namespace GW_UI
 {
-    /// <summary>
-    /// Interaction logic for CompletedOrders.xaml
-    /// </summary>
     public partial class CompletedOrders : Window
     {
+        private ObservableCollection<Order> OrdersList = new ObservableCollection<Order>();
+
         public CompletedOrders()
         {
             InitializeComponent();
         }
+
+        private async void OrderWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var orders = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders/completed");
+
+                if (orders != null)
+                {
+                    OrdersList.Clear();
+                    foreach (var order in orders)
+                    {
+                        OrdersList.Add(order);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}");
+            }
+        }
+
+
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
