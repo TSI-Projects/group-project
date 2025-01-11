@@ -167,14 +167,7 @@ namespace GW_UI
                 LanguageId = (int)selectedLanguage
             };
 
-            //DateTime? selectedDate = RequestDatePicker.SelectedDate;
-            //if (!selectedDate.HasValue)
-            //{
-            //    MessageBox.Show("Дата не выбрана.");
-            //    return; // Выходим из метода, если дата не выбрана
-            //}
-
-            //DateTime utcDate = DateTime.SpecifyKind(selectedDate.Value, DateTimeKind.Utc);
+            DateTime utcDate = DateTime.SpecifyKind(DateTime.Today, DateTimeKind.Utc);
 
             var orderRequest = new Order
             {
@@ -186,7 +179,7 @@ namespace GW_UI
                 Defect = DefectDescriptionTextBox.Text,
                 TotalPrice = double.Parse(TotalCostTextBox.Text),
                 Prepayment = double.Parse(PrepaymentTextBox.Text),
-                //CreatedAt = utcDate // Передаем DateTime
+                CreatedAt = utcDate // Передаем DateTime
             };
 
             try
@@ -264,13 +257,5 @@ namespace GW_UI
                 OrderTypeTextBlock.Text = "";
             }
         }
-
-        //private void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if (RequestDatePicker.SelectedDate != null)
-        //    {
-        //        RequestDateTextBlock.Text = "";
-        //    }
-        //}
     }
 }

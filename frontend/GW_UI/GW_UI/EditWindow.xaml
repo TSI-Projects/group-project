@@ -7,9 +7,9 @@
         Title="EditWindow"
         WindowStyle="None"
         AllowsTransparency="True" WindowStartupLocation="CenterScreen">
-    <!--<Window.Resources>
+    <Window.Resources>
         <local:LanguageConverter x:Key="LanguageConverter"/>
-    </Window.Resources>-->
+    </Window.Resources>
     <Grid>
         <!-- Фон -->
         <Grid.Background>
@@ -50,9 +50,9 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,50,0">
                 <TextBlock Text="Язык общения с клиентом" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <UniformGrid Style="{StaticResource LanguageButtonContainerStyle}">
-                    <ToggleButton Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click" Checked="RuButton_Checked"/>
-                    <ToggleButton Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click" Checked="LvButton_Checked"/>
-                    <ToggleButton Content="ENG" Style="{StaticResource LanguageToggleButtonStyle}" Click="EngButton_Click" Checked="EngButton_Checked"/>
+                    <ToggleButton Name ="RuButton" Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click" Checked="RuButton_Checked"/>
+                    <ToggleButton Name ="LvButton" Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click" Checked="LvButton_Checked"/>
+                    <ToggleButton Name ="EngButton" Content="ENG" Style="{StaticResource LanguageToggleButtonStyle}" Click="EngButton_Click" Checked="EngButton_Checked"/>
                 </UniformGrid>
             </StackPanel>
             <Grid>
@@ -68,8 +68,11 @@
                 <TextBlock Name="TotalCostTextBlock" Text="Общая стоимость" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="OutsourceTextBox" Style="{StaticResource TextBoxStyle}"/>
-                <TextBlock Name="OutsourceTexBlock" Text="Outsource" Style="{StaticResource TextBlockStyle}"/>
+                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
+                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
+                </Border>
+                <TextBlock Name="OutsourceTexBlock" Text="Передано на 'outsource' " Style="{StaticResource TextBlockStyle}"/>
+                <CheckBox Name="OutsourceCheck"  Margin="350 20 30 30"/>
             </Grid>
             <Grid>
                 <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
@@ -79,6 +82,14 @@
                 <CheckBox Name="CalledBackCheck"  Margin="350 20 30 30"/>
             </Grid>
             <Grid>
+                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
+                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
+                </Border>
+                <TextBlock Name="DoneTexBlock" Text="Выполнено" Style="{StaticResource TextBlockStyle}"/>
+                <CheckBox Name="DoneCheck"  Margin="350 20 30 30"/>
+            </Grid>
+
+            <!--<Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="287*"/>
                     <ColumnDefinition Width="113*"/>
@@ -87,8 +98,8 @@
                     <TextBlock Style="{StaticResource StaticButtonStyle}"/>
                 </Border>
                 <TextBlock Name="DoneTexBlock" Text="Выполнено" Style="{StaticResource TextBlockStyle}" Grid.ColumnSpan="2" Margin="15,0,0,0"/>
-                <CheckBox Name="OutsourceCheck"  Margin="63,20,30,30" Grid.Column="1"/>
-            </Grid>
+                <CheckBox Name="DoneCheck"  Margin="63,20,30,30" Grid.Column="1"/>
+            </Grid>-->
         </StackPanel>
 
         <!-- Иконка логаут в верхнем правом углу -->

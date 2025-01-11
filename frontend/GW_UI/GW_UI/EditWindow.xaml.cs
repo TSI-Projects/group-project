@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GW_UI.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace GW_UI
 
         public Order order;
         public Employee emp;
+        public Customer customer;
 
         public EditWindow(Order order)
         {
@@ -37,10 +39,32 @@ namespace GW_UI
 
             Employees = new ObservableCollection<Employee>();
             EmployeeNameComboBox.ItemsSource = Employees;
-            
-            //выгружаем на страницу
 
+
+            //выгружаем на страницу
+            ProductModelTextBox.Text = order.ItemName.ToString();   
+            ClientPhoneTextBox.Text = order.Customer.PhoneNumber.ToString();
+            ReasonTextBox.Text = order.Reason.ToString();
+            DefectDescriptionTextBox.Text = order.Defect.ToString();
+            TotalCostTextBox.Text = order.TotalPrice.ToString();
             PrepaymentTextBox.Text = order.Prepayment.ToString();
+            var languageId = order.Customer.LanguageId; // Получите language_id из базы данных
+            switch (languageId)
+            {
+                case 1:
+                    RuButton.IsChecked = true;
+                    break;
+                case 2:
+                    LvButton.IsChecked = true;
+                    break;
+                case 3:
+                    EngButton.IsChecked = true;
+                    break;
+                default:
+                    RuButton.IsChecked = true; // По умолчанию RU
+                    break;
+            }
+
             this.Loaded += OrdersWindow_Loaded;
         }
 
@@ -79,7 +103,6 @@ namespace GW_UI
                 MessageBox.Show("Ошибка загрузки типов заказов: " + ex.Message);
             }
         }
-
         private SelectedLanguage selectedLanguage = SelectedLanguage.RU;
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -153,7 +176,7 @@ namespace GW_UI
         {
             try
             {
-                if (OutsourceCheck.IsChecked == true)
+                if (DoneCheck.IsChecked == true)
                 {
                     order.OrderStatus.ReadyAt = DateTime.Now;
                 }
@@ -163,7 +186,7 @@ namespace GW_UI
 
 
 
-                    var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
+                var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
                 if (!response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
