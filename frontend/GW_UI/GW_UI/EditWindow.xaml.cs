@@ -166,6 +166,11 @@ namespace GW_UI
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            ExitToEditMenu();
+        }
+
+        private void ExitToEditMenu()
+        {
             EditOrders editOrders = new EditOrders();
             editOrders.Show();
             Close();
@@ -210,13 +215,13 @@ namespace GW_UI
                 }
 
                 MessageBox.Show("Изменения успешно сохранены!");
+                ExitToEditMenu();
             }
 
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
             }
-
         }
 
         private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
