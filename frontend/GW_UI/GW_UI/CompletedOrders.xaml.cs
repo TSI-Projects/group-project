@@ -23,6 +23,8 @@ namespace GW_UI
         public CompletedOrders()
         {
             InitializeComponent();
+            OrdersDataGrid.ItemsSource = OrdersList; // источник данных для DataGrid
+            this.Loaded += OrderWindow_Loaded;
         }
 
         private async void OrderWindow_Loaded(object sender, RoutedEventArgs e)
