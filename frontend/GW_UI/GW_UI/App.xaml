@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             
 
              StartupUri="Login.xaml"
              Startup="Application_Startup">
@@ -11,7 +12,7 @@
         <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
             <Setter Property="Width" Value="220"/>
             <Setter Property="Height" Value="35"/>
-            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Margin" Value="0 10"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#b8b9fc"/>
@@ -36,7 +37,7 @@
         <Style x:Key="InputPasswordBoxStyle" TargetType="PasswordBox">
             <Setter Property="Width" Value="220"/>
             <Setter Property="Height" Value="35"/>
-            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Margin" Value="0 10"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#b8b9fc"/>
@@ -74,17 +75,39 @@
             </Setter>
             <Setter Property="Width" Value="400"/>
             <Setter Property="Height" Value="45"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 15"/>
         </Style>
 
         <!-- Стиль текстового поля для TextBlock -->
         <Style x:Key="TextBlockStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Margin" Value="15,0,0,0"/>
+            <Setter Property="Margin" Value="15 0 0 0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
+
+        <!-- Стиль текстового поля для TextBlock -->
+        <Style x:Key="StaticButtonStyle" TargetType="TextBlock">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- Стиль текстового поля для Заголовка -->
+        <Style x:Key="TitleTextBlock" TargetType="TextBlock">
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 20 0 0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="35"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Foreground" Value="White"/>
+
         </Style>
 
         <!-- Стиль кнопки -->
@@ -96,6 +119,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -119,7 +143,8 @@
         <!-- Стиль для текстов с ссылками -->
         <Style x:Key="LinkTextStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#7A7CFF"/>
-            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Margin" Value="5 0"/>
+            <Setter Property="Margin" Value="5 0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -131,7 +156,7 @@
         <!-- Стиль для обычного текста -->
         <Style x:Key="NormalTextStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Margin" Value="5 0"/>
         </Style>
         
         <!--Стиль для иконок Метро-->
@@ -223,7 +248,7 @@
         <Style x:Key="LanguageButtonContainerStyle" TargetType="UniformGrid">
             <Setter Property="Columns" Value="3"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,0,0,20"/>
+            <Setter Property="Margin" Value="0 0 0 20"/>
         </Style>
 
         <!-- Стиль для заголовков -->
@@ -269,7 +294,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Padding" Value="8 4"/>
             <Setter Property="Foreground" Value="Black"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
@@ -288,6 +313,50 @@
                 <Setter.Value>
                     <DataTemplate>
                         <iconPacks:PackIconMaterial Kind="DeleteOutline" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <!-- Добавление эффекта при наведении -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B0B3FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для кнопки Edit в DataGrid -->
+        <Style x:Key="EditButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <iconPacks:PackIconMaterial Kind="FileEdit" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <!-- Добавление эффекта при наведении -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B0B3FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для кнопки SaveData в DataGrid -->
+        <Style x:Key="SaveButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <iconPacks:PackIconMaterial Kind="ContentSave" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -444,5 +513,67 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Стиль для DatePicker -->
+        <Style x:Key="DatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Border 
+                    CornerRadius="10" 
+                    BorderBrush="#3B71CA" 
+                    BorderThickness="2" 
+                    Background="White">
+                            <Grid>
+                                <!-- Текстовое поле для отображения выбранной даты -->
+                                <TextBox 
+                                    x:Name="PART_TextBox" 
+                                    Margin="10 5 40 5" 
+                                    Background="Transparent" 
+                                    BorderThickness="0" 
+                                    IsReadOnly="True"
+                                    Text="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, StringFormat='dd.MM.yyyy'}"/>
+                                <!-- Кнопка для открытия календаря -->
+                                <Button 
+                                    x:Name="PART_Button" 
+                                    Width="30" 
+                                    Height="30" 
+                                    HorizontalAlignment="Right" 
+                                    VerticalAlignment="Center" 
+                                    Content="📅" 
+                                    Background="Transparent" 
+                                    BorderThickness="0"/>
+                                <!-- Всплывающее окно с календарем -->
+                                <Popup 
+                                    x:Name="PART_Popup" 
+                                    AllowsTransparency="True" 
+                                    Placement="Bottom" 
+                                    StaysOpen="False">
+                                        <Border Background="White" BorderBrush="#3B71CA" BorderThickness="2">
+                                            <Calendar 
+                                                x:Name="PART_Calendar" 
+                                                SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                                        </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 15"/>
+        </Style>
+
+        <!-- Стиль для кнопок -->
+        <Style x:Key="DataGridButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="3 0"/>
+            <Setter Property="ToolTip" Value="Edit"/>
+        </Style>
+        
     </Application.Resources>
 </Application>

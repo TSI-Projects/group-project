@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GW_UI
 {
@@ -21,22 +12,33 @@ namespace GW_UI
             InitializeComponent();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string login = UsernameTextBox.Text;
-            string password = PasswordBox.Password;
+            var users = new Users
+            {
+                Username = UsernameTextBox.Text,
+                Password = PasswordBox.Password
+            };
 
-            // Проверка логина и пароля
-            if (login == "1" && password == "111")
+            try
             {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.Show();
-                this.Close();
+                var response = await App.HttpClient.PostAsJsonAsync("/api/login", users);
+                if (response.IsSuccessStatusCode)
+                {
+                    MainMenu mainMenu = new MainMenu();
+                    mainMenu.Show();
+                    var token = await response.Content.ReadAsStringAsync();
+                    App.SetToken(token);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Wrong Login or Password " + response.ReasonPhrase);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Сообщение об ошибке при неверном логине или пароле
-                MessageBox.Show("Неверный логин или пароль", "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
             }
         }
 
@@ -44,5 +46,11 @@ namespace GW_UI
         {
             Application.Current.Shutdown();
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Please contact support for help with logging in.", "Login Assistance", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
     }
 }
