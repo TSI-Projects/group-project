@@ -41,6 +41,62 @@
 
 ## API
 
+### How to ping backend?
+
+To ensure that the backend is working and available, use the `/ping` endpoint with the `GET` method. You can use tools like `curl`, Postman, or your preferred HTTP client.
+
+**Expected Response:**
+
+```plaintext
+pong
+```
+
+### How to Log In to the System?
+
+To log in to the system, use the `/api/login` endpoint with the `POST` method. The default credentials are:
+
+- **Username:** `admin`
+- **Password:** `admin`
+
+**Expected Request:**
+
+```json
+{
+  "username": "admin",
+  "password": "admin"
+}
+```
+
+**Expected Response:**
+
+The response will vary based on the validity of the provided credentials.
+
+**Success Response:**
+
+```json
+{
+  "success": true,
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY2MTYyMDksImlhdCI6MTczNjUyOTgwOSwidXNlcm5h8"
+}
+```
+
+**Failed Response:**
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_AUTH_DATA",
+    "message": "Username or password is invalid"
+  }
+}
+```
+
+**Possible Error Messages:**
+
+- `INVALID_AUTH_DATA` - Occurs if the username or password is incorrect.
+- `INCORRECT_PAYLOAD` - Occurs if the request payload is missing required fields (e.g., `username` or `password`).
+
 ### GET /api/orders
 
 Retrieves a list of all existing orders.
