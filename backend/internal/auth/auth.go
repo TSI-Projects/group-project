@@ -22,8 +22,6 @@ type AuthClient struct {
 
 const (
 	INVALID_AUTH_DATA Error = "Username or password is invalid"
-	USER_NOT_FOUND    Error = "User not found"
-	INVALID_PASSWORD  Error = "Invalid password"
 )
 
 func NewAuthClient(dbClient db.IDatabase) IAuthClient {
@@ -41,12 +39,12 @@ func (a *AuthClient) Login(username, password string) (string, error) {
 
 	if admin == nil {
 		log.Errorf("User %s not found", username)
-		return "", USER_NOT_FOUND
+		return "", INVALID_AUTH_DATA
 	}
 
 	if password != admin.Password {
 		log.Errorf("Invalid password '%s' for user '%s'", password, username)
-		return "", INVALID_PASSWORD
+		return "", INVALID_AUTH_DATA
 	}
 
 	token, err := token.Generate(username)
