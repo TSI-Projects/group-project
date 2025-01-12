@@ -65,7 +65,7 @@ namespace GW_UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка загрузки типов заказов: " + ex.Message);
+                MessageBox.Show("Error loading order types: " + ex.Message);
             }
         }
 
@@ -114,15 +114,15 @@ namespace GW_UI
             }
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
-            if (placeholder != null)
-            {
-                placeholder.Visibility = string.IsNullOrEmpty(textBox.Text) ? Visibility.Visible : Visibility.Hidden;
-            }
-        }
+        //private void OnTextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    TextBox textBox = sender as TextBox;
+        //    TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
+        //    if (placeholder != null)
+        //    {
+        //        placeholder.Visibility = string.IsNullOrEmpty(textBox.Text) ? Visibility.Visible : Visibility.Hidden;
+        //    }
+        //}
 
         private void RuButton_Click(object sender, RoutedEventArgs e)
         {
@@ -188,17 +188,17 @@ namespace GW_UI
                 var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Заказ успешно добавлен!");
+                    MessageBox.Show("Order added successfully!");
                     ClearInputFields();
                 }
                 else
                 {
-                    MessageBox.Show("Ошибка добавления заказа: " + response.ReasonPhrase);
+                    MessageBox.Show("Order addition error: " + response.ReasonPhrase);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
+                MessageBox.Show("Error when sending data: " + ex.Message);
             }
         }
 

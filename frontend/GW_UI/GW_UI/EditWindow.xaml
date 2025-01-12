@@ -22,23 +22,23 @@
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
-                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="OrderTypeComboBox_SelectionChanged"/>
                 <TextBlock Name="OrderTypeTextBlock" Text="Item Type" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}"/>
+                <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="ProductModelTextBlock" Text="Product Model" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText" PreviewTextInput="TextBox_PreviewTextInput"/>
                 <TextBlock Name="ClientPhoneTextBlock" Text="Telephone Nr." Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}"/>
+                <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="ReasonTextBlock" Text="The Reason for the Request" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}"/>
+                <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
                 <TextBlock Name="DefectDescriptionTextBlock" Text="Description of the Defect" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
@@ -62,15 +62,16 @@
                 </UniformGrid>
             </StackPanel>
             <Grid>
-                <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="EmployeeNameComboBox_SelectionChanged"/>
                 <TextBlock Name="EmployeeNameTextBlock" Text="Employee who accepted the order" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText" PreviewTextInput="TextBox_PreviewTextInput"/>
                 <TextBlock Name="PrepaymentTextBlock" Text="Prepayment" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText" PreviewTextInput="TextBox_PreviewTextInput"/>
                 <TextBlock Name="TotalCostTextBlock" Text="Total Cost" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>

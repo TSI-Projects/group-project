@@ -229,6 +229,49 @@ namespace GW_UI
 
         }
 
+        private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EmployeeNameComboBox.SelectedItem != null)
+            {
+                EmployeeNameTextBlock.Text = "";
+            }
+        }
+
+        private void OrderTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OrderTypeComboBox.SelectedItem != null)
+            {
+                OrderTypeTextBlock.Text = "";
+            }
+        }
+
+        private void RemoveText(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
+                if (placeholder != null)
+                {
+                    placeholder.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+
+        private void AddText(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && string.IsNullOrEmpty(textBox.Text))
+            {
+                TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
+                if (placeholder != null)
+                {
+                    placeholder.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Проверка, что вводимые символы — это только цифры
