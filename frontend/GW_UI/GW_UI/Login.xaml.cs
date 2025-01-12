@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GW_UI.Classes;
+using System;
+using System.Collections.Generic;
 using System.Net.Http.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,22 +25,19 @@ namespace GW_UI
             try
             {
                 var response = await App.HttpClient.PostAsJsonAsync("/api/login", users);
-                if (response.IsSuccessStatusCode)
+                var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                if (!loginResponse.Success)
                 {
-                    MainMenu mainMenu = new MainMenu();
-                    mainMenu.Show();
-                    var token = await response.Content.ReadAsStringAsync();
-                    App.SetToken(token);
-                    this.Close();
+                    throw new Exception(loginResponse.Error.Message);
                 }
-                else
-                {
-                    MessageBox.Show("Wrong Login or Password " + response.ReasonPhrase);
-                }
+                App.SetToken(loginResponse.AccessToken);
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.Show();
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при отправке данных: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -51,6 +50,5 @@ namespace GW_UI
         {
             MessageBox.Show("Please contact support for help with logging in.", "Login Assistance", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
     }
 }

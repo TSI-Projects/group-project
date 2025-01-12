@@ -39,7 +39,6 @@ namespace GW_UI
             Employees = new ObservableCollection<Employee>();
             EmployeeNameComboBox.ItemsSource = Employees;
 
-
             //выгружаем на страницу
             OutsourceCheck.IsChecked = order.OrderStatus.IsOutsourced;
             CalledBackCheck.IsChecked = order.OrderStatus.CustomerNotifiedAt != null;
@@ -166,6 +165,11 @@ namespace GW_UI
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            ExitToEditMenu();
+        }
+
+        private void ExitToEditMenu()
+        {
             EditOrders editOrders = new EditOrders();
             editOrders.Show();
             Close();
@@ -175,6 +179,21 @@ namespace GW_UI
         {
             try
             {
+                // Проверка на заполненность обязательных полей
+                if (OrderTypeComboBox.SelectedValue == null ||
+                    EmployeeNameComboBox.SelectedValue == null ||
+                    string.IsNullOrWhiteSpace(ClientPhoneTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(ReasonTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(ProductModelTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(DefectDescriptionTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(TotalCostTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(PrepaymentTextBox.Text))
+                {
+                    MessageBox.Show("All fields must be filled in before saving the order.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Сохранение изменений
                 if (DoneCheck.IsChecked == true)
                 {
                     order.OrderStatus.ReadyAt = DateTime.Now;
@@ -200,23 +219,20 @@ namespace GW_UI
                 order.Prepayment = double.Parse(PrepaymentTextBox.Text);
                 order.Customer.LanguageId = (int)selectedLanguage;
 
-                //загрузить все данные в ордер 
-
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
+                    MessageBox.Show("Error saving changes: " + response.ReasonPhrase);
                     return;
                 }
 
-                MessageBox.Show("Изменения успешно сохранены!");
+                MessageBox.Show("The changes were saved successfully!");
+                ExitToEditMenu();
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
+                MessageBox.Show($"Error saving changes: {ex.Message}");
             }
-
         }
 
         private void EmployeeNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
