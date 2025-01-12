@@ -7,3 +7,9 @@ type IRepository[T any] interface {
 	Update(*T) error
 	Delete(uint) error
 }
+
+type IOrderRepository[T any] interface {
+	IRepository[T]
+	GetActiveOrders() ([]*T, error)
+	GetCompletedOrders() ([]*T, error)
+}
