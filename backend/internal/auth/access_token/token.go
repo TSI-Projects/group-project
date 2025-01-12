@@ -14,8 +14,10 @@ var SecretKey = []byte(uuid.New().String())
 func Generate(username string) (string, error) {
 	claims := jwt.MapClaims{
 		"username": username,
-		"exp":      time.Now().Add(24 * time.Hour).Unix(),
 		"iat":      time.Now().Unix(),
+		// The token will not have an expiration time as long as the "exp" field remains commented out.
+		// Uncomment the "exp" field to set the token to expire in 24 hours.
+		// "exp":      time.Now().Add(24 * time.Hour).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

@@ -2,14 +2,23 @@ package response
 
 type Status string
 
-const (
-	Error   Status = "error"
-	Success Status = "success"
-)
-
-type BaseResponse[T any] struct {
-	Status  Status `json:"status"`
+type Error struct {
+	Code    string `json:"code"`
 	Message string `json:"message"`
-	Error   string `json:"error,omitempty"`
-	Data    T      `json:"data,omitempty"`
+}
+
+type BaseResponse struct {
+	Success bool   `json:"success"`
+	Error   *Error `json:"error,omitempty"`
+}
+
+func (r *BaseResponse) NewError(code, message string) {
+	r.Error = &Error{
+		Code:    code,
+		Message: message,
+	}
+}
+
+func (r *BaseResponse) SetSuccessStatus(isSuccess bool) {
+	r.Success = isSuccess
 }
