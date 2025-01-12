@@ -106,16 +106,6 @@ namespace GW_UI
             }
         }
 
-        //private void OnTextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    TextBox textBox = sender as TextBox;
-        //    TextBlock placeholder = (TextBlock)this.FindName($"{textBox.Name.Replace("TextBox", "TextBlock")}");
-        //    if (placeholder != null)
-        //    {
-        //        placeholder.Visibility = string.IsNullOrEmpty(textBox.Text) ? Visibility.Visible : Visibility.Hidden;
-        //    }
-        //}
-
         private void RuButton_Click(object sender, RoutedEventArgs e)
         {
             selectedLanguage = SelectedLanguage.RU;
@@ -154,6 +144,20 @@ namespace GW_UI
 
         private async void AddOrder_Click(object sender, RoutedEventArgs e)
         {
+            // Проверка на заполненность обязательных полей
+            if (OrderTypeComboBox.SelectedValue == null ||
+                EmployeeNameComboBox.SelectedValue == null ||
+                string.IsNullOrWhiteSpace(ProductModelTextBox.Text) ||
+                string.IsNullOrWhiteSpace(ClientPhoneTextBox.Text) ||
+                string.IsNullOrWhiteSpace(ReasonTextBox.Text) ||
+                string.IsNullOrWhiteSpace(DefectDescriptionTextBox.Text) ||
+                string.IsNullOrWhiteSpace(TotalCostTextBox.Text) ||
+                string.IsNullOrWhiteSpace(PrepaymentTextBox.Text))
+            {
+                MessageBox.Show("All fields must be filled in before saving the order.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var customer = new Customer
             {
                 PhoneNumber = ClientPhoneTextBox.Text,
@@ -172,7 +176,7 @@ namespace GW_UI
                 Defect = DefectDescriptionTextBox.Text,
                 TotalPrice = double.Parse(TotalCostTextBox.Text),
                 Prepayment = double.Parse(PrepaymentTextBox.Text),
-                CreatedAt = utcDate // Передаем DateTime
+                CreatedAt = utcDate
             };
 
             try
@@ -185,7 +189,7 @@ namespace GW_UI
                 }
                 else
                 {
-                    MessageBox.Show("Order addition error: " + response.ReasonPhrase);
+                    MessageBox.Show("Error when adding an order: " + response.ReasonPhrase);
                 }
             }
             catch (Exception ex)
@@ -193,7 +197,6 @@ namespace GW_UI
                 MessageBox.Show("Error when sending data: " + ex.Message);
             }
         }
-
 
         private void ClearInputFields()
         {
@@ -214,7 +217,6 @@ namespace GW_UI
                 AddText(textBox, null);
             }
         }
-
 
         private void RuButton_Checked(object sender, RoutedEventArgs e)
         {

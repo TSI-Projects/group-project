@@ -176,10 +176,73 @@ namespace GW_UI
             Close();
         }
 
+        //private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (DoneCheck.IsChecked == true)
+        //        {
+        //            order.OrderStatus.ReadyAt = DateTime.Now;
+        //        }
+
+        //        if (CalledBackCheck.IsChecked == true)
+        //        {
+        //            order.OrderStatus.CustomerNotifiedAt = DateTime.Now;
+        //        }
+        //        else
+        //        {
+        //            order.OrderStatus.CustomerNotifiedAt = null;
+        //        }
+
+        //        order.OrderStatus.IsOutsourced = (bool)OutsourceCheck.IsChecked;
+        //        order.WorkerId = (int)EmployeeNameComboBox.SelectedValue;
+        //        order.OrderTypeId = (int)OrderTypeComboBox.SelectedValue;
+        //        order.Customer.PhoneNumber = ClientPhoneTextBox.Text;
+        //        order.Reason = ReasonTextBox.Text;
+        //        order.ItemName = ProductModelTextBox.Text;
+        //        order.Defect = DefectDescriptionTextBox.Text;
+        //        order.TotalPrice = double.Parse(TotalCostTextBox.Text);
+        //        order.Prepayment = double.Parse(PrepaymentTextBox.Text);
+        //        order.Customer.LanguageId = (int)selectedLanguage;
+
+        //        //загрузить все данные в ордер 
+
+        //        var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
+        //            return;
+        //        }
+
+        //        MessageBox.Show("Изменения успешно сохранены!");
+        //        ExitToEditMenu();
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
+        //    }
+        //}
+
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Проверка на заполненность обязательных полей
+                if (OrderTypeComboBox.SelectedValue == null ||
+                    EmployeeNameComboBox.SelectedValue == null ||
+                    string.IsNullOrWhiteSpace(ClientPhoneTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(ReasonTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(ProductModelTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(DefectDescriptionTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(TotalCostTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(PrepaymentTextBox.Text))
+                {
+                    MessageBox.Show("All fields must be filled in before saving the order.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Сохранение изменений
                 if (DoneCheck.IsChecked == true)
                 {
                     order.OrderStatus.ReadyAt = DateTime.Now;
@@ -205,22 +268,19 @@ namespace GW_UI
                 order.Prepayment = double.Parse(PrepaymentTextBox.Text);
                 order.Customer.LanguageId = (int)selectedLanguage;
 
-                //загрузить все данные в ордер 
-
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
+                    MessageBox.Show("Error saving changes: " + response.ReasonPhrase);
                     return;
                 }
 
-                MessageBox.Show("Изменения успешно сохранены!");
+                MessageBox.Show("The changes were saved successfully!");
                 ExitToEditMenu();
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
+                MessageBox.Show($"Error saving changes: {ex.Message}");
             }
         }
 

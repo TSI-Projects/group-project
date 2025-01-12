@@ -50,6 +50,5 @@ namespace GW_UI
         {
             MessageBox.Show("Please contact support for help with logging in.", "Login Assistance", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
     }
 }
