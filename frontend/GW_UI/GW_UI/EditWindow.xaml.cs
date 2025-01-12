@@ -39,7 +39,6 @@ namespace GW_UI
             Employees = new ObservableCollection<Employee>();
             EmployeeNameComboBox.ItemsSource = Employees;
 
-
             //выгружаем на страницу
             OutsourceCheck.IsChecked = order.OrderStatus.IsOutsourced;
             CalledBackCheck.IsChecked = order.OrderStatus.CustomerNotifiedAt != null;
@@ -175,54 +174,6 @@ namespace GW_UI
             editOrders.Show();
             Close();
         }
-
-        //private async void SaveButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (DoneCheck.IsChecked == true)
-        //        {
-        //            order.OrderStatus.ReadyAt = DateTime.Now;
-        //        }
-
-        //        if (CalledBackCheck.IsChecked == true)
-        //        {
-        //            order.OrderStatus.CustomerNotifiedAt = DateTime.Now;
-        //        }
-        //        else
-        //        {
-        //            order.OrderStatus.CustomerNotifiedAt = null;
-        //        }
-
-        //        order.OrderStatus.IsOutsourced = (bool)OutsourceCheck.IsChecked;
-        //        order.WorkerId = (int)EmployeeNameComboBox.SelectedValue;
-        //        order.OrderTypeId = (int)OrderTypeComboBox.SelectedValue;
-        //        order.Customer.PhoneNumber = ClientPhoneTextBox.Text;
-        //        order.Reason = ReasonTextBox.Text;
-        //        order.ItemName = ProductModelTextBox.Text;
-        //        order.Defect = DefectDescriptionTextBox.Text;
-        //        order.TotalPrice = double.Parse(TotalCostTextBox.Text);
-        //        order.Prepayment = double.Parse(PrepaymentTextBox.Text);
-        //        order.Customer.LanguageId = (int)selectedLanguage;
-
-        //        //загрузить все данные в ордер 
-
-        //        var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
-        //        if (!response.IsSuccessStatusCode)
-        //        {
-        //            MessageBox.Show("Ошибка сохранения изменений: " + response.ReasonPhrase);
-        //            return;
-        //        }
-
-        //        MessageBox.Show("Изменения успешно сохранены!");
-        //        ExitToEditMenu();
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
-        //    }
-        //}
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
