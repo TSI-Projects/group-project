@@ -15,10 +15,10 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
             <Grid>
                 <TextBox Name="TypeTextBox" Style="{StaticResource TextBoxStyle}" Width="200" Height="30" Margin="10" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="TypePlaceholder" Text="Тип" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
+                <TextBlock Name="TypePlaceholder" Text="Type" Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"/>
             </Grid>
             
-            <Button Content="Добавить" Style="{StaticResource ActionButtonStyle}" Click="AddType_Click" Width="100" Height="30" Margin="10"/>
+            <Button Content="Add" Style="{StaticResource ActionButtonStyle}" Click="AddType_Click" Width="100" Height="30" Margin="10"/>
         </StackPanel>
 
         <!-- Иконка логаут в верхнем правом углу -->
@@ -37,12 +37,15 @@
         </StackPanel>
 
         <!-- Заголовок -->
-        <TextBlock Text="Типы" Style="{StaticResource HeadingTextBlockStyle}" Margin="50 150 0 0"/>
+        <TextBlock Text="Item Types" Style="{StaticResource TitleTextBlock}"/>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Item Types" Style="{StaticResource HeadingTextBlockStyle}" Margin="50 150 0 0"/>
 
         <!-- Таблица типов -->
         <DataGrid Name="TypeGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Width="300" Height="400">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Тип" Binding="{Binding TypeName}" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding TypeName}" Width="*"/>
                 <DataGridTemplateColumn Width="60">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

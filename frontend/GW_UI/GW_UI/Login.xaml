@@ -13,6 +13,7 @@
         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="400"
                 Background="#BBFFFFFF" CornerRadius="10">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                <!--<TextBlock Text="Login" Style="{StaticResource HeadingTextBlockStyle}" HorizontalAlignment="Center" Margin="0 0 0 20"/>-->
                 <TextBlock Text="Login" Style="{StaticResource HeadingTextBlockStyle}" HorizontalAlignment="Center" Margin="0 0 0 20"/>
 
                 <!-- Поле ввода логина -->
@@ -26,7 +27,11 @@
 
                 <!-- Дополнительные ссылки и текст (потом добавим что нибудь) -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                    <TextBlock Text="Can't log in?" Style="{StaticResource NormalTextStyle}"/>
+                    <TextBlock Style="{StaticResource NormalTextStyle}">
+                        <Hyperlink Click="Hyperlink_Click">
+                            Can't log in?
+                        </Hyperlink>
+                    </TextBlock>
                 </StackPanel>
             </StackPanel>
         </Border>

@@ -56,5 +56,11 @@ namespace GW_UI
         {
             Application.Current.Shutdown();
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Please contact support for help with logging in.", "Login Assistance", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
     }
 }

@@ -11,16 +11,19 @@
             <ImageBrush ImageSource="Images/backgroung.jpg"/>
         </Grid.Background>
 
+        <!-- Заголовок -->
+        <TextBlock Text="Main Menu" Style="{StaticResource TitleTextBlock}"/>
+
         <!-- Главное меню -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,0">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 100 0 0">
             <!-- Кнопка Выполненные -->
-            <Button Content="Выполненные" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0,20" Click="Button_Click"/>
+            <Button Content="Completed Orders" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0 20" Click="Button_Click"/>
 
             <!-- Кнопка Действующие -->
-            <Button Content="Действующие" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0,20" Click="OrderListButton_Click"/>
+            <Button Content="Active orders" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0 20" Click="OrderListButton_Click"/>
 
             <!-- Кнопка Создать заказ -->
-            <Button Content="Создать заказ" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0,20" Click="CreateOrderButton_Click"/>
+            <Button Content="Create an Order" Style="{StaticResource ActionButtonStyle}" Width="300" Height="50" Margin="0 20" Click="CreateOrderButton_Click"/>
         </StackPanel>
 
         <!-- Иконка хоум в верхнем левом углу -->

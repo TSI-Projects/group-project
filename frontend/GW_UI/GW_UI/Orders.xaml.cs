@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 using System.Net.Http.Json;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace GW_UI
 {
@@ -212,13 +213,9 @@ namespace GW_UI
             PrepaymentTextBox.Text = string.Empty;
             ProductModelTextBox.Text = string.Empty;
 
-
             // Сброс выбранных значений в ComboBox
             OrderTypeComboBox.SelectedIndex = -1; //clear
             EmployeeNameComboBox.SelectedIndex = -1;
-
-            //// Сброс DatePicker
-            //RequestDatePicker.SelectedDate = null;
 
             foreach (var textBox in new TextBox[] { ClientPhoneTextBox, ReasonTextBox, DefectDescriptionTextBox, TotalCostTextBox, PrepaymentTextBox })
             {
@@ -256,6 +253,18 @@ namespace GW_UI
             {
                 OrderTypeTextBlock.Text = "";
             }
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Проверка, что вводимые символы — это только цифры
+            e.Handled = !IsTextNumeric(e.Text);
+        }
+
+        private static bool IsTextNumeric(string text)
+        {
+            Regex regex = new Regex("^[0-9]+$");
+            return regex.IsMatch(text);
         }
     }
 }

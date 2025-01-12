@@ -113,10 +113,6 @@ namespace GW_UI
             return "";
         }
 
-
-
-
-
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();

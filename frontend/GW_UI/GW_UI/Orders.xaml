@@ -11,31 +11,30 @@
             <ImageBrush ImageSource="Images/backgroung.jpg"/>
         </Grid.Background>
 
+        <!-- Заголовок -->
+        <TextBlock Text="Create an Order" Style="{StaticResource TitleTextBlock}"/>
+
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
                 <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="OrderTypeComboBox_SelectionChanged"/>
-                <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="OrderTypeTextBlock" Text="Item Type" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="ProductModelTextBlock" Text="Product Model" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Name="ClientPhoneTextBlock" Text="Telephone Nr." Style="{StaticResource TextBlockStyle}"/>
             </Grid>
-            <!--<Grid>
-                <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}" SelectedDateChanged="DatePicker_SelectionChanged"/>
-                <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
-            </Grid>-->
             <Grid>
                 <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="ReasonTextBlock" Text="Причина обращения" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="ReasonTextBlock" Text="The Reason for the Request" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="DefectDescriptionTextBlock" Text="Описание дефекта" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="DefectDescriptionTextBlock" Text="Description of the Defect" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
         </StackPanel>
 
@@ -43,7 +42,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,150,0">
             <!-- Язык общения -->
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,50,0">
-                <TextBlock Text="Язык общения с клиентом" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="Communication Language" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <UniformGrid Style="{StaticResource LanguageButtonContainerStyle}">
                     <ToggleButton Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click" Checked="RuButton_Checked"/>
                     <ToggleButton Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click" Checked="LvButton_Checked"/>
@@ -52,19 +51,19 @@
             </StackPanel>
             <Grid>
                 <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding emp.ID, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="EmployeeNameComboBox_SelectionChanged"/>
-                <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="EmployeeNameTextBlock" Text="Employee who accepted the order" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
 
             <Grid>
-                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="PrepaymentTextBlock" Text="Предоплата" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Name="PrepaymentTextBlock" Text="Prepayment" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText"/>
-                <TextBlock Name="TotalCostTextBlock" Text="Общая стоимость" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" GotFocus="RemoveText" LostFocus="AddText" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Name="TotalCostTextBlock" Text="Total Cost" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
 
-            <Button Content="Добавить" Style="{StaticResource ActionButtonStyle}" Click="AddOrder_Click"/>
+            <Button Content="Add" Style="{StaticResource ActionButtonStyle}" Click="AddOrder_Click"/>
         </StackPanel>
 
         <!-- Иконка логаут в верхнем правом углу -->

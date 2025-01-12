@@ -48,8 +48,6 @@ namespace GW_UI
             }
         }
 
-
-
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();

@@ -12,7 +12,7 @@
         <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
             <Setter Property="Width" Value="220"/>
             <Setter Property="Height" Value="35"/>
-            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Margin" Value="0 10"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#b8b9fc"/>
@@ -37,7 +37,7 @@
         <Style x:Key="InputPasswordBoxStyle" TargetType="PasswordBox">
             <Setter Property="Width" Value="220"/>
             <Setter Property="Height" Value="35"/>
-            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Margin" Value="0 10"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#b8b9fc"/>
@@ -96,7 +96,20 @@
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-        
+
+        <!-- Стиль текстового поля для Заголовка -->
+        <Style x:Key="TitleTextBlock" TargetType="TextBlock">
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 20 0 0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="35"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Foreground" Value="White"/>
+
+        </Style>
+
         <!-- Стиль кнопки -->
         <Style x:Key="ActionButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="220"/>
@@ -106,6 +119,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -129,7 +143,8 @@
         <!-- Стиль для текстов с ссылками -->
         <Style x:Key="LinkTextStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#7A7CFF"/>
-            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Margin" Value="5 0"/>
+            <Setter Property="Margin" Value="5 0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -141,7 +156,7 @@
         <!-- Стиль для обычного текста -->
         <Style x:Key="NormalTextStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Margin" Value="5 0"/>
         </Style>
         
         <!--Стиль для иконок Метро-->
@@ -233,7 +248,7 @@
         <Style x:Key="LanguageButtonContainerStyle" TargetType="UniformGrid">
             <Setter Property="Columns" Value="3"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,0,0,20"/>
+            <Setter Property="Margin" Value="0 0 0 20"/>
         </Style>
 
         <!-- Стиль для заголовков -->
@@ -279,7 +294,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Padding" Value="8 4"/>
             <Setter Property="Foreground" Value="Black"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
@@ -513,7 +528,7 @@
                                 <!-- Текстовое поле для отображения выбранной даты -->
                                 <TextBox 
                                     x:Name="PART_TextBox" 
-                                    Margin="10,5,40,5" 
+                                    Margin="10 5 40 5" 
                                     Background="Transparent" 
                                     BorderThickness="0" 
                                     IsReadOnly="True"
@@ -547,8 +562,8 @@
             </Setter>
             <Setter Property="Width" Value="400"/>
             <Setter Property="Height" Value="45"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="0 0 0 15"/>
         </Style>
 
         <!-- Стиль для кнопок -->

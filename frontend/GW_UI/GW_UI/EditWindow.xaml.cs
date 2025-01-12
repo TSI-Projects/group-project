@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -226,6 +227,18 @@ namespace GW_UI
                 MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}");
             }
 
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Проверка, что вводимые символы — это только цифры
+            e.Handled = !IsTextNumeric(e.Text);
+        }
+
+        private static bool IsTextNumeric(string text)
+        {
+            Regex regex = new Regex("^[0-9]+$");
+            return regex.IsMatch(text);
         }
     }
 }

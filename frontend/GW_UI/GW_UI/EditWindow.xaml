@@ -16,31 +16,37 @@
             <ImageBrush ImageSource="Images/backgroung.jpg"/>
         </Grid.Background>
 
+        <!-- Заголовок -->
+        <TextBlock Text="Edit Order" Style="{StaticResource TitleTextBlock}"/>
+
         <!-- Левая колонка с полями -->
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,200,0,0">
             <Grid>
                 <ComboBox Name="OrderTypeComboBox" DisplayMemberPath="TypeName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Name="OrderTypeTextBlock" Text="Тип заказа" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="OrderTypeTextBlock" Text="Item Type" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <TextBox Name="ProductModelTextBox" Style="{StaticResource TextBoxStyle}"/>
-                <TextBlock Name="ProductModelTextBlock" Text="Название и модель изделия" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="ProductModelTextBlock" Text="Product Model" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}"/>
-                <TextBlock Name="ClientPhoneTextBlock" Text="Номер телефона клиента" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox Name="ClientPhoneTextBox" Style="{StaticResource TextBoxStyle}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Name="ClientPhoneTextBlock" Text="Telephone Nr." Style="{StaticResource TextBlockStyle}"/>
             </Grid>
-            <!--<Grid>
-                <DatePicker Name="RequestDatePicker" Style="{StaticResource DatePickerStyle}"/>
-                <TextBlock Name="RequestDateTextBlock" Text="Дата обращения" Style="{StaticResource TextBlockStyle}"/>
-            </Grid>-->
             <Grid>
                 <TextBox Name="ReasonTextBox" Style="{StaticResource TextBoxStyle}"/>
-                <TextBlock Name="ReasonTextBlock" Text="Причина обращения" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="ReasonTextBlock" Text="The Reason for the Request" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <TextBox Name="DefectDescriptionTextBox" Style="{StaticResource TextBoxStyle}"/>
-                <TextBlock Name="DefectDescriptionTextBlock" Text="Описание дефекта" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="DefectDescriptionTextBlock" Text="Description of the Defect" Style="{StaticResource TextBlockStyle}"/>
+            </Grid>
+            <Grid>
+                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
+                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
+                </Border>
+                <TextBlock Name="OutsourceTexBlock" Text="Outsource" Style="{StaticResource TextBlockStyle}"/>
+                <CheckBox Name="OutsourceCheck"  Margin="350 20 30 30"/>
             </Grid>
         </StackPanel>
 
@@ -48,7 +54,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,150,0">
             <!-- Язык общения -->
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,50,0">
-                <TextBlock Text="Язык общения с клиентом" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="Communication Language" Style="{StaticResource HeadingTextBlockStyle}" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <UniformGrid Style="{StaticResource LanguageButtonContainerStyle}">
                     <ToggleButton Name ="RuButton" Content="RU" Style="{StaticResource LanguageToggleButtonStyle}" Click="RuButton_Click" Checked="RuButton_Checked"/>
                     <ToggleButton Name ="LvButton" Content="LV" Style="{StaticResource LanguageToggleButtonStyle}" Click="LvButton_Click" Checked="LvButton_Checked"/>
@@ -57,59 +63,40 @@
             </StackPanel>
             <Grid>
                 <ComboBox Name="EmployeeNameComboBox" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedValue="{Binding OrderTypeId, Mode=TwoWay}" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Name="EmployeeNameTextBlock" Text="Имя работника, принявшего заказ" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="EmployeeNameTextBlock" Text="Employee who accepted the order" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" />
-                <TextBlock Name="PrepaymentTextBlock" Text="Предоплата" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox Name="PrepaymentTextBox" Style="{StaticResource TextBoxStyle}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Name="PrepaymentTextBlock" Text="Prepayment" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
-                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}"/>
-                <TextBlock Name="TotalCostTextBlock" Text="Общая стоимость" Style="{StaticResource TextBlockStyle}"/>
-            </Grid>
-            <Grid>
-                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
-                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
-                </Border>
-                <TextBlock Name="OutsourceTexBlock" Text="Передано на 'outsource' " Style="{StaticResource TextBlockStyle}"/>
-                <CheckBox Name="OutsourceCheck"  Margin="350 20 30 30"/>
+                <TextBox Name="TotalCostTextBox" Style="{StaticResource TextBoxStyle}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Name="TotalCostTextBlock" Text="Total Cost" Style="{StaticResource TextBlockStyle}"/>
             </Grid>
             <Grid>
                 <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
                     <TextBlock Style="{StaticResource StaticButtonStyle}"/>
                 </Border>
-                <TextBlock Name="CalledBackTexBlock" Text="Перезвонили клиенту" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="CalledBackTexBlock" Text="Called the Client Back" Style="{StaticResource TextBlockStyle}"/>
                 <CheckBox Name="CalledBackCheck"  Margin="350 20 30 30"/>
             </Grid>
             <Grid>
                 <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15">
                     <TextBlock Style="{StaticResource StaticButtonStyle}"/>
                 </Border>
-                <TextBlock Name="DoneTexBlock" Text="Выполнено" Style="{StaticResource TextBlockStyle}"/>
+                <TextBlock Name="DoneTexBlock" Text="Done" Style="{StaticResource TextBlockStyle}"/>
                 <CheckBox Name="DoneCheck"  Margin="350 20 30 30"/>
             </Grid>
-
-            <!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="287*"/>
-                    <ColumnDefinition Width="113*"/>
-                </Grid.ColumnDefinitions>
-                <Border CornerRadius="10" BorderBrush="#3B71CA" BorderThickness="2" Background="White" Padding="10 5" Margin="0 0 0 15" Grid.ColumnSpan="2">
-                    <TextBlock Style="{StaticResource StaticButtonStyle}"/>
-                </Border>
-                <TextBlock Name="DoneTexBlock" Text="Выполнено" Style="{StaticResource TextBlockStyle}" Grid.ColumnSpan="2" Margin="15,0,0,0"/>
-                <CheckBox Name="DoneCheck"  Margin="63,20,30,30" Grid.Column="1"/>
-            </Grid>-->
         </StackPanel>
 
         <!-- Иконка логаут в верхнем правом углу -->
-        <StackPanel Margin="1075,0,25,720" VerticalAlignment="Bottom">
-            <uc:MenuButton Title="Cancel" Icon="Close" Width="100" Click="CancelButton_Click"/>
+        <StackPanel Margin="1075 0 25 40" VerticalAlignment="Bottom">
+            <uc:MenuButton Title="Cancel" Icon="Cancel" Width="100" Click="CancelButton_Click"/>
         </StackPanel>
 
         <!-- Иконка назад в нижнем правом углу -->
-        <StackPanel Margin="1075,0,25,40" VerticalAlignment="Bottom">
-            <uc:MenuButton Title="Save and Close" Icon="KeyboardReturn" Width="100" Click="SaveButton_Click"/>
+        <StackPanel Margin="870 0 25 40" VerticalAlignment="Bottom">
+            <uc:MenuButton Title="Save and Close" Icon="ContentSaveAll" Width="100" Click="SaveButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
