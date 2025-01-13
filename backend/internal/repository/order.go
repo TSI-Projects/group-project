@@ -10,17 +10,19 @@ import (
 )
 
 type Order struct {
-	ID            uint       `db:"id"              json:"id"                    validate:"omitempty"`
-	OrderStatusID uint       `db:"order_status_id" json:"order_status_id"       validate:"omitempty"`
-	OrderTypeID   uint       `db:"order_type_id"   json:"order_type_id"         validate:"required"`
-	WorkerID      uint       `db:"worker_id"       json:"worker_id"             validate:"required"`
-	CustomerID    uint       `db:"customer_id"     json:"customer_id"           validate:"omitempty"`
-	Reason        string     `db:"reason"          json:"reason"                validate:"required"`
-	Defect        string     `db:"defect"          json:"defect"                validate:"required"`
-	ItemName      string     `db:"item_name"       json:"item_name"             validate:"required"`
-	TotalPrice    float64    `db:"total_price"     json:"total_price"           validate:"required"`
-	Prepayment    float64    `db:"prepayment"      json:"prepayment"            validate:"required"`
-	CreatedAt     *time.Time `db:"created_at"      json:"created_at,omitempty"  validate:"omitempty"`
+	ID uint `db:"id"              json:"id"                    validate:"omitempty"`
+
+	OrderStatusID uint `db:"order_status_id" json:"order_status_id,omitempty"       validate:"omitempty"`
+	OrderTypeID   uint `db:"order_type_id"   json:"order_type_id,omitempty"         validate:"required"`
+	WorkerID      uint `db:"worker_id"       json:"worker_id,omitempty"             validate:"required"`
+	CustomerID    uint `db:"customer_id"     json:"customer_id,omitempty"           validate:"omitempty"`
+
+	Reason     string     `db:"reason"          json:"reason"                validate:"required"`
+	Defect     string     `db:"defect"          json:"defect"                validate:"required"`
+	ItemName   string     `db:"item_name"       json:"item_name"             validate:"required"`
+	TotalPrice float64    `db:"total_price"     json:"total_price"           validate:"required"`
+	Prepayment float64    `db:"prepayment"      json:"prepayment"            validate:"required"`
+	CreatedAt  *time.Time `db:"created_at"      json:"created_at,omitempty"  validate:"omitempty"`
 
 	Status   *OrderStatus `db:"order_statuses"  json:"status"              validate:"omitempty"`
 	Type     *OrderType   `db:"order_types"     json:"type"                validate:"omitempty"`
@@ -118,10 +120,6 @@ func (o *OrderRepo) GetAll() ([]*Order, error) {
 	selectQuery := `
     SELECT
         o.id AS order_id,
-        o.order_status_id,
-        o.order_type_id,
-        o.worker_id,
-        o.customer_id,
         o.item_name,
         o.reason,
         o.defect,
@@ -179,10 +177,6 @@ func (o *OrderRepo) GetByID(id uint) (*Order, error) {
 	if err := o.DBClient.QueryRow(
 		`SELECT
 			o.id AS order_id,
-			o.order_status_id,
-			o.order_type_id,
-			o.worker_id,
-			o.customer_id,
 			o.item_name,
 			o.reason,
 			o.defect,
@@ -220,10 +214,6 @@ func (o *OrderRepo) GetByID(id uint) (*Order, error) {
 		WHERE o.id = $1;`, id,
 	).Scan(
 		&order.ID,
-		&order.OrderStatusID,
-		&order.OrderTypeID,
-		&order.WorkerID,
-		&order.CustomerID,
 		&order.ItemName,
 		&order.Reason,
 		&order.Defect,
@@ -280,10 +270,6 @@ func (o *OrderRepo) GetActiveOrders() ([]*Order, error) {
 	selectQuery := `
     SELECT
         o.id AS order_id,
-        o.order_status_id,
-        o.order_type_id,
-        o.worker_id,
-        o.customer_id,
         o.item_name,
         o.reason,
         o.defect,
@@ -335,10 +321,6 @@ func (o *OrderRepo) GetCompletedOrders() ([]*Order, error) {
 	selectQuery := `
     SELECT
         o.id AS order_id,
-        o.order_status_id,
-        o.order_type_id,
-        o.worker_id,
-        o.customer_id,
         o.item_name,
         o.reason,
         o.defect,
@@ -396,10 +378,6 @@ func scanOrders(rows *sql.Rows) ([]*Order, error) {
 		}
 		if err := rows.Scan(
 			&order.ID,
-			&order.OrderStatusID,
-			&order.OrderTypeID,
-			&order.WorkerID,
-			&order.CustomerID,
 			&order.ItemName,
 			&order.Reason,
 			&order.Defect,

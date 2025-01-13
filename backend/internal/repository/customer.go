@@ -2,15 +2,14 @@ package repository
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/TSI-Projects/group-project/internal/db"
 )
 
 type Customer struct {
-	ID          uint   `db:"id"              json:"id"               validate:"omitempty"`
-	LanguageID  int    `db:"language_id"     json:"language_id"      validate:"required"`
-	PhoneNumber string `db:"phone_number"    json:"phone_number"     validate:"required"`
+	ID          uint   `db:"id"              json:"id"                      validate:"omitempty"`
+	LanguageID  int    `db:"language_id"     json:"language_id,omitempty"   validate:"required"`
+	PhoneNumber string `db:"phone_number"    json:"phone_number"            validate:"required"`
 
 	Language *Language `db:"language"        json:"language"`
 }
@@ -83,7 +82,6 @@ func (c *CustomerRepo) GetAll() ([]*Customer, error) {
 
 		customers = append(customers, customer)
 	}
-	log.Println(customers)
 	return customers, nil
 }
 

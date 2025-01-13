@@ -1,6 +1,6 @@
 package response
 
-import "encoding/json"
+import "github.com/goccy/go-json"
 
 type LoginResponse struct {
 	AccessToken string `json:"access_token,omitempty"`
