@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Net.Http.Json;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using GW_UI.Classes;
 
 namespace GW_UI
 {
@@ -38,26 +39,30 @@ namespace GW_UI
         {
             try
             {
-                var orderTypes = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types"); //Поправить
-                if (orderTypes != null)
+                var orderTypes = await App.HttpClient.GetFromJsonAsync<TypeResponse>("/api/orders/types"); //Поправить
+                if (!orderTypes.Success && orderTypes.Error != null)
                 {
-                    foreach (TypeItem type in orderTypes)
-                    {
-                        OrderTypes.Add(type);
-                    }
+                    throw new Exception(orderTypes.Error.Message);
                 }
-                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers"); //Поправить
-                if (employees != null)
+
+                foreach (TypeItem type in orderTypes.Types)
                 {
-                    foreach (Employee employee in employees)
-                    {
-                        Employees.Add(employee);
-                    }
+                    OrderTypes.Add(type);
+                }
+                var employees = await App.HttpClient.GetFromJsonAsync<EmployeeResponse>("/api/workers"); //Поправить
+                if (!employees.Success && employees.Error != null)
+                {
+                    throw new Exception(employees.Error.Message);
+                }
+
+                foreach (Employee emp in employees.Workers)
+                {
+                    Employees.Add(emp);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading order types: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -182,19 +187,18 @@ namespace GW_UI
             try
             {
                 var response = await App.HttpClient.PostAsJsonAsync("/api/orders", orderRequest);
-                if (response.IsSuccessStatusCode)
+                var body = await response.Content.ReadFromJsonAsync<OrderResponse>();
+
+                if (!body.Success && body.Error != null)
                 {
-                    MessageBox.Show("Order added successfully!");
-                    ClearInputFields();
+                    throw new Exception(body.Error.Message);
                 }
-                else
-                {
-                    MessageBox.Show("Error when adding an order: " + response.ReasonPhrase);
-                }
+                MessageBox.Show("Order added successfully!");
+                ClearInputFields();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error when sending data: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
