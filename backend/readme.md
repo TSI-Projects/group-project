@@ -67,10 +67,6 @@ To log in to the system, use the `/api/login` endpoint with the `POST` method. T
 }
 ```
 
-**Expected Response:**
-
-The response will vary based on the validity of the provided credentials.
-
 **Success Response:**
 
 ```json
@@ -97,55 +93,243 @@ The response will vary based on the validity of the provided credentials.
 - `INVALID_AUTH_DATA` - Occurs if the username or password is incorrect.
 - `INCORRECT_PAYLOAD` - Occurs if the request payload is missing required fields (e.g., `username` or `password`).
 
-### GET /api/orders
+#### Accessing Authorized Endpoints
 
-Retrieves a list of all existing orders.
+Endpoints that require authorization will only respond to requests that include a valid access token.
+For every request to an endpoint that requires authorization, include the following header:
 
-#### Response
+- **Header Key:** Authorization
+- **Header Value:** Bearer YOUR_ACCESS_TOKEN
 
-```json
-[
-  {
-    "id": 16,
-    "order_status_id": 13,
-    "order_type_id": 1,
-    "worker_id": 2,
-    "customer_id": 3,
-    "reason": "Something went wrong",
-    "defect": "Something broke",
-    "total_price": 10.0,
-    "prepayment": 5.0,
-    "status": {
-      "id": 13,
-      "ready_at": null,
-      "returned_at": null,
-      "customer_notified_at": null,
-      "is_outsourced": false,
-      "is_recipient_lost": false
-    },
-    "type": {
-      "id": 1,
-      "full_name": "Phone"
-    },
-    "customer": {
-      "id": 3,
-      "language_id": 3,
-      "phone_number": "+37126578411"
-    },
-    "worker": {
-      "id": 1,
-      "first_name": "Andrew",
-      "last_name": "Ponatovskis"
-    }
-  }
-]
+Replace YOUR_ACCESS_TOKEN with the token you obtained.
+
+**HTTP Header Example:**
+
+```planetext
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6...
 ```
 
-### POST /api/orders
+### Orders Endpoints
 
+#### GET /api/orders
+
+**Description:**  
+Retrieves a list of all existing orders.  
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
+
+```json
+{
+  "orders": [
+    {
+      "id": 5,
+      "reason": "Something went wrong",
+      "defect": "Something broken",
+      "item_name": "test",
+      "total_price": 10,
+      "prepayment": 5,
+      "created_at": "2025-01-10T13:39:21.435678Z",
+      "status": {
+        "id": 5,
+        "ready_at": null,
+        "returned_at": null,
+        "customer_notified_at": null,
+        "is_outsourced": false,
+        "is_recipient_lost": false
+      },
+      "type": {
+        "id": 1,
+        "full_name": "Tablet"
+      },
+      "customer": {
+        "id": 5,
+        "language_id": 3,
+        "phone_number": "+37126578411",
+        "language": null
+      },
+      "worker": {
+        "id": 2,
+        "first_name": "Andrew",
+        "last_name": "Ponatovskis"
+      }
+    }
+  ],
+  "success": true
+}
+```
+
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### GET /api/orders/active
+
+**Description:**  
+Retrieves a list of active orders (orders that are not completed).
+
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
+
+```json
+{
+  "orders": [
+    {
+      "id": 5,
+      "reason": "Something went wrong",
+      "defect": "Something broken",
+      "item_name": "test",
+      "total_price": 10,
+      "prepayment": 5,
+      "created_at": "2025-01-10T13:39:21.435678Z",
+      "status": {
+        "id": 5,
+        "ready_at": null,
+        "returned_at": null,
+        "customer_notified_at": null,
+        "is_outsourced": true,
+        "is_recipient_lost": false
+      },
+      "type": {
+        "id": 1,
+        "full_name": "Tablet"
+      },
+      "customer": {
+        "id": 5,
+        "language_id": 3,
+        "phone_number": "+37126578411",
+        "language": null
+      },
+      "worker": {
+        "id": 2,
+        "first_name": "Andrew",
+        "last_name": "Ponatovskis"
+      }
+    }
+  ],
+  "success": true
+}
+```
+
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### GET /api/orders/completed
+
+**Description:**  
+Retrieves a list of completed orders.
+
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
+
+```json
+{
+  "orders": [
+    {
+      "id": 5,
+      "reason": "Something went wrong",
+      "defect": "Something broken",
+      "item_name": "test",
+      "total_price": 10,
+      "prepayment": 5,
+      "created_at": "2025-01-10T13:39:21.435678Z",
+      "status": {
+        "id": 5,
+        "ready_at": "2025-01-20T18:12:45.435678Z",
+        "returned_at": "2025-01-21T09:51:33.435678Z",
+        "customer_notified_at": "2025-01-20T18:12:45.435678Z",
+        "is_outsourced": true,
+        "is_recipient_lost": false
+      },
+      "type": {
+        "id": 1,
+        "full_name": "Tablet"
+      },
+      "customer": {
+        "id": 5,
+        "language_id": 3,
+        "phone_number": "+37126578411",
+        "language": null
+      },
+      "worker": {
+        "id": 2,
+        "first_name": "Andrew",
+        "last_name": "Ponatovskis"
+      }
+    }
+  ],
+  "success": true
+}
+```
+
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### POST /api/orders
+
+**Description:**  
 Creates a new order with the specified details.
 
-#### Request Body
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+- `Content-Type: application/json`
+
+**Request:**
 
 ```json
 {
@@ -162,115 +346,251 @@ Creates a new order with the specified details.
 }
 ```
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  Success
+  "success": true
 }
 ```
 
-Note: The response structure will be refactored in future iterations.
+**Failed Response:**
 
-### DELETE /api/order/{id}
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
 
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### DELETE /api/order/{id}
+
+**Description:**  
 Deletes the specified order by its ID.
 
-#### Request
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Request:**
 
 - `{id}`: The ID of the order to be deleted (e.g., `/api/order/1`).
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  Success
+  "success": true
 }
 ```
 
-Note: The response structure will be refactored in future iterations.
+**Failed Response:**
 
-### GET /api/orders/types
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
 
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+### Order Type Endpoints
+
+#### GET /api/orders/types
+
+**Description:**  
 Retrieves a list of all available order types.
 
-#### Response
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
-[
-  {
-    "id": 1,
-    "full_name": "Phone"
-  },
-  {
-    "id": 2,
-    "full_name": "Laptop"
-  }
-]
+{
+  "order_types": [
+    {
+      "id": 1,
+      "full_name": "Tablet"
+    },
+    {
+      "id": 2,
+      "full_name": "Laptop"
+    }
+  ],
+  "success": true
+}
 ```
 
-### POST /api/orders/types
+**Failed Response:**
 
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### POST /api/orders/types
+
+**Description:**  
 Creates a new order type.
 
-#### Request Body
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  "full_name": "Tablet"
+  "success": true
 }
 ```
 
-#### Response
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
 
 ```json
 {
-  "Success"
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
 }
 ```
 
-Note: The response structure will be refactored in future iterations.
+#### DELETE /api/orders/type/{id}
 
-### DELETE /api/orders/type/{id}
-
+**Description:**  
 Deletes the specified order type by its ID.
 
-#### Request
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Request:**
 
 - `{id}`: The ID of the order type to be deleted (e.g., `/api/orders/type/1`).
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  "Success"
+  "success": true
 }
 ```
 
-### GET /api/workers
+**Failed Response:**
 
-Retrieves a list of all workers.
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
 
 ```json
-[
-  {
-    "id": 1,
-    "first_name": "Steve",
-    "last_name": "Stew"
-  },
-  {
-    "id": 2,
-    "first_name": "Bob",
-    "last_name": "Bobinskis"
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
   }
-]
+}
 ```
 
-### POST /api/workers
+### Worker Endpoints
 
+#### GET /api/workers
+
+**Description:**  
+Retrieves a list of all workers.
+
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
+
+```json
+{
+  "success": true,
+  "workers": [
+    {
+      "id": 1,
+      "first_name": "Steve",
+      "last_name": "Stew"
+    },
+    {
+      "id": 2,
+      "first_name": "Bob",
+      "last_name": "Bobinskis"
+    }
+  ]
+}
+```
+
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### POST /api/workers
+
+**Description:**  
 Creates a new worker.
 
-#### Request Body
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+  
+**Request:**
 
 ```json
 {
@@ -279,58 +599,135 @@ Creates a new worker.
 }
 ```
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  "Success"
+  "success": true
+}
+```
+
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
 }
 ```
 
 #### DELETE /api/worker/{id}
 
+**Description:**  
 Deletes the specified worker by their ID.
 
-#### Request
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Request:**
 
 - `{id}`: The ID of the worker to be deleted (e.g., `/api/worker/1`).
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  "Success"
+  "success": true
 }
 ```
 
-Note: The response structure will be refactored in future iterations.
+**Failed Response:**
 
-### GET /api/languages
-
-Retrieves a list of all available languages.
-
-#### Response
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
 
 ```json
-[
-  {
-    "id": 1,
-    "short_name": "EN",
-    "full_name": "English"
-  },
-  {
-    "id": 2,
-    "short_name": "RU",
-    "full_name": "Russian"
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
   }
-]
+}
 ```
 
-### POST /api/languages
+### Language Endpoints
 
+#### GET /api/languages
+
+**Description:**  
+Retrieves a list of all available languages.
+
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Success Response:**
+
+- **Status Code:** 200 OK
+
+```json
+{
+  "languages": [
+    {
+      "id": 1,
+      "short_name": "ru",
+      "full_name": "Russian"
+    },
+    {
+      "id": 2,
+      "short_name": "lv",
+      "full_name": "Latvian"
+    },
+    {
+      "id": 3,
+      "short_name": "en",
+      "full_name": "English"
+    }
+  ],
+  "success": true
+}
+```
+
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### POST /api/languages
+
+**Description:**  
 Creates a new language.
 
-#### Request Body
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Request:**
 
 ```json
 {
@@ -339,28 +736,65 @@ Creates a new language.
 }
 ```
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  "Success"
+  "success": true
 }
 ```
 
-Note: The response structure will be refactored in future iterations.
+**Failed Response:**
 
-### DELETE /api/language/{id}
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
 
-#### Request
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
+
+#### DELETE /api/language/{id}
+
+**Description:**  
+Deletes the specified language by their ID.
+
+**Note:** This endpoint requires authorization. Include an `Authorization` header with a valid Bearer token.
+
+**Headers:**
+
+- `Authorization: Bearer YOUR_ACCESS_TOKEN`
+
+**Request:**
 
 - `{id}`: The ID of the language to be deleted (e.g., `/api/language/1`).
 
-#### Response
+**Success Response:**
+
+- **Status Code:** 200 OK
 
 ```json
 {
-  "Success"
+  "success": true
 }
 ```
 
-Note: The response structure will be refactored in future iterations.
+**Failed Response:**
+
+- **Status Code:** 500 Internal Server Error (or appropriate error code)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "We're sorry, something went wrong on our end. Please try again later."
+  }
+}
+```
