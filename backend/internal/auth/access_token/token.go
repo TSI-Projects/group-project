@@ -12,6 +12,10 @@ import (
 var SecretKey = []byte(uuid.New().String())
 
 func Generate(username string) (string, error) {
+	if len(username) == 0 {
+		return "", fmt.Errorf("failed to generate token: username is empty")
+	}
+
 	claims := jwt.MapClaims{
 		"username": username,
 		"iat":      time.Now().Unix(),
