@@ -31,6 +31,16 @@ func NewAuthClient(dbClient db.IDatabase) IAuthClient {
 }
 
 func (a *AuthClient) Login(username, password string) (string, error) {
+	if len(username) == 0 {
+		log.Errorln("Username is not specified")
+		return "", INVALID_AUTH_DATA
+	}
+
+	if len(password) == 0 {
+		log.Errorln("Password is not specified")
+		return "", INVALID_AUTH_DATA
+	}
+
 	admin, err := a.AdminRepo.GetByUsername(username)
 	if err != nil {
 		log.Errorf("Failed to get admin from database: %v", err)
