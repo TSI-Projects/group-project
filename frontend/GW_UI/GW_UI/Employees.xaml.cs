@@ -26,9 +26,15 @@ namespace GW_UI
             try
             {
                 var result = await App.HttpClient.GetFromJsonAsync<EmployeeResponse>("/api/workers");
-                if (!result.Success && result.Error != null)
+                if (result == null || !result.Success)
                 {
-                    throw new Exception(result.Error.Message);
+                    throw new Exception(result?.Error?.Message ?? "Failed to load employees.");
+                }
+
+                if (result.Workers == null || result.Workers.Count == 0)
+                {
+                    MessageBox.Show("No employees found.");
+                    return;
                 }
 
                 foreach (Employee emp in result.Workers)
@@ -110,21 +116,59 @@ namespace GW_UI
 
         }
 
+        //private async void DeleteEmployee_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {   
+        //        var worker = (Employee)EmployeeGrid.SelectedItem;
+        //        var result = await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
+        //        var body = await result.Content.ReadFromJsonAsync<EmployeeResponse>();
+        //        if (!body.Success && body.Error != null)
+        //        {
+        //            throw new Exception(body.Error.Message);
+        //        }
+        //        // логика удаления выбранного сотрудника
+        //        if (EmployeeGrid.SelectedItem != null)
+        //        {
+        //            EmployeesList.Remove((Employee)EmployeeGrid.SelectedItem);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
+
+
         private async void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
             try
-            {   
+            {
                 var worker = (Employee)EmployeeGrid.SelectedItem;
-                var result = await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
-                var body = await result.Content.ReadFromJsonAsync<EmployeeResponse>();
-                if (!body.Success && body.Error != null)
+                if (worker == null)
                 {
-                    throw new Exception(body.Error.Message);
+                    MessageBox.Show("Please select an employee to delete.");
+                    return;
                 }
-                // логика удаления выбранного сотрудника
-                if (EmployeeGrid.SelectedItem != null)
+
+                MessageBoxResult result = MessageBox.Show(
+                    "Are you sure you want to delete the selected employee?",
+                    "Confirmation",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+
+                if (result == MessageBoxResult.Yes)
                 {
-                    EmployeesList.Remove((Employee)EmployeeGrid.SelectedItem);
+                    var response = await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
+                    var body = await response.Content.ReadFromJsonAsync<EmployeeResponse>();
+
+                    if (!body.Success && body.Error != null)
+                    {
+                        throw new Exception(body.Error.Message);
+                    }
+
+                    EmployeesList.Remove(worker);
                 }
             }
             catch (Exception ex)
@@ -133,4 +177,5 @@ namespace GW_UI
             }
         }
     }
+
 }
