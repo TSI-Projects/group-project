@@ -9,13 +9,13 @@ import (
 )
 
 type TokenClient struct {
-	SecretKey []byte
+	secretKey []byte
 }
 
 func NewTokenClient() *TokenClient {
 	return &TokenClient{
 		// Generates a new temporary secret key on each program restart
-		SecretKey: []byte(uuid.New().String()),
+		secretKey: []byte(uuid.New().String()),
 	}
 }
 
@@ -34,7 +34,7 @@ func (t *TokenClient) Generate(username string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenString, err := token.SignedString(t.SecretKey)
+	tokenString, err := token.SignedString(t.secretKey)
 	if err != nil {
 		return "", fmt.Errorf("failed to signed string: %v", err)
 	}
@@ -46,7 +46,7 @@ func (t *TokenClient) Validate(accessToken string) (*jwt.MapClaims, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return t.SecretKey, nil
+		return t.secretKey, nil
 	})
 
 	if err != nil {
