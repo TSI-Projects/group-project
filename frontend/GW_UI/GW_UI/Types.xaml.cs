@@ -104,24 +104,36 @@ namespace GW_UI
             try
             {
                 var type = (TypeItem)TypeGrid.SelectedItem;
-                var result = await App.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
-                var body = await result.Content.ReadFromJsonAsync<EmployeeResponse>();
-                if (!body.Success && body.Error != null)
+                if (type == null)
                 {
-                    throw new Exception(body.Error.Message);
+                    MessageBox.Show("Please select a type to delete.");
+                    return;
                 }
-                // логика удаления выбранного сотрудника
-                if (TypeGrid.SelectedItem != null)
+
+                MessageBoxResult result = MessageBox.Show(
+                    "Are you sure you want to delete the selected type?",
+                    "Confirmation",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+
+                if (result == MessageBoxResult.Yes)
                 {
-                    TypesList.Remove((TypeItem)TypeGrid.SelectedItem);
+                    var response = await App.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
+                    var body = await response.Content.ReadFromJsonAsync<EmployeeResponse>();
+
+                    if (!body.Success && body.Error != null)
+                    {
+                        throw new Exception(body.Error.Message);
+                    }
+
+                    TypesList.Remove(type);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

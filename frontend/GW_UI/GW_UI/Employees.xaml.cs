@@ -116,30 +116,6 @@ namespace GW_UI
 
         }
 
-        //private async void DeleteEmployee_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {   
-        //        var worker = (Employee)EmployeeGrid.SelectedItem;
-        //        var result = await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
-        //        var body = await result.Content.ReadFromJsonAsync<EmployeeResponse>();
-        //        if (!body.Success && body.Error != null)
-        //        {
-        //            throw new Exception(body.Error.Message);
-        //        }
-        //        // логика удаления выбранного сотрудника
-        //        if (EmployeeGrid.SelectedItem != null)
-        //        {
-        //            EmployeesList.Remove((Employee)EmployeeGrid.SelectedItem);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-
         private async void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
             try
