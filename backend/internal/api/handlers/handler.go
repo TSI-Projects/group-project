@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/TSI-Projects/group-project/internal/auth"
+	token "github.com/TSI-Projects/group-project/internal/auth/access_token"
 	"github.com/TSI-Projects/group-project/internal/db"
 	"github.com/TSI-Projects/group-project/internal/repository"
 	"github.com/TSI-Projects/group-project/pkg/validation"
@@ -19,7 +20,7 @@ type Handler struct {
 	Validator       *validation.ValidatorClient
 }
 
-func NewHandler(dbClient db.IDatabase) *Handler {
+func NewHandler(dbClient db.IDatabase, tokenClient *token.TokenClient) *Handler {
 	return &Handler{
 		DBClient:        dbClient,
 		OrderRepo:       repository.NewOrderRepo(dbClient),
@@ -29,6 +30,6 @@ func NewHandler(dbClient db.IDatabase) *Handler {
 		CustomerRepo:    repository.NewCustomerRepo(dbClient),
 		OrderStatusRepo: repository.NewOrderStatusRepo(dbClient),
 		Validator:       validation.NewValidatorClient(),
-		AuthClient:      auth.NewAuthClient(dbClient),
+		AuthClient:      auth.NewAuthClient(dbClient, tokenClient),
 	}
 }
