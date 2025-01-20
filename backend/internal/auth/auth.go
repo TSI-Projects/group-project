@@ -18,7 +18,7 @@ func (e Error) Error() string {
 
 type AuthClient struct {
 	AdminRepo repository.IAdminRepository
-	Token     token.TokenClient
+	Token     *token.TokenClient
 }
 
 const (
@@ -28,7 +28,7 @@ const (
 func NewAuthClient(dbClient db.IDatabase, tokenClient *token.TokenClient) IAuthClient {
 	return &AuthClient{
 		AdminRepo: repository.NewAdminRepo(dbClient),
-		Token:     *tokenClient,
+		Token:     tokenClient,
 	}
 }
 
