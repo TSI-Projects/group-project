@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GW_UI.Classes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,20 +25,21 @@ namespace GW_UI
         {
             try
             {
-                var orders = await App.HttpClient.GetFromJsonAsync<List<Order>>("/api/orders/active");
+                var response = await App.HttpClient.GetFromJsonAsync<OrderResponse>("/api/orders/active");
 
-                if (orders != null)
+                if (!response.Success && response.Error != null)
                 {
-                    OrdersList.Clear();
-                    foreach (var order in orders)
-                    {
-                        OrdersList.Add(order);
-                    }
+                    throw new Exception(response.Error.Message);
+                }
+                OrdersList.Clear();
+                foreach (var order in response.Orders)
+                {
+                    OrdersList.Add(order);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}");
+                MessageBox.Show(ex.Message);
             }
         }
 

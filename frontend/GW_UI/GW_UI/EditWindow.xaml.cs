@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GW_UI.Classes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Json;
@@ -76,30 +77,33 @@ namespace GW_UI
         {
             try
             {
-                var orderTypes = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types"); //Поправить
-                if (orderTypes != null)
+                var orderTypes = await App.HttpClient.GetFromJsonAsync<TypeResponse>("/api/orders/types"); //Поправить
+                if (!orderTypes.Success && orderTypes.Error != null)
                 {
-                    foreach (TypeItem type in orderTypes)
-                    {
-                        OrderTypes.Add(type);
-                    }
+                    throw new Exception(orderTypes.Error.Message);
                 }
-                var employees = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers"); //Поправить
-                if (employees != null)
+                foreach (TypeItem type in orderTypes.Types)
                 {
-                    foreach (Employee employee in employees)
-                    {
-                        Employees.Add(employee);
-                    }
+                    OrderTypes.Add(type);
                 }
 
+                var employees = await App.HttpClient.GetFromJsonAsync<EmployeeResponse>("/api/workers"); //Поправить
+                if (!employees.Success && employees.Error != null)
+                {
+                    throw new Exception(employees.Error.Message);
+                }
+
+                foreach (Employee emp in employees.Workers)
+                {
+                    Employees.Add(emp);
+                }
                 OrderTypeComboBox.SelectedValue = order.TypeItem.ID;
                 EmployeeNameComboBox.SelectedValue = order.Employee.ID;
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка загрузки типов заказов: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -220,18 +224,18 @@ namespace GW_UI
                 order.Customer.LanguageId = (int)selectedLanguage;
 
                 var response = await App.HttpClient.PutAsJsonAsync($"/api/orders", order);
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Error saving changes: " + response.ReasonPhrase);
-                    return;
-                }
+                var body = await response.Content.ReadFromJsonAsync<OrderResponse>();
 
+                if (!body.Success && body.Error != null)
+                {
+                    throw new Exception(body.Error.Message);
+                }
                 MessageBox.Show("The changes were saved successfully!");
                 ExitToEditMenu();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving changes: {ex.Message}");
+                MessageBox.Show(ex.Message);
             }
         }
 

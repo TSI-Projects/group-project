@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Net.Http.Json;
+using System;
+using GW_UI.Classes;
 
 namespace GW_UI
 {
@@ -19,16 +21,23 @@ namespace GW_UI
 
         private async void TypesWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var result = await App.HttpClient.GetFromJsonAsync<List<TypeItem>>("/api/orders/types");
-
-            if (result == null)
+            try 
             {
-                return;
+                var result = await App.HttpClient.GetFromJsonAsync<TypeResponse>("/api/orders/types");
+
+                if (!result.Success && result.Error != null)
+                {
+                    throw new Exception(result.Error.Message);
+                }
+
+                foreach (TypeItem type in result.Types)
+                {
+                    TypesList.Add(type);
+                }
             }
-
-            foreach (TypeItem type in result)
+            catch (Exception ex)
             {
-                TypesList.Add(type);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -72,21 +81,58 @@ namespace GW_UI
 
         private async void AddType_Click(object sender, RoutedEventArgs e)
         {
-            var data = new TypeItem { TypeName = TypeTextBox.Text };
-            var result = await App.HttpClient.PostAsJsonAsync("/api/orders/types", data);
+            try
+            {
+                var data = new TypeItem { TypeName = TypeTextBox.Text };
+                var result = await App.HttpClient.PostAsJsonAsync("/api/orders/types", data);
+                var body = await result.Content.ReadFromJsonAsync<TypeResponse>();
 
-            TypesList.Add(new TypeItem {TypeName = TypeTextBox.Text});
+                if (!body.Success && body.Error != null)
+                {
+                    throw new Exception(body.Error.Message);
+                }
+                TypesList.Add(new TypeItem { TypeName = TypeTextBox.Text });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void DeleteType_Click(object sender, RoutedEventArgs e)
         {
-            var type = (TypeItem)TypeGrid.SelectedItem;
-
-            await App.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
-
-            if (TypeGrid.SelectedItem != null)
+            try
             {
-                TypesList.Remove((TypeItem)TypeGrid.SelectedItem);
+                var type = (TypeItem)TypeGrid.SelectedItem;
+                if (type == null)
+                {
+                    MessageBox.Show("Please select a type to delete.");
+                    return;
+                }
+
+                MessageBoxResult result = MessageBox.Show(
+                    "Are you sure you want to delete the selected type?",
+                    "Confirmation",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    var response = await App.HttpClient.DeleteAsync($"/api/orders/type/{type.ID}");
+                    var body = await response.Content.ReadFromJsonAsync<EmployeeResponse>();
+
+                    if (!body.Success && body.Error != null)
+                    {
+                        throw new Exception(body.Error.Message);
+                    }
+
+                    TypesList.Remove(type);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

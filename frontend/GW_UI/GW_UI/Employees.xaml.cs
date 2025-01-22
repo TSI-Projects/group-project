@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
+using GW_UI.Classes;
 
 namespace GW_UI
 {
@@ -22,18 +23,29 @@ namespace GW_UI
 
         private async void EmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var result = await App.HttpClient.GetFromJsonAsync<List<Employee>>("/api/workers");
-            //можно оптимизировать, использовать метод вместо фор лупа
-            if (result == null)
+            try
             {
-                return;
-            }
+                var result = await App.HttpClient.GetFromJsonAsync<EmployeeResponse>("/api/workers");
+                if (result == null || !result.Success)
+                {
+                    throw new Exception(result?.Error?.Message ?? "Failed to load employees.");
+                }
 
-            foreach (Employee emp in result)
+                if (result.Workers == null || result.Workers.Count == 0)
+                {
+                    MessageBox.Show("No employees found.");
+                    return;
+                }
+
+                foreach (Employee emp in result.Workers)
+                {
+                    EmployeesList.Add(emp);
+                }
+            }
+            catch (Exception ex)
             {
-                EmployeesList.Add(emp);
+                MessageBox.Show(ex.Message);
             }
-
         }
 
         public void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -85,22 +97,61 @@ namespace GW_UI
         private async void AddEmployee_Click(object sender, RoutedEventArgs e)
         {
             // логика добавления нового сотрудника
-            var data = new Employee(FirstNameTextBox.Text, LastNameTextBox.Text);
-            var result = await App.HttpClient.PostAsJsonAsync("/api/workers", data);
+            try
+            {
+                var data = new Employee(FirstNameTextBox.Text, LastNameTextBox.Text);
+                var result = await App.HttpClient.PostAsJsonAsync("/api/workers", data);
+                var body = await result.Content.ReadFromJsonAsync<EmployeeResponse>();
 
-            EmployeesList.Add(new Employee(FirstNameTextBox.Text, LastNameTextBox.Text));
+                if (!body.Success && body.Error != null)
+                {
+                    throw new Exception(body.Error.Message);
+                }
+                EmployeesList.Add(new Employee(FirstNameTextBox.Text, LastNameTextBox.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private async void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
-            var worker = (Employee)EmployeeGrid.SelectedItem;
-            
-           await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
-            // логика удаления выбранного сотрудника
-            if (EmployeeGrid.SelectedItem != null)
+            try
             {
-                EmployeesList.Remove((Employee)EmployeeGrid.SelectedItem);
+                var worker = (Employee)EmployeeGrid.SelectedItem;
+                if (worker == null)
+                {
+                    MessageBox.Show("Please select an employee to delete.");
+                    return;
+                }
+
+                MessageBoxResult result = MessageBox.Show(
+                    "Are you sure you want to delete the selected employee?",
+                    "Confirmation",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    var response = await App.HttpClient.DeleteAsync($"/api/worker/{worker.ID}");
+                    var body = await response.Content.ReadFromJsonAsync<EmployeeResponse>();
+
+                    if (!body.Success && body.Error != null)
+                    {
+                        throw new Exception(body.Error.Message);
+                    }
+
+                    EmployeesList.Remove(worker);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
+
 }

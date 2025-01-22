@@ -94,6 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Responses.cs" />
     <Compile Include="Classes\Customer.cs" />
     <Compile Include="Classes\Employee.cs" />
     <Compile Include="Classes\Error.cs" />
