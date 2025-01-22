@@ -1,15 +1,13 @@
 name: Build WPF (.NET Framework)
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  release:
+    types: [published]
 
 jobs:
-  build:
+  build-and-upload:
     runs-on: windows-latest
-    
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -20,12 +18,13 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore frontend/GW_UI/GW_UI.sln
 
-      - name: Build solution
+      - name: Build solution (Release|Any CPU)
         run: msbuild frontend/GW_UI/GW_UI.sln /p:Configuration=Release /p:Platform="Any CPU"
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
         with:
-          name: release-build
-          path: |
-            **/bin/Release
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: '**/bin/Release'
+          asset_name: "GW_UI_Release.zip"
+          asset_content_type: application/zip
