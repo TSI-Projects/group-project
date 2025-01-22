@@ -18,10 +18,12 @@ jobs:
         version: '6.x'
 
     - name: Restore packages
-      run: nuget restore frontend/GW_UI/GW_UI.sln
+      working-directory: frontend/GW_UI
+      run: nuget restore GW_UI.sln
 
     - name: Build Release
-      run: msbuild frontend/GW_UI/GW_UI.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=bin\Release
+      working-directory: frontend/GW_UI
+      run: msbuild GW_UI.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=..\..\bin\Release
 
     - name: Create ZIP Archive
       shell: pwsh
