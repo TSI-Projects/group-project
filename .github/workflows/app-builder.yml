@@ -1,0 +1,37 @@
+name: Release WPF .NET Framework Application
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+      with:
+        version: '6.x'
+
+    - name: Restore packages
+      run: nuget restore frontend/GW_UI/GW_UI.sln
+
+    - name: Build Release
+      run: msbuild frontend/GW_UI/GW_UI.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=bin\Release
+
+    - name: Create ZIP Archive
+      shell: pwsh
+      run: |
+        $releaseFiles = Get-ChildItem -Path '.\bin\Release\*' -Include ('*.exe', '*.dll', '*.config', '*.json')
+        Compress-Archive -Path $releaseFiles -DestinationPath 'GW_UI_Release.zip'
+
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: GW_UI_Release.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
