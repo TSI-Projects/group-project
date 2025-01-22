@@ -1,62 +1,31 @@
-name: Release WPF .NET Framework Application
+name: Build WPF (.NET Framework)
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build-and-release:
+  build:
     runs-on: windows-latest
-
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Setup NuGet
-      uses: nuget/setup-nuget@v1
-      with:
-        version: '6.x'
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
 
-    - name: Find MSBuild Path
-      id: msbuild-path
-      shell: pwsh
-      run: |
-        $vsPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
-        $msbuildPath = Join-Path $vsPath "MSBuild\Current\Bin\MSBuild.exe"
-        echo "MSBuild path: $msbuildPath"
-        echo "msbuild_path=$msbuildPath" >> $env:GITHUB_OUTPUT
+      - name: Restore NuGet packages
+        run: nuget restore frontend/GW_UI/GW_UI.sln
 
-    - name: Restore packages
-      working-directory: frontend/GW_UI
-      run: nuget restore GW_UI.sln
+      - name: Build solution
+        run: msbuild frontend/GW_UI/GW_UI.sln /p:Configuration=Release /p:Platform="Any CPU"
 
-    - name: Build Release
-      working-directory: frontend/GW_UI
-      run: |
-        $msbuild = "${{ steps.msbuild-path.outputs.msbuild_path }}"
-        & "$msbuild" GW_UI.sln `
-          /p:Configuration=Release `
-          /p:Platform="Any CPU" `
-          /p:OutputPath=..\..\bin\Release
-
-    - name: Create ZIP Archive
-      shell: pwsh
-      run: |
-        $releaseFiles = Get-ChildItem -Path '.\bin\Release\*' -Include ('*.exe', '*.dll', '*.config', '*.json')
-        Compress-Archive -Path $releaseFiles -DestinationPath 'GW_UI_Release.zip'
-
-    - name: Upload to GitHub Release
-      if: github.event_name == 'release'
-      uses: softprops/action-gh-release@v1
-      with:
-        files: GW_UI_Release.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Upload Artifact
-      if: github.event_name == 'workflow_dispatch'
-      uses: actions/upload-artifact@v3
-      with:
-        name: GW_UI_Manual_Build
-        path: GW_UI_Release.zip
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-build
+          path: |
+            **/bin/Release
