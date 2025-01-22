@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/TSI-Projects/group-project/internal/auth"
+	token "github.com/TSI-Projects/group-project/internal/auth/access_token"
 	"github.com/TSI-Projects/group-project/internal/repository"
 )
 
@@ -44,7 +45,6 @@ func (m *mockAdminRepo) ListAdmins() ([]*repository.Admin, error) {
 }
 
 func TestLoginSuccess(t *testing.T) {
-	// Готовим данные
 	mockRepo := &mockAdminRepo{
 		adminData: map[string]*repository.Admin{
 			"alice": {
@@ -55,14 +55,13 @@ func TestLoginSuccess(t *testing.T) {
 		forceError: false,
 	}
 
-	// Создаём AuthClient с нашим мок-репо
 	authClient := &auth.AuthClient{
 		AdminRepo: mockRepo,
+		Token:     token.NewTokenClient(),
 	}
 
 	tokenString, err := authClient.Login("alice", "123456")
 
-	// Проверяем результат
 	require.NoError(t, err, "ожидается, что логин успешен, ошибка не вернётся")
 	require.NotEmpty(t, tokenString, "при успешном логине токен не должен быть пустым")
 }
@@ -74,6 +73,7 @@ func TestLoginWithEmptyUsername(t *testing.T) {
 	}
 	authClient := &auth.AuthClient{
 		AdminRepo: mockRepo,
+		Token:     token.NewTokenClient(),
 	}
 
 	tokenString, err := authClient.Login("", "123456")
@@ -89,6 +89,7 @@ func TestLoginWithEmptyPassword(t *testing.T) {
 	}
 	authClient := &auth.AuthClient{
 		AdminRepo: mockRepo,
+		Token:     token.NewTokenClient(),
 	}
 
 	tokenString, err := authClient.Login("andrew", "")
@@ -104,6 +105,7 @@ func TestLoginUserNotFound(t *testing.T) {
 	}
 	authClient := &auth.AuthClient{
 		AdminRepo: mockRepo,
+		Token:     token.NewTokenClient(),
 	}
 
 	tokenString, err := authClient.Login("vadims_toxic_228", "123456")
@@ -123,6 +125,7 @@ func TestLoginWrongPassword(t *testing.T) {
 	}
 	authClient := &auth.AuthClient{
 		AdminRepo: mockRepo,
+		Token:     token.NewTokenClient(),
 	}
 
 	tokenString, err := authClient.Login("bob", "wrong_pass")
@@ -143,6 +146,7 @@ func TestLoginRepositoryError(t *testing.T) {
 	}
 	authClient := &auth.AuthClient{
 		AdminRepo: mockRepo,
+		Token:     token.NewTokenClient(),
 	}
 
 	tokenString, err := authClient.Login("admin", "admin_pass")

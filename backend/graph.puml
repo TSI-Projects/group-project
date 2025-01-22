@@ -1,0 +1,363 @@
+@startuml
+top to bottom direction
+package cmd/app{
+annotation cmd/app {
+
+
+-main()
+}
+}
+package internal/api/handlers{
+class Handler {
++DBClient: IDatabase
++OrderRepo: IOrderRepository[Order]
++OrderTypeRepo: IRepository[OrderType]
++WorkerRepo: IRepository[Worker]
++LanguageRepo: IRepository[Language]
++CustomerRepo: IRepository[Customer]
++OrderStatusRepo: IRepository[OrderStatus]
++AuthClient: IAuthClient
++Validator: *ValidatorClient
++Login(w ResponseWriter, r *Request)
++GetCustomers(w ResponseWriter, r *Request)
++CreateCustomer(w ResponseWriter, r *Request)
++DeleteCustomer(w ResponseWriter, r *Request)
++GetCustomerByID(w ResponseWriter, r *Request)
++UpdateCustomer(w ResponseWriter, r *Request)
++Pong(w ResponseWriter, r *Request)
++GetLanguage(w ResponseWriter, r *Request)
++CreateLanguage(w ResponseWriter, r *Request)
++DeleteLanguage(w ResponseWriter, r *Request)
++GetLanguageByID(w ResponseWriter, r *Request)
++UpdateLanguage(w ResponseWriter, r *Request)
++GetOrderTypes(w ResponseWriter, r *Request)
++CreateOrderType(w ResponseWriter, r *Request)
++DeleteOrderType(w ResponseWriter, r *Request)
++GetOrderTypeByID(w ResponseWriter, r *Request)
++UpdateOrderType(w ResponseWriter, r *Request)
++GetOrders(w ResponseWriter, r *Request)
++GetActiveOrders(w ResponseWriter, r *Request)
++GetCompletedOrders(w ResponseWriter, r *Request)
++CreateOrder(w ResponseWriter, r *Request)
++DeleteOrder(w ResponseWriter, r *Request)
++GetOrderByID(w ResponseWriter, r *Request)
++UpdateOrder(w ResponseWriter, r *Request)
++GetWorkers(w ResponseWriter, r *Request)
++DeleteWorker(w ResponseWriter, r *Request)
++CreateWorker(w ResponseWriter, r *Request)
++GetWorkerByID(w ResponseWriter, r *Request)
++UpdateWorker(w ResponseWriter, r *Request)
+}
+}
+package internal/api/middleware{
+annotation internal/api/middleware {
+
+
++AuthMW(next HandlerFunc): HandlerFunc
++ContentTypeJsonMW(next Handler): Handler
+}
+}
+package internal/api/routes{
+annotation internal/api/routes {
+
+
++NewRouter(dbClient IDatabase): *Router
+}
+}
+
+package internal/auth{
+class TokenClient {
+-secretKey: string 
++Generate(username string): string, error
++Validate(accessToken string): *MapClaims, error
+}
+interface IAuthClient{
++Login(username string, password string): string, error
++Logout(accessToken string)
+}
+class AuthClient {
++Token: *TokenClient 
++AdminRepo: IAdminRepository
++Login(username string, password string): string, error
++Logout(accessToken string)
+}
+}
+package internal/db{
+
+interface IDatabase{
++Close()
++Begin(): *Tx, error
++Query(query string, args ... any): *Rows, error
++Exec(query string, args ... any): Result, error
++QueryRow(query string, args ... any): *Row
+}
+class PostgresConfig {
++DBName: string
++Username: string
++Password: string
++Host: string
++Port: string
++ConnectionStr: string
++Debug()
+}
+class DBClient {
+-config: *PostgresConfig
+-database: *DB
++Close()
++Query(query string, args ... any): *Rows, error
++Exec(query string, args ... any): Result, error
++Begin(): *Tx, error
++QueryRow(query string, args ... any): *Row
+}
+}
+package internal/errors{
+annotation internal/errors {
+-const FIELD_VALIDATION_ERROR_MESSAGE: STRING
+-const ID_NOT_SPECIFIED_ERROR_MESSAGE: STRING
+-const INTERNAL_ERROR_CODE: STRING
+-const FIELD_VALIDATION_ERROR_CODE: STRING
+-const DEFAULT_ERROR_MESSAGE: STRING
+-const INTERNAL_ERROR_MESSAGE: STRING
+-const ID_NOT_SPECIFIED_ERROR_CODE: STRING
+-const NOT_FOUND_ERROR_CODE: STRING
+-const NOT_FOUND_ERROR_MESSAGE: STRING
+
+
+}
+}
+package internal/models/responses{
+class DBResponse[T] {
+-dataArr: []*T
+-data: *T
+-dataArrName: string
+-dataName: string
++SetError(code string, message string): *DBResponse[T]
++SetData(data *T): *DBResponse[T]
++SetDataArr(dataArr []*T): *DBResponse[T]
++SetSuccessStatus(isSuccess bool): *DBResponse[T]
++SetDataArrayName(name string): *DBResponse[T]
++SetDataName(name string): *DBResponse[T]
++ToJSON(): []byte, error
+}
+class LoginResponse {
++AccessToken: string
++SetError(code string, message string): *LoginResponse
++SetAccessToken(token string): *LoginResponse
++SetSuccessStatus(isSuccess bool): *LoginResponse
++ToJSON(): []byte, error
+}
+class BaseResponse {
++Success: bool
++NewError(code string, message string)
++SetSuccessStatus(isSuccess bool)
+}
+class Error {
++Code: string
++Message: string
+}
+}
+package internal/repository/models{
+class Admin {
++ID: int
++Username: string
++Password: string
+
+}
+class Customer {
++ID: uint
++LanguageID: int
++PhoneNumber: string
++Language: *Language
+
+}
+class Language {
++ID: uint
++ShortName: string
++FullName: string
+
+}
+class Order {
++ID: uint
++OrderStatusID: uint
++OrderTypeID: uint
++WorkerID: uint
++CustomerID: uint
++Reason: string
++Defect: string
++ItemName: string
++TotalPrice: float64
++Prepayment: float64
++CreatedAt: *Time
++Status: *OrderStatus
++Type: *OrderType
++Customer: *Customer
++Worker: *Worker
+
+}
+class OrderStatus {
++ID: uint
++ReadyAt: *Time
++ReturnedAt: *Time
++CustomerNotifiedAt: *Time
++IsOutsourced: bool
++IsReceiptLost: bool
+
+}
+class OrderType {
++ID: uint
++FullName: string
+
+}
+class Worker {
++ID: uint
++FirstName: string
++LastName: string
+
+}
+}
+
+package internal/repository{
+interface IAdminRepository{
++GetByUsername(username string): *Admin, error
+}
+interface IRepository[T]{
++GetAll(): []*T, error
++GetByID( uint): *T, error
++Create( *T): error
++Update( *T): error
++Delete( uint): error
+}
+interface IOrderRepository[T]{
++GetActiveOrders(): []*T, error
++GetCompletedOrders(): []*T, error
+}
+class AdminRepo {
++DBClient: IDatabase
++GetByUsername(username string): *Admin, error
+}
+class CustomerRepo {
++DBClient: IDatabase
++Create(customer *Customer): error
++Delete(id uint): error
++GetAll(): []*Customer, error
++GetByID(id uint): *Customer, error
++Update(customer *Customer): error
+}
+class LanguageRepo {
++DBClient: IDatabase
++Create(language *Language): error
++Delete(id uint): error
++GetAll(): []*Language, error
++GetByID(id uint): *Language, error
++Update(language *Language): error
+}
+class OrderRepo {
++DBClient: IDatabase
++Create(order *Order): error
++Delete(id uint): error
++GetAll(): []*Order, error
++GetByID(id uint): *Order, error
++Update(order *Order): error
++GetActiveOrders(): []*Order, error
++GetCompletedOrders(): []*Order, error
+}
+class OrderStatusRepo {
++DBClient: IDatabase
++Create(orderStatus *OrderStatus): error
++Delete(id uint): error
++GetAll(): []*OrderStatus, error
++GetByID(id uint): *OrderStatus, error
++Update(orderStatus *OrderStatus): error
+}
+class OrderTypeRepo {
++DBClient: IDatabase
++Create(orderType *OrderType): error
++Delete(id uint): error
++GetAll(): []*OrderType, error
++GetByID(id uint): *OrderType, error
++Update(orderType *OrderType): error
+}
+class WorkerRepo {
++DBClient: IDatabase
++Create(worker *Worker): error
++Delete(id uint): error
++GetAll(): []*Worker, error
++GetByID(id uint): *Worker, error
++Update(worker *Worker): error
+}
+}
+package internal/server{
+annotation internal/server {
+-const SERVER_PORT: STRING
+
++NewServer(database IDatabase): IServer
+}
+interface IServer{
++Start(): error
+}
+class Server {
++Router: *Router
++Database: IDatabase
++ServerPort: string
++Start(): error
+}
+}
+package internal/tests/handler_tests/fake/models{
+class MockCustomerRepo {
+
++GetAll(): []*Customer, error
++GetByID(id uint): *Customer, error
++Create(c *Customer): error
++Update(c *Customer): error
++Delete(id uint): error
+}
+class MockOrderStatusRepo {
+
++GetAll(): []*OrderStatus, error
++GetByID(id uint): *OrderStatus, error
++Create(os *OrderStatus): error
++Update(os *OrderStatus): error
++Delete(id uint): error
+}
+}
+package pkg/validation{
+class ValidatorClient {
+-validator: *Validate
++Validate(data any): error
+}
+}
+package utils{
+annotation utils {
+
+
++StringToUint(s string): uint, error
++LookupEnv(envVar string): string
++SplitOnUppercase(str string): string
++UppercaseFirstLetter(str string): string
++GetTimestampString(): string
++GetTimestamp(): Time
+}
+}
+
+"BaseResponse" --|> "Error"
+"DBClient" ..> "PostgresConfig"
+"DBResponse[T]" --|> "BaseResponse"
+"LoginResponse" --|> "BaseResponse"
+"Customer" --> "Language"
+"Order" --> "Customer"
+"Order" --> "OrderStatus"
+"Order" --> "OrderType"
+"Order" --> "Worker"
+"AuthClient" ..|> "IAuthClient"
+"AuthClient" ..> "TokenClient"
+"DBClient" ..|> "IDatabase"
+"AdminRepo" ..|> "IAdminRepository"
+"Server" ..|> "IServer"
+"IOrderRepository[T]" --|> "IRepository[T]"
+"OrderRepo" ..|> "IOrderRepository[T]"
+"CustomerRepo" ..|> "IRepository[T]"
+"LanguageRepo" ..|> "IRepository[T]"
+"OrderStatusRepo" ..|> "IRepository[T]"
+"OrderTypeRepo" ..|> "IRepository[T]"
+"WorkerRepo" ..|> "IRepository[T]"
+@enduml
