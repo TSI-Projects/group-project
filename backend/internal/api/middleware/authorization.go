@@ -9,7 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func AuthMW(next http.HandlerFunc) http.HandlerFunc {
+func AuthMW(next http.HandlerFunc, token *token.TokenClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
 		if len(authHeader) == 0 {

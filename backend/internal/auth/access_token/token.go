@@ -8,10 +8,22 @@ import (
 	"github.com/google/uuid"
 )
 
-// Generates a new temporary secret key on each program restart
-var SecretKey = []byte(uuid.New().String())
+type TokenClient struct {
+	secretKey []byte
+}
 
-func Generate(username string) (string, error) {
+func NewTokenClient() *TokenClient {
+	return &TokenClient{
+		// Generates a new temporary secret key on each program restart
+		secretKey: []byte(uuid.New().String()),
+	}
+}
+
+func (t *TokenClient) Generate(username string) (string, error) {
+	if len(username) == 0 {
+		return "", fmt.Errorf("failed to generate token: username is empty")
+	}
+
 	claims := jwt.MapClaims{
 		"username": username,
 		"iat":      time.Now().Unix(),
@@ -22,19 +34,19 @@ func Generate(username string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenString, err := token.SignedString(SecretKey)
+	tokenString, err := token.SignedString(t.secretKey)
 	if err != nil {
 		return "", fmt.Errorf("failed to signed string: %v", err)
 	}
 	return tokenString, nil
 }
 
-func Validate(accessToken string) (*jwt.MapClaims, error) {
+func (t *TokenClient) Validate(accessToken string) (*jwt.MapClaims, error) {
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return SecretKey, nil
+		return t.secretKey, nil
 	})
 
 	if err != nil {

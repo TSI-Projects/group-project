@@ -19,6 +19,10 @@ func NewValidatorClient() *ValidatorClient {
 }
 
 func (c *ValidatorClient) Validate(data any) error {
+	if data == nil {
+		return fmt.Errorf("validation failed: data is nil")
+	}
+
 	if err := c.validator.Struct(data); err != nil {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			missingFields := make([]string, 0, len(validationErrors))
